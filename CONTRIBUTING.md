@@ -1,0 +1,50 @@
+# Contributing
+
+## What this is not
+
+- **Not a paper list.** A citation is not a node. A node is a claim about what a mechanism
+  delivers for a named capability, with the evidence and the limits attached.
+- **Not a leaderboard.** Scores appear only as evidence for a capability claim, always
+  tagged with split and regime. If you find yourself ranking techniques by number, the
+  register is being misused.
+- **Not an endorsement list.** A refuted or disappointing technique is worth a node —
+  see `techniques/recursive-latent-reasoners.md`, kept precisely because the scores are
+  real and the explanation is not.
+
+## Adding a node
+
+1. Read `SCHEMA.md`. Copy the closest existing node as a template.
+2. Write the frontmatter first. If you cannot fill `split` and `regime` for a number,
+   you do not yet have the number — find the primary source or omit the claim.
+3. Declare edges **only** on the technique, in `addresses:`. Never add a technique list
+   to a capability; the reverse direction is derived.
+4. Run `python3 scripts/build_graph.py`. It must exit 0.
+
+## The evidence bar
+
+| Stars | Meaning |
+|---|---|
+| `*` | argued in a paper; no reproduction |
+| `**` | demonstrated once by its authors |
+| `***` | reproduced independently |
+| `****` | survived an adversarial ablation |
+
+Three stars or more requires `kind: measured`. The validator enforces this.
+
+**Claimed and measured are separate entries.** Where an independent measurement
+disagrees with a published claim, both stay on the record. Keeping only the flattering
+one is the failure this register exists to prevent.
+
+**Prose is a sentence, not a paragraph.** Each node has four moves — context, problem,
+therefore, limit. If a section runs past a short paragraph, the node is probably two nodes.
+
+## Empty cells are contributions
+
+A capability with `status: open` and no incoming edge is a stated research gap. Adding a
+well-specified empty capability is as valuable as adding a technique, and the gap report
+(`build_graph.py`, run with no arguments) is the register's most useful single output.
+
+## Adoption state stays out
+
+`status` describes field-wide maturity. Whether *your* system has adopted something is
+not a fact about the field. Keep that in a private overlay keyed by node `id`.
