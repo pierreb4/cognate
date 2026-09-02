@@ -84,4 +84,4 @@ unaddressed capability with no technique edge is a research gap stated in public
 
 ## License
 
-Content CC-BY-4.0 · code MIT.
+Content CC-BY-4.0 · code MIT — see [LICENSE](LICENSE).
