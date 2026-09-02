@@ -7,7 +7,7 @@ human_source:
   - title: "Core knowledge (Spelke), via On the Measure of Intelligence §III.1.2"
     url: https://arxiv.org/abs/1911.01547
 part_of: [priors]
-completed_by: []
+completed_by: [modeling.state-abstraction]
 status: partial
 ---
 
