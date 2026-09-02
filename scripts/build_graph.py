@@ -46,6 +46,9 @@ def load():
     return nodes, errors
 
 
+WARNINGS = []
+
+
 def validate(nodes, errors):
     def resolves(ref):
         return ref in nodes or ref in FACULTY_ROOTS
@@ -72,6 +75,8 @@ def validate(nodes, errors):
                     errors.append(f"{where}: stars must be 1-4, got {stars!r}")
                 elif stars > 2 and ev.get("kind") != "measured":
                     errors.append(f"{where}: stars>2 requires kind 'measured': {ev.get('claim')!r}")
+                if not ev.get("date"):
+                    WARNINGS.append(f"{where}: evidence has no date (needed for trend views): {ev.get('claim')!r}")
                 if no_abs and "%" in str(ev.get("claim", "")):
                     errors.append(f"{where}: no_absolute_score set but claim carries a %")
             # rule 4 lint: a caveat that disputes a claim needs the claim on the record
@@ -163,6 +168,10 @@ def main():
     gaps = gap_report(nodes, addressed)
     print(f"\ngap report ({len(gaps)} unmet):")
     print("\n".join(gaps) if gaps else "  none")
+    if WARNINGS:
+        print(f"\n{len(WARNINGS)} warning(s) (non-blocking):")
+        for w in WARNINGS:
+            print(f"  {w}")
     if errors:
         print(f"\n{len(errors)} validation error(s):", file=sys.stderr)
         for e in errors:

@@ -51,6 +51,7 @@ evidence:
     regime: uncapped                # REQUIRED — cost cap, compute budget, or 'uncapped'
     source: https://arxiv.org/abs/2411.07279
     stars: 3
+    date: 2024-11-11            # when the claim was made or measured (ISO); enables trend views
 no_absolute_score: false        # true if the work publishes only relative claims
 caveats:
   - one line, with a source
@@ -65,6 +66,8 @@ related: [technique.other]
 4. A `claimed` and a `measured` entry for the same split must both be present if the
    two disagree — you may not keep only the flattering one.
 5. Every `addresses.capability` and every `part_of` / `completed_by` id must resolve.
+6. An evidence entry without `date` is a **warning**, not an error — but a trend view
+   silently drops it, so add one when you have it.
 
 ## `kind: bundle`
 
