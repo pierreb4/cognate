@@ -94,6 +94,13 @@ tokens:
     kind: artifact
     note: a task distribution, and the pipeline to train on it, large enough to fit the model
 
+  - token: correspondence-estimator
+    kind: artifact
+    note: >-
+      a separately trained model giving frame-to-frame correspondence (optical flow or
+      tracking), used as a training target or a readout — a supplied instrument, so a
+      technique that needs one has not acquired correspondence from observation itself
+
   - token: llm-inference
     kind: artifact
     note: a language model with strong generation available at inference time

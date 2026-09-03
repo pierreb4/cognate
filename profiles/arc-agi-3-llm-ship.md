@@ -144,6 +144,13 @@ supplies:
     binding: project
     note: >-
       the served base plus optional adapters; nothing is fitted to the hidden games
+  - token: correspondence-estimator
+    level: none
+    binding: project
+    note: >-
+      the attached-dataset mechanism that serves the base model could in principle carry a
+      flow network too, but this lineage ships a language model, not a vision instrument —
+      recorded as `none` for what the entry does, not for what the chassis could hold
   - token: training-distribution
     level: partial
     binding: project

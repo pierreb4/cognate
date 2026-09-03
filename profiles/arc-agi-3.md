@@ -149,6 +149,10 @@ supplies:
     note: >-
       the games are handcrafted and the evaluation set is hidden, so there is no
       distribution to train on even if a model could ship
+  - token: correspondence-estimator
+    level: none
+    binding: project
+    note: same rule — a flow or tracking network is parametric and nothing parametric ships
   - token: differentiable-objective
     level: none
     binding: project
