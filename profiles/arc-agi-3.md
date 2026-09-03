@@ -1,7 +1,7 @@
 ---
 id: profile.arc-agi-3
 kind: profile
-name: ARC-AGI-3 (ARC Prize 2026, Kaggle)
+name: ARC-AGI-3 (ARC Prize 2026, Kaggle) — stdlib-only submission lineage
 source:
   - title: ARC-AGI-3 — interactive reasoning benchmark
     url: https://arcprize.org/arc-agi/3/
@@ -123,8 +123,11 @@ supplies:
     note: no internet during evaluation
   - token: llm-inference
     level: none
-    binding: competition
-    note: follows from no network access; nothing is served to call
+    binding: project
+    note: >-
+      the stdlib-only submission rule of this lineage. NOT a competition constraint: no network
+      does not mean no model — the competition permits a model served in-kernel from an attached
+      dataset on the competition GPU, which is what profile.arc-agi-3-llm-ship does
   - token: compiled-implementation
     level: none
     binding: project
@@ -134,7 +137,8 @@ supplies:
     binding: project
     note: >-
       the submitted agent imports stdlib and the engine only — a project rule, not a
-      competition one; the competition itself allows accelerators up to 2xT4 / P100
+      competition one; the competition places a kernel on an RTX PRO 6000 (96 GB) once the
+      competition is attached as an input, T4/P100 being only the defaults without it
   - token: trained-model
     level: none
     binding: project
@@ -153,7 +157,8 @@ supplies:
     binding: project
   - token: multimodal-model
     level: none
-    binding: competition
+    binding: project
+    note: same lineage rule; a vision-language model can be served the same way (see the llm-ship profile)
   - token: task-identifier-embedding
     level: none
     binding: project
@@ -202,14 +207,18 @@ requires_capabilities:
 # ARC-AGI-3 (ARC Prize 2026)
 
 **What a profile is.** A statement of what a deployment can supply and what it needs —
-never what its team has adopted. Adoption is not a fact about the field and stays in a
+never what its team has adopted. This profile is the stdlib-only, single-file submission
+lineage; the same competition entered with an in-kernel language model is a different
+deployment and has its own profile, `profile.arc-agi-3-llm-ship`. Keeping them apart is the
+point: a screen run against the wrong one blocks techniques the other can run. Adoption is not a fact about the field and stays in a
 private overlay keyed by node `id`, as `SCHEMA.md` requires. Everything here is a
 published competition rule or a stated architectural constraint of the reference
 submission; nothing here is a result.
 
-**Why the split between `competition` and `project` matters.** Seven of the ten `none`
-tokens are project constraints, not competition rules. The competition permits
-accelerators; the single-file, stdlib-only submission is a choice made for reproducibility
+**Why the split between `competition` and `project` matters.** Nine of the ten `none`
+tokens are project constraints, not competition rules; only `network-access` is the
+competition's. The competition permits accelerators and in-kernel model serving; the
+single-file, stdlib-only submission is a choice made for reproducibility
 and for a splice-into-notebook build. The screen therefore reports two different things:
 techniques ruled out by the benchmark, and techniques ruled out by us. Only the second
 list is negotiable, and a profile that blurred them would hide that.
