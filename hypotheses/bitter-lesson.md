@@ -24,11 +24,13 @@ history:
     status: argued
     source: https://github.com/pierreb4/cognate
     note: >-
-      first reading against this register's own rows rather than against the essay. Of 15
-      dated ARC rows, 12 are `leverage: computation` and the highest score on every split is
-      computation-side. NOT counted as support: the corpus was seeded from ARC-Prize-adjacent
-      work, which is LLM-heavy, so the ratio measures what was collected as much as what
-      won. A selection-corrected reading needs a sampling rule for what enters the register.
+      first reading against this register's own rows rather than against the essay. Of 16
+      dated ARC rows, 12 are `leverage: computation`, 4 are `both`, none are knowledge-side,
+      and the highest score on every split is computation-side. (Was 15 rows before the
+      Berman ARC-AGI-2 row was dated on 2026-09-03; the row it gained is `both`, so the
+      computation share fell from 12/15 to 12/16.) NOT counted as support: the corpus was
+      seeded from ARC-Prize-adjacent work, which is LLM-heavy, so the ratio measures what
+      was collected as much as what won. A selection-corrected reading needs a sampling rule for what enters the register.
 ---
 
 # The Bitter Lesson

@@ -22,14 +22,15 @@ evidence:
   - claim: "29.4% on ARC-AGI-2 semi-private, evolving natural-language program descriptions"
     kind: claimed
     split: arc-agi-2/semi-private
-    regime: $3,648-per-task
-    source: https://jeremyberman.substack.com
+    regime: $30.40-per-task
+    source: https://jeremyberman.substack.com/p/how-i-got-the-highest-score-on-arc-agi-again
     stars: 2
+    date: 2025-09-16
     requires_beyond: [llm-inference]
   - claim: "26.0% on ARC-AGI-2 semi-private, growing a reusable library of solved sub-programs"
     kind: claimed
     split: arc-agi-2/semi-private
-    regime: $476-per-task
+    regime: $3.97-per-task
     source: https://github.com/epang080516/arc_agi
     stars: 2
     date: 2025
@@ -44,7 +45,7 @@ evidence:
     requires_beyond: [llm-inference, weight-gradients]
 no_absolute_score: false
 caveats:
-  - "The two ARC-AGI-2 rows sit at $3,648 and $476 per task — a 7.7x cost difference for 3.4 points. Ranking them by percentage alone inverts the useful comparison."
+  - "The two ARC-AGI-2 rows sit at $30.40 and $3.97 per task — a 7.7x cost difference for 3.4 points. Ranking them by percentage alone inverts the useful comparison. Both cost figures and both scores are the ARC Prize verified semi-private numbers (https://arcprize.org/leaderboard); neither author's own write-up states a per-task cost for its ARC-AGI-2 run."
   - "SOAR words its split as 'the public test set'; read it as the ARC-AGI-1 public evaluation set and not as a held-out leaderboard number."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system fine-tuned on AGI-2 train and scored on AGI-1 eval is inflated."
 interacts:
@@ -115,8 +116,10 @@ wrong, which is why it earns `partial` on [`modeling.belief-update`] where sampl
 only `incidental`.
 
 **Therefore.** Use it when execution feedback is cheap and per-task budget is not the
-binding constraint. The cost rows are the caveat: at $3,648/task this is a demonstration
-of what is reachable, not a deployable method.
+binding constraint. The cost rows are the caveat: at $30.40/task the Berman run is about
+70x the ARC Prize Kaggle budget ($50 across 120 tasks), so it states what is reachable
+under an open budget, not what fits a capped one. The Pang run at $3.97/task is within
+an order of magnitude of that cap, which is the more interesting number of the two.
 
 **The limit.** The mutation is *proposed* by a model, not *derived* from the error. Nothing
 in the loop identifies which part of a candidate was responsible for the failure, so the
