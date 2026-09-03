@@ -221,9 +221,16 @@ as the answer. A technique whose `requires` are all satisfied at `partial` is no
 admissible — it is admissible *at a price the score can see*, which is the distinction a
 prose precondition list could never make.
 
-**And `interaction-budget` is a wall, not only a price.** The technical report's five-times-
-human cutoff ends the run on a level; the levels after it are weighted more heavily and are
-never attempted. So a mechanism's exploration cost has to be read against *h*, the human
-action baseline for that level, and any mechanism whose published identification cost exceeds
-5h is not expensive here — it is inadmissible, and the screen should eventually say so on its
-own rather than leaving it to a caveat.
+**And `interaction-budget` is a wall, not only a price.** The five-times-human action budget
+ends the run on a level, and the levels after it are weighted more heavily and go unattempted.
+So a mechanism's exploration cost has to be read against *h*, the human action baseline, and
+one whose published identification cost exceeds 5h is not expensive here — it is inadmissible.
+That is now arithmetic the screen does rather than a caveat a reader has to carry.
+
+**Which is why the number is dated.** The figure has kept its value across a revision of the
+technical report but not its standing: v1 stated it as a hard cutoff inside the scoring rules,
+v2 as an evaluation budget on the leaderboard, justified by the API cost of running frontier
+models. The scoring around it moved further — the per-level cap went from 1.0 to 1.15 and the
+aggregation gained a completion-fraction term. A screen is only as current as the version it
+was run against, so every quantity here carries the version it came from and the date someone
+last read it, and the superseded row stays in `history` rather than being overwritten.
