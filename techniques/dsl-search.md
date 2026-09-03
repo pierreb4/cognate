@@ -27,6 +27,13 @@ no_absolute_score: true
 caveats:
   - "arc-dsl publishes a solver for every ARC-AGI-1 training task but reports no benchmark percentage; any number attached to it is someone else's search procedure and must be sourced separately (https://github.com/michaelhodel/arc-dsl)."
 interacts:
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold an explicit, refutable account over an authored vocabulary; the DSL composes
+      primitives into a program and the identifier accumulates condition-effect pairs, and
+      neither infers the vocabulary it is stated in
   - technique: technique.evolutionary-program-synthesis
     rel: overlaps
     scope: modeling.hypothesis-formation

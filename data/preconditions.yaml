@@ -106,6 +106,10 @@ tokens:
     kind: environment
     note: outbound network calls at inference time
 
+  - token: deterministic-environment
+    kind: environment
+    note: the same action in the same state always produces the same outcome
+
   - token: resettable-simulator
     kind: environment
     note: an environment you can roll forward and reset to a chosen state

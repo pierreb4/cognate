@@ -42,6 +42,13 @@ caveats:
   - "SOAR words its split as 'the public test set'; read it as the ARC-AGI-1 public evaluation set and not as a held-out leaderboard number."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system fine-tuned on AGI-2 train and scored on AGI-1 eval is inflated."
 interacts:
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.belief-update
+    note: >-
+      one retracts a prediction the evidence contradicts, the other mutates a candidate that
+      scored badly; both revise under feedback, and the register does not yet hold a measured
+      combination of the two
   - technique: technique.llm-sampling-program-synthesis
     rel: subsumes
     scope: modeling.belief-update

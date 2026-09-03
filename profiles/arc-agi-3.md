@@ -7,6 +7,8 @@ source:
     url: https://arcprize.org/arc-agi/3/
   - title: ARC Prize 2026 (Kaggle code competition)
     url: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3
+  - title: ARC-AGI-3 technical report (scoring, aggregation, action cutoff)
+    url: https://arxiv.org/abs/2603.24621
 supplies:
   # level: full | partial | none   — what the deployment can actually provide.
   # binding: competition | project — a competition rule cannot be relaxed; a project
@@ -54,14 +56,20 @@ supplies:
   - token: parallel-inference-budget
     level: full
     binding: competition
+  - token: deterministic-environment
+    level: full
+    binding: competition
+    note: seeded games and a deterministic engine, so one counterexample settles a prediction
 
   - token: resettable-simulator
     level: partial
     binding: competition
     note: >-
-      RESET restarts the current level and the engine is seeded and deterministic, but
-      there is no restore to an arbitrary state and no forward model is given — a
-      rollout can only be replayed from a level boundary
+      RESET restarts the current level and the engine is seeded and deterministic, but there
+      is no restore to an arbitrary state and no forward model is given -- a rollout is
+      replayed from a level boundary at the cost of its whole prefix. Where a game offers the
+      undo action, a one-step counterfactual is cheaper than a replay; it is offered per game,
+      not guaranteed
   - token: value-signal
     level: partial
     binding: competition
@@ -74,9 +82,13 @@ supplies:
     level: partial
     binding: competition
     note: >-
-      scoring is min(115, 100*(human_baseline/agent_actions)^2) per completed level, so
-      every exploratory action inside a level is charged against that level's score —
-      interaction is available but never free
+      the technical report scores a level S = min(1.0, h/a)^2 on human action baseline h and
+      agent actions a, aggregates as E = sum_l l*S_l / (n(n+1)/2) over at least six levels, and
+      states a HARD CUTOFF at five times the human baseline: "If a human takes 10 actions to
+      beat a certain level on average, then we will cut the AI agent off after 50 actions."
+      So exploration is not merely charged, it is walled: a mechanism needing more than 5h
+      actions on a level does not merely score badly there, it is stopped, and every later
+      and more heavily weighted level goes unattempted
   - token: per-candidate-executor
     level: partial
     binding: competition
@@ -189,3 +201,10 @@ so exploration, hypothesis testing and candidate replay are paid for in the same
 as the answer. A technique whose `requires` are all satisfied at `partial` is not thereby
 admissible — it is admissible *at a price the score can see*, which is the distinction a
 prose precondition list could never make.
+
+**And `interaction-budget` is a wall, not only a price.** The technical report's five-times-
+human cutoff ends the run on a level; the levels after it are weighted more heavily and are
+never attempted. So a mechanism's exploration cost has to be read against *h*, the human
+action baseline for that level, and any mechanism whose published identification cost exceeds
+5h is not expensive here — it is inadmissible, and the screen should eventually say so on its
+own rather than leaving it to a caveat.

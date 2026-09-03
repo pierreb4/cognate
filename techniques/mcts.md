@@ -23,6 +23,13 @@ caveats:
   - "The precondition does the work. MCTS is available exactly when a resettable forward model exists; for an agent that must learn the environment's rules from interaction, the model MCTS needs is the thing that is missing."
   - "Its demonstrated results are in games with exact simulators (see the survey, https://dblp.org/rec/journals/tciaig/BrownePWLCRTPSC12.html). Those carry no split or regime on any benchmark in this register, so no percentage is entered."
 interacts:
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: exploration.experiment-design
+    note: >-
+      both choose an action for what it will reveal, but UCB's quantity is a visit count and a
+      value variance over a tree it has already built, not disagreement between accounts of the
+      environment; holding both does not buy two selectors
   - technique: technique.means-ends-analysis
     rel: overlaps
     scope: planning-execution.goal-decomposition
