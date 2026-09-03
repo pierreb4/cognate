@@ -27,6 +27,13 @@ no_absolute_score: true
 caveats:
   - "arc-dsl publishes a solver for every ARC-AGI-1 training task but reports no benchmark percentage; any number attached to it is someone else's search procedure and must be sourced separately (https://github.com/michaelhodel/arc-dsl)."
 interacts:
+  - technique: technique.evolutionary-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the same generate-and-test over explicit programs; the primitive set carries the
+      proposal distribution in one and an executor-guided mutation operator in the other,
+      and neither names a goal it has inferred
   - technique: technique.latent-program-search
     rel: overlaps
     scope: modeling.hypothesis-formation
