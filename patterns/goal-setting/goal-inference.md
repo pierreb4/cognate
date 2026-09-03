@@ -48,6 +48,37 @@ system consuming one earns `incidental` at most however well it then pursues it.
 requires the objective to be inferred from observation and to remain revisable — nameable,
 actable, and replaceable when found wrong.
 
+**Which capability this is, declared (2026-09-03).** Two different things travel under the
+name "goal inference" and this cell is only one of them.
+
+- **(A) reading ANOTHER agent's goal** from its observed behaviour — inverse planning,
+  Bayesian theory of mind, inverse RL, ToMnet.
+- **(B) forming one's OWN objective** in an environment with no instructions, no reward
+  specification and, in the limit, no other agent to read.
+
+**This cell is (B).** The faculty is goal-*setting*; the Context describes a person shown a
+novel game screen with nobody to imitate; the Therefore asks for an objective that can be
+named, acted on and replaced; and both `completed_by` cells are about pursuing an objective
+one already holds. A system that reads another agent's goal does not address this cell
+however well it does it — that is a different capability, and it sits closer to
+[`priors.agentness`] than to this directory.
+
+**A declared mismatch, not silently fixed.** Both `human_source` rows above are (A):
+Baker/Saxe/Tenenbaum infer an observed agent's utility from its trajectory, and Gergely &
+Csibra's teleological stance is about interpreting *others'* actions. Keeping them here
+asserts that the machinery infants use to read others is the machinery they use to set
+their own goals. That is a substantive developmental claim, it may well be true, and this
+register has neither made it explicitly nor tested it. Flagged rather than re-cited: which
+way to resolve it is a content decision, and the honest state is that the cell's problem
+statement and its citations point at two different literatures.
+
 **Status: open, and this is the register's largest single hole.** No technique node
-currently addresses it. That is not an omission awaiting a literature search; the machine
-side is genuinely thin, and it is the precondition for every other node in this directory.
+currently addresses it, after three asks (two of them harness runs). That is not an omission
+awaiting a literature search; the machine side is genuinely thin, and it is the precondition
+for every other node in this directory.
+
+The nearest miss in the corpus is [`technique.intrinsic-motivation-exploration`], and the
+way it misses is instructive: it needs a `reward-channel` for its bonus to be added to, so
+it does not infer an objective — it *substitutes a generic drive* for one, and then still
+requires the real objective to arrive from outside. Novelty is not an answer to "what is
+this environment asking of me"; it is a way of acting well while that question stays open.
