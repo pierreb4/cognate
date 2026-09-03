@@ -6,6 +6,12 @@ addresses:
   - capability: modeling.per-task-adaptation
     strength: partial
     note: the outer refinement loop, not the recursion, appears to carry the result
+  - capability: modeling.hypothesis-formation
+    strength: incidental
+    note: >-
+      the refinement loop revises a candidate output grid, never an account of the rule
+      producing it; as with test-time-training the commitment is held in weights and a
+      latent, so nothing downstream can be told what the system currently believes
 requires:
   - token: training-distribution
     note: training on the target task distribution

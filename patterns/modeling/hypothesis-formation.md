@@ -39,5 +39,18 @@ precisely the absence of this loop — agents "can't form a theory, test it, upd
 failure is reported as a *loop* failure; a system can generate plausible hypotheses and
 still fail here if nothing downstream can kill one.
 
+**How a technique is graded here.** The test is *exhibitable commitment*: can the system,
+at any moment, produce one specific account that something downstream could act on and
+refute? `direct` if the account is the system's working object — a program, a description,
+a searchable latent. `incidental` if the system reaches answers without ever holding one:
+[`technique.test-time-training`] keeps it in weights where it cannot be named, and
+[`technique.brute-force-program-search`] holds a lattice of compositions instead of a
+current belief. Note that the second case is the one that fixes the rule — brute-force
+emits perfectly readable symbolic programs, so the test is **not** whether the
+representation is nameable, it is whether a commitment exists to be named. A candidate
+*answer* is not a candidate *account*: a system that emits an output and no rule cannot
+tell anything downstream what it believes governs the environment, whatever form its
+output takes.
+
 **Related.** Completed by [`exploration.experiment-design`] and [`modeling.belief-update`].
 Its representation choice constrains which techniques can address the other two.
