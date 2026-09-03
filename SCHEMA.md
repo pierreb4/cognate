@@ -118,9 +118,22 @@ the system HAS the thing. It is **where the thing came from.**
 
 - **`direct` / `partial`** — the system ACQUIRES it from what it observes.
 - **`incidental`** — the system is HANDED it, as an authored primitive, a hand-written
-  vocabulary, a demonstration pair that *is* the objective, or a fixed input the paper's
-  own future-work section admits it does not derive. The capability is consumed, not
-  produced.
+  vocabulary, a demonstration pair that *is* the objective, a fixed input the paper's own
+  future-work section admits it does not derive, **or a supervised training target that IS
+  the graded capability** (track ids for identity, instance masks for objectness). The
+  capability is consumed, not produced.
+
+**The distance rule.** Training supervision does not disqualify by being supervision; what
+matters is how far the supplied artifact sits from the graded capability. If the supplied
+artifact IS the capability, the grade is `incidental` — a tracker trained on annotated
+track ids has identity transferred from a human, however good its numbers. If it is
+strictly UPSTREAM and the system performs the step that produces the capability, the grade
+caps at `partial` and the dependency is named as a precondition token rather than
+rejecting the technique. `technique.counterfactual-probe-segmentation` trains against
+SeaRAFT optical flow — correspondence, one level below the persisting index — and carries
+`correspondence-estimator`. `technique.temporal-feature-similarity-slots` predicts affinity
+in a frozen DINO feature space and carries `frozen-self-supervised-features`. Neither is
+handed the thing it is graded on; both are capped for what they are handed.
 
 A cell reads EMPTY in the gap report when nothing reaches `direct` or `partial` — which is
 why cells with real incoming edges still read EMPTY: every candidate so far is a consumer.

@@ -142,6 +142,13 @@ tokens:
     unit: actions-per-human-baseline-action
     note: enough environment steps for the mechanism to shape behaviour
 
+  - token: frozen-self-supervised-features
+    kind: assumption
+    note: >-
+      a frozen self-supervised backbone supplying the feature space the mechanism operates
+      in, and often its prediction target; strictly upstream of the graded capability, so
+      it caps rather than disqualifies
+
   - token: matched-architecture
     kind: assumption
     note: an architecture whose inductive biases match the domain's symmetries

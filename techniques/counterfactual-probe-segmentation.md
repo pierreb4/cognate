@@ -70,5 +70,7 @@ authored. That is a claim about what is possible, not about what is cheap: the r
 **The limit.** Two, and they are different in kind. The acquisition is not clean —
 training targets come from SeaRAFT, a supervised flow network, so correspondence is
 supplied even though the vocabulary is not. And the output is a per-image mask: nothing
-here carries a thing from one frame to the next, so [`modeling.state-abstraction`] stays
-empty and the cell's third commitment, persistence, remains untested.
+here carries a thing from one frame to the next, so this technique does nothing for
+[`modeling.state-abstraction`] — that cell is now served, thinly, by a video method
+([`technique.temporal-feature-similarity-slots`]) rather than by this one — and the cell's
+third commitment, persistence, remains untested here.

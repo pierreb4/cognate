@@ -10,7 +10,7 @@ human_source:
     url: https://onlinelibrary.wiley.com/doi/10.1111/j.1467-7687.2007.00569.x
 part_of: [modeling]
 completed_by: []
-status: open
+status: partial
 provenance:
   entered: 2026-09-02
   commit: 6f81060
@@ -45,7 +45,25 @@ implicitly in weights where nothing downstream can name a thing, earns `incident
 `direct` requires identity to be an emitted output — a stable index per thing, derived
 from the observation stream and surviving occlusion and feature change.
 
-**Status: open.** No technique in the register addresses this. The classical planners assume
-the abstraction is handed to them; the learned methods hold it implicitly in weights where
-nothing downstream can name a thing. This is where the gap on
-[`planning-execution.goal-decomposition`] lands after it moves down a layer.
+**Status: partial.** One technique reaches this cell:
+[`technique.temporal-feature-similarity-slots`] (VideoSAUR) at `partial` — slots are an
+addressable set a caller can name, scored by a single clustering over a whole real video,
+learned from a target in which no id, mask or count appears. It is a thin fill and the node
+says so: occlusion is never measured, only attributed to a decay with clip length, and the
+margin over an identity-perfect trivial control (a fixed spatial grid) is under 2x. The
+classical planners still assume the abstraction is handed to them, and the other learned
+methods still hold it implicitly in weights where nothing downstream can name a thing.
+
+**What was searched, and the shape of what was not found.** The cell was asked alone across
+the object-centric video, multi-object-tracking, developmental-psychology and
+video-world-model literatures. The negative that survived is structural, and worth more than
+the count of candidates: **the field splits acquisition from individuation.** The
+point-tracking literature acquires correspondence with no identity annotation and measures
+it through occlusion directly — OmniMotion (arXiv 2306.05422v2) reports occlusion accuracy
+85.3 on TAP-Vid-DAVIS from a per-video fit with no training set — but it emits a per-POINT
+index and never groups points into things; its own limitations concede "duplicated objects
+in canonical space", and there is no object-level metric in the paper or its supplement. The
+tracking and video-instance-segmentation literatures individuate, but the identity is the
+training label. Each half is done well by a literature that does not do the other half.
+VideoSAUR is admitted here because it is one of the few places the two halves meet at all —
+not because it does either half decisively.
