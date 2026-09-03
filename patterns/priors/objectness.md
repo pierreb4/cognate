@@ -42,6 +42,16 @@ persistence AND influence-via-contact to be acquired from observation; implement
 cohesion alone and losing identity on a recolour is the documented failure, not a partial
 pass.
 
+**Also examined and refused.** [`technique.temporal-feature-similarity-slots`] (VideoSAUR)
+was the obvious second candidate — it groups an unlabelled video into slots with no authored
+vocabulary, and it serves [`modeling.state-abstraction`]. It gets no edge here. Only cohesion
+is acquired: influence-via-contact is absent from the paper entirely, and persistence is
+disclaimed by its own authors ("we do not have any memory module to handle object occlusions
+and reidentification"). Cohesion alone is precisely the documented failure above. The two
+acquired-objectness candidates fail on opposite commitments, which is the more interesting
+fact: poking buys cohesion and contact but not permanence, and predicting buys cohesion but
+neither of the others.
+
 **Note on scope.** ARC-AGI-3's environment-design constraints add **basic physics**
 (gravity, momentum, bouncing) and **agentness** as priors alongside this one — a widening
 of the 2019 four-prior list that is easy to miss because the two lists are published in

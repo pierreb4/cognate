@@ -39,8 +39,9 @@ caveats:
   - "The Block Pattern control is what makes the row interpretable, and it also refuses a tempting inference. It is a fixed spatial grid: its cross-frame index is perfect by construction while it knows nothing about objects. So a small video-vs-image FG-ARI gap does NOT prove identity — Block Pattern's gap on MOVi-E (-5.9) is LARGER than VideoSAUR's (-4.5). Identity is evidenced by the margin over that control (28.9 vs 15.1, widening with clip length: 1.65x at 6 frames, 1.91x at full), not by the gap."
   - "MOVi-C is excluded, not merely uncited. `configs/videosaur/movi_c.yml` sets NUM_SLOTS 11 = the generator's max_num_objects 10 plus background, i.e. the object count is read off the answer key. MOVi-E at NUM_SLOTS 15 survives only because 15 matches no ground-truth statistic — movi_def_worker.py generates 11-23 objects, mean 17 — and it is a supporting row, with the caveat that 15 over-provisions ~36% of scenes."
   - "The DAVIS 34.0 and YouTube-VIS-2019 41.3 mBO transfer figures must NOT be entered. The paper takes each at the 'optimal number of slots' from an evaluation-time sweep against the target set's own ground truth — the object count re-entering through the back door, one level less visibly than MOVi-C."
-  - "Occlusion is never measured, only attributed. The 39.5 -> 28.9 decay is stratified by DURATION, and both mentions of occlusion in v2 are prose explaining that decay. `modeling.state-abstraction` asks for identity surviving occlusion or feature change as a MEASUREMENT; on this evidence `direct` is unavailable, and that is the binding reason for `partial`, ahead of the frozen-backbone dependency."
-  - "Not adjudicated for `priors.objectness`, deliberately. Cohesion and persistence both look acquired here and influence-via-contact does not, which would make it the mirror image of `technique.counterfactual-probe-segmentation`. The run that admitted this node examined only the state-abstraction cell, and an unexamined second claim is exactly what was withdrawn before entry in the run before it."
+  - "Occlusion is never measured, and the authors DISCLAIM the mechanism. The 39.5 -> 28.9 decay is stratified by DURATION, and both mentions of occlusion in v2 are prose explaining it — but the prose is a concession, not a hedge: 'we do not have any memory module to handle object occlusions and reidentification', and the failure figure reports 'the slots are reassigned to the background, while small objects are not recognized' (v2 App. B, Fig. B.5). `modeling.state-abstraction` asks for identity surviving occlusion or feature change as a MEASUREMENT; here it is neither measured nor claimed. That is the binding reason for `partial`, ahead of the frozen-backbone dependency."
+  - "Feature change is the predicted weak point and is never tested at all. Binding is by similarity in a frozen DINO feature space, so an object that changes appearance changes the very quantity the index is built from. The cell names recolour explicitly; v2 contains no recolour, appearance-change or feature-change experiment (zero occurrences of any of those terms). Untested, not passed."
+  - "ADJUDICATED AND REFUSED for `priors.objectness` (2026-09-03, against the primary). Of Chollet's three commitments, only cohesion is acquired. Influence-via-contact is absent outright — 'contact' occurs once in v2 and it is the arXiv page footer. Persistence is not merely unevidenced but disclaimed by the authors: 'we do not have any memory module to handle object occlusions and reidentification'. The cell's own grading text rules on exactly this shape — 'implementing cohesion alone and losing identity on a recolour is the documented failure, not a partial pass' — so no edge is written. Note this is NOT the mirror image of `technique.counterfactual-probe-segmentation`, which was the expectation going in: SpelkeNet acquires two of the three commitments, this acquires one."
 provenance:
   entered: 2026-09-03
   commit: 0afe1bd
@@ -72,8 +73,16 @@ is enough to make a stable index fall out. That is the same move as
 [`technique.counterfactual-probe-segmentation`] one axis over: poke for cohesion, predict
 for persistence.
 
-**The limit, and it is not the one the paper advertises.** The advertised limit is the
-frozen backbone. The real one is that **occlusion is never measured**. The cell asks for an
-index that survives occlusion and feature change; what is reported is a decay with clip
-length, narrated as occlusion-driven. And the margin that does carry the row — 28.9 against
-a fixed grid's 15.1 — is under 2x. This is a thin fill honestly recorded, not a solved cell.
+**The limit, and the authors state it themselves.** The advertised limit is the frozen
+backbone. The real one is that there is **no mechanism for occlusion at all**: "we do not
+have any memory module to handle object occlusions and reidentification", and the failure
+figure shows slots reassigned to the background on long clips. The cell asks for an index
+that survives occlusion and feature change; what is reported is a decay with clip length.
+And the margin that does carry the row — 28.9 against a fixed grid's 15.1 — is under 2x.
+This is a thin fill honestly recorded, not a solved cell.
+
+**Why it does not also serve [`priors.objectness`].** It was checked and refused. Cohesion
+is acquired; influence-via-contact is absent; persistence is disclaimed by its own authors.
+Cohesion alone is the failure that cell was written to name, not a partial pass. The
+symmetry that made this look promising — poke for cohesion, predict for persistence — does
+not survive contact with the paper: the prediction objective buys grouping, not permanence.

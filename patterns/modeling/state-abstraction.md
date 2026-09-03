@@ -49,8 +49,9 @@ from the observation stream and surviving occlusion and feature change.
 [`technique.temporal-feature-similarity-slots`] (VideoSAUR) at `partial` — slots are an
 addressable set a caller can name, scored by a single clustering over a whole real video,
 learned from a target in which no id, mask or count appears. It is a thin fill and the node
-says so: occlusion is never measured, only attributed to a decay with clip length, and the
-margin over an identity-perfect trivial control (a fixed spatial grid) is under 2x. The
+says so: occlusion is not merely unmeasured but disclaimed by the authors ("we do not have
+any memory module to handle object occlusions and reidentification"), and the margin over an
+identity-perfect trivial control (a fixed spatial grid) is under 2x. The
 classical planners still assume the abstraction is handed to them, and the other learned
 methods still hold it implicitly in weights where nothing downstream can name a thing.
 
