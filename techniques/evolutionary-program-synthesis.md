@@ -24,18 +24,21 @@ evidence:
     regime: $3,648-per-task
     source: https://jeremyberman.substack.com
     stars: 2
+    requires_beyond: [llm-inference]
   - claim: "26.0% on ARC-AGI-2 semi-private, growing a reusable library of solved sub-programs"
     kind: claimed
     split: arc-agi-2/semi-private
     regime: $476-per-task
     source: https://github.com/epang080516/arc_agi
     stars: 2
+    requires_beyond: [llm-inference]
   - claim: "SOAR: 52% of the ARC-AGI-1 public set, evolutionary search plus hindsight fine-tuning on the system's own search traces"
     kind: claimed
     split: arc-agi-1/public-eval
     regime: uncapped
     source: https://arxiv.org/abs/2507.14172
     stars: 2
+    requires_beyond: [llm-inference, weight-gradients]
 no_absolute_score: false
 caveats:
   - "The two ARC-AGI-2 rows sit at $3,648 and $476 per task — a 7.7x cost difference for 3.4 points. Ranking them by percentage alone inverts the useful comparison."

@@ -53,7 +53,7 @@ def grade(nodes, tokens, profile, members):
          "conflicts": [], "untyped": [], "blocked": [], "charged": [], "over_budget": []}
 
     scr = screen(nodes, tokens, profile)
-    for nid, blocked, charged, _, over in [row for b in scr for row in scr[b]]:
+    for nid, blocked, charged, _, over, _unreach in [row for b in scr for row in scr[b]]:
         if nid not in members:
             continue
         if blocked:
@@ -119,14 +119,21 @@ def grade(nodes, tokens, profile, members):
     r["shared_tokens"] = shared
     r["cost_tier"] = max((COST.get(nodes[m].get("cost"), 0) for m in members), default=0)
 
-    # Only scored evidence counts toward the floor. An entry whose split is
-    # `not-applicable` is a claim about standing or lineage, not a measurement,
-    # and must not lift a combination's grade.
+    # Only scored evidence counts toward the floor, and only evidence this deployment
+    # could actually reproduce. An entry whose split is `not-applicable` is a claim
+    # about standing, not a measurement; an entry whose `requires_beyond` names
+    # something the profile supplies at `none` was obtained on a machine this one is
+    # not, and must not lift the grade either.
+    def reachable(ev):
+        return (ev.get("split") != "not-applicable" and
+                all(levels.get(t, {"level": "none"})["level"] != "none"
+                    for t in ev.get("requires_beyond", [])))
+
     floor = {}
     for cap, crit, best, holders in r["coverage"]:
         if len(holders) == 1:
             stars = [e.get("stars", 0) for e in nodes[holders[0]].get("evidence", [])
-                     if e.get("split") != "not-applicable"]
+                     if reachable(e)]
             floor[holders[0]] = max(stars, default=0)
     r["evidence_floor"] = min(floor.values(), default=0)
     r["load_bearing"] = sorted(floor.items())

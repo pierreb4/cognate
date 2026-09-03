@@ -21,6 +21,7 @@ evidence:
     regime: not-applicable
     source: https://arxiv.org/abs/1810.12894
     stars: 2
+    requires_beyond: [trained-model, weight-gradients]
 no_absolute_score: false
 caveats:
   - "The RND row is an Atari hard-exploration result. Nothing here has been measured on any ARC split, and the register does not carry a transfer argument in place of a measurement."

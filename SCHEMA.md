@@ -105,6 +105,28 @@ Two techniques that address the same capability at `direct` or `partial` strengt
 declared interaction appear in the builder's **untyped co-coverage** report. That is a
 to-do list: until the pair is typed, no combination containing both can be graded.
 
+### `requires_beyond:` — the result cost more than the mechanism
+
+A technique's `requires:` describes the *family*. A published result is one *instance* of
+it, and the instance often needed more than the family does. Genetic programming does not
+require a language model; every published evolutionary-synthesis result on ARC does.
+
+```yaml
+evidence:
+  - claim: "SOAR: 52% of the ARC-AGI-1 public set, evolutionary search plus hindsight fine-tuning"
+    ...
+    requires_beyond: [llm-inference, weight-gradients]   # what THIS result needed
+```
+
+The screen then separates two questions a single admissibility verdict used to blur: *can
+this deployment run the mechanism* and *can it reproduce the number*. Where they differ it
+says so — "the MECHANISM is admissible, but 3 of 3 published results are not" — and a
+combination's evidence floor counts only results this deployment could actually reproduce.
+
+Without this the register quietly overstates what a constrained deployment can reach. It
+was found by trying to classify techniques as knowledge-side or scale-side and getting the
+wrong answer for a node whose tokens and whose evidence disagreed.
+
 ### Quantities: `limit` and `demand`
 
 A precondition is usually yes/no. Some are a *budget*, and there the interesting question is

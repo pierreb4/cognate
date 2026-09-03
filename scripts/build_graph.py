@@ -165,6 +165,12 @@ def validate(nodes, errors, tokens):
                     errors.append(f"{where}: stars must be 1-4, got {stars!r}")
                 elif stars > 2 and ev.get("kind") != "measured":
                     errors.append(f"{where}: stars>2 requires kind 'measured': {ev.get('claim')!r}")
+                for tb in ev.get("requires_beyond", []):
+                    if tb not in tokens:
+                        errors.append(f"{where}: requires_beyond names unknown token {tb!r}")
+                    elif tb in [r.get("token") for r in n.get("requires", [])]:
+                        errors.append(f"{where}: requires_beyond {tb!r} is already in this "
+                                      f"technique's requires — 'beyond' means beyond")
                 if not ev.get("date"):
                     WARNINGS.append(f"{where}: evidence has no date (needed for trend views): {ev.get('claim')!r}")
                 if no_abs and "%" in str(ev.get("claim", "")):
@@ -304,7 +310,13 @@ def screen(nodes, tokens, profile):
                 blocked.append((tok, s.get("binding")))
             elif s["level"] == "partial":
                 charged.append(tok)
-        row = (nid, blocked, charged, checks, over)
+        unreachable = []
+        for ev in n.get("evidence", []):
+            missing = [t for t in ev.get("requires_beyond", [])
+                       if levels.get(t, {"level": "none"})["level"] == "none"]
+            if missing:
+                unreachable.append((ev.get("claim", "")[:52], missing))
+        row = (nid, blocked, charged, checks, over, unreachable)
         out["blocked" if blocked else "over_budget" if over
             else "charged" if charged else "clear"].append(row)
     return out
@@ -320,7 +332,7 @@ def screen_report(nodes, tokens, addressed, profile):
                             "published cost"),
             ("blocked", "BLOCKED     a precondition is not available at all")):
         lines.append(f"{label}  ({len(res[bucket])})")
-        for nid, blocked, charged, checks, over in res[bucket]:
+        for nid, blocked, charged, checks, over, unreachable in res[bucket]:
             name = nid.split(".", 1)[1]
             if blocked:
                 by = ", ".join(f"{t} [{b}]" for t, b in blocked)
@@ -339,9 +351,15 @@ def screen_report(nodes, tokens, addressed, profile):
                 lines.append(f"  {name:<34}")
             if checks:
                 lines.append(f"  {'':<34} assumes {', '.join(checks)} — check, cannot supply")
+            if unreachable:
+                n_ev = len(nodes[nid].get("evidence", []))
+                toks = sorted({t for _, ts in unreachable for t in ts})
+                lines.append(f"  {'':<34} the MECHANISM is admissible, but {len(unreachable)} "
+                             f"of {n_ev} published result(s) are not: they needed "
+                             f"{', '.join(toks)}")
         lines.append("")
 
-    quantified = sum(1 for b in res for _, _, _, _, over in res[b] if over)
+    quantified = sum(1 for b in res for *_, over, _ in res[b] if over)
     have_demand = sum(1 for nid, n in nodes.items() if n.get("kind") == "technique"
                       and any(r.get("demand") for r in n.get("requires", [])))
     total = sum(1 for n in nodes.values() if n.get("kind") == "technique")
@@ -362,7 +380,7 @@ def screen_report(nodes, tokens, addressed, profile):
     # A technique refuted only by arithmetic, only just, and on someone else's frame is
     # not the same as one that cannot run here at all. It does not count as coverage, and
     # it is not silently dropped either: it is named, with the margin that decides it.
-    over = {nid: over for nid, _, _, _, over in res["over_budget"]}
+    over = {nid: over for nid, _, _, _, over, _ in res["over_budget"]}
     contingent = []
     for c in profile.get("requires_capabilities", []):
         cap = c["capability"]
