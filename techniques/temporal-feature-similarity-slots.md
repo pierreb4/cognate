@@ -43,7 +43,7 @@ caveats:
   - "Not adjudicated for `priors.objectness`, deliberately. Cohesion and persistence both look acquired here and influence-via-contact does not, which would make it the mirror image of `technique.counterfactual-probe-segmentation`. The run that admitted this node examined only the state-abstraction cell, and an unexamined second claim is exactly what was withdrawn before entry in the run before it."
 provenance:
   entered: 2026-09-03
-  commit: PENDING
+  commit: 0afe1bd
   frame: exploration-harness
   note: >-
     admitted by exploration-harness run wf_8808d2a6-f62, the state-abstraction cell asked
