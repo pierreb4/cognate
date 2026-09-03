@@ -37,6 +37,10 @@ every mover as physics, which is both wrong and much more expensive.
 themselves, and predict the second kind by attributing a goal rather than by extrapolating
 motion.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`). A hand-
+declared agent channel, or an environment that labels which sprite is an actor, is the
+prior handed over. `direct` requires agents to be individuated from behaviour.
+
 **Status: open.** Nothing in the register addresses this. It is also the prior on which
 [`goal-setting.goal-inference`] rests: inverse planning has nothing to invert until
 something has been identified as an agent.

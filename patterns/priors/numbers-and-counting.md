@@ -37,6 +37,11 @@ is handed a segmentation.
 commitment about what the perceptual front end must emit — discrete, individuated items —
 and it fails silently when the front end emits regions instead.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`), and this
+cell is the other worked case: `technique.dsl-search` sits at `incidental` because
+counting and ordering exist as authored primitives, not because the system learned to
+count.
+
 **Status: open.** The only incoming edges are `incidental`, from
 [`technique.dsl-search`], where counting exists because a person wrote the primitive. That
 supplies the prior; it does not acquire it.

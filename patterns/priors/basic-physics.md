@@ -36,6 +36,10 @@ observation" has no place to put them.
 **Therefore.** Separate what the environment does on its own from what the agent's action
 did, and model the first as continuing state rather than as noise in the transition.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`). A physics
+engine, or hand-coded gravity and bounce rules, is consumption. `direct` requires the
+dynamics to be inferred from observed motion.
+
 **Status: open.** No technique addresses this. Note also that the register's ARC-facing
 techniques were built for the static benchmarks, where this prior is not exercised at all —
 their scores carry no information about it.

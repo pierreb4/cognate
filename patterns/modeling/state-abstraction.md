@@ -39,6 +39,12 @@ needs to know which thing the evidence was about.
 across frames, that survives feature change and occlusion — and let the planner and the
 hypothesis space be written over those indices rather than over raw arrays.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`). A
+classical planner handed a factored state, or a learned method holding the abstraction
+implicitly in weights where nothing downstream can name a thing, earns `incidental`.
+`direct` requires identity to be an emitted output — a stable index per thing, derived
+from the observation stream and surviving occlusion and feature change.
+
 **Status: open.** No technique in the register addresses this. The classical planners assume
 the abstraction is handed to them; the learned methods hold it implicitly in weights where
 nothing downstream can name a thing. This is where the gap on

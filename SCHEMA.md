@@ -108,6 +108,32 @@ Two techniques that address the same capability at `direct` or `partial` strengt
 declared interaction appear in the builder's **untyped co-coverage** report. That is a
 to-do list: until the pair is typed, no combination containing both can be graded.
 
+### The supplied / acquired test
+
+Seven capabilities — the five `priors`, `modeling.state-abstraction` and
+`goal-setting.goal-inference` — name a thing a system must *have* before the rest of the
+register's machinery can run: objects, physics, agents, geometry, number, a stable
+identity across frames, an objective. For those cells the grading question is not whether
+the system HAS the thing. It is **where the thing came from.**
+
+- **`direct` / `partial`** — the system ACQUIRES it from what it observes.
+- **`incidental`** — the system is HANDED it, as an authored primitive, a hand-written
+  vocabulary, a demonstration pair that *is* the objective, or a fixed input the paper's
+  own future-work section admits it does not derive. The capability is consumed, not
+  produced.
+
+A cell reads EMPTY in the gap report when nothing reaches `direct` or `partial` — which is
+why cells with real incoming edges still read EMPTY: every candidate so far is a consumer.
+`technique.dsl-search` is the worked case, capped at `incidental` on two served priors
+because it "supplies the prior as authored primitives (rotate, reflect, connect, fill)
+rather than acquiring it".
+
+This is the second cell-family whose grading rule was being applied uniformly and written
+nowhere; `modeling.hypothesis-formation` carries the other one (*exhibitable commitment*)
+in its own node. Both look like instances of a single ladder — does the technique PRODUCE
+the capability or CONSUME it — but two families is not enough to declare one, and
+`SCHEMA.md` still defines `direct | partial | incidental` for the remaining cells nowhere.
+
 ### `provenance:` — what put the node in view
 
 ```yaml

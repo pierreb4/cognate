@@ -36,6 +36,10 @@ the practical consequence is that the operations are cheap to write and expensiv
 **Therefore.** State which geometric relations your representation makes available, and
 treat that list as a prior you have chosen, not as a neutral encoding.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`), and this
+cell is one of the two worked cases: `technique.dsl-search` sits at `incidental` because
+rotate, reflect, connect and fill were written by a person.
+
 **Status: partial.** Better served than the other priors here, but served in one way: the
 incoming edge is `incidental`, from [`technique.dsl-search`], where the relations are
 authored primitives. A system that induces the symmetry group of a domain it was not told

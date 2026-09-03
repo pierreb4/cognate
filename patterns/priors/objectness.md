@@ -34,6 +34,14 @@ briefly hidden and identity is silently lost.
 **Therefore.** Treat object *identity across time* as a first-class output, not a
 by-product of per-frame segmentation.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`). Being
+given a segmenter, an object vocabulary or a hand-written primitive set is consumption,
+not coverage — this is the ground on which DOORMAX was refused this cell, its own future-
+work section conceding the object vocabulary is an input. `direct` requires cohesion,
+persistence AND influence-via-contact to be acquired from observation; implementing
+cohesion alone and losing identity on a recolour is the documented failure, not a partial
+pass.
+
 **Note on scope.** ARC-AGI-3's environment-design constraints add **basic physics**
 (gravity, momentum, bouncing) and **agentness** as priors alongside this one — a widening
 of the 2019 four-prior list that is easy to miss because the two lists are published in

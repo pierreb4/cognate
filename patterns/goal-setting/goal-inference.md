@@ -42,6 +42,12 @@ its own goal should be in a world with no other agent in it.
 hypothesis about dynamics — something that can be named, acted on, found wrong, and
 replaced — rather than as a fixed input to the system.
 
+**How a technique is graded here.** By the supplied/acquired test (`SCHEMA.md`). A
+demonstration pair, a reward function or a verifier IS the objective handed over, so a
+system consuming one earns `incidental` at most however well it then pursues it. `direct`
+requires the objective to be inferred from observation and to remain revisable — nameable,
+actable, and replaceable when found wrong.
+
 **Status: open, and this is the register's largest single hole.** No technique node
 currently addresses it. That is not an omission awaiting a literature search; the machine
 side is genuinely thin, and it is the precondition for every other node in this directory.
