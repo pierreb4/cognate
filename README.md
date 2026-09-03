@@ -55,7 +55,9 @@ techniques/   machine side — a named mechanism, with evidence
 bundles/      minimal sets of techniques that jointly satisfy a requirement cluster
 data/         preconditions.yaml — the closed token vocabulary `requires:` cites
               graph.json — generated (edges, derived from frontmatter)
-scripts/      build_graph.py — parse, validate, emit
+profiles/     what one deployment can supply and what it needs — never its adoption
+scripts/      build_graph.py — parse, validate, emit; --profile screens a deployment
+              grade_combination.py — grade a set of techniques before building it
 ```
 
 Markdown for humans, YAML frontmatter for machines, one generator. That is what makes
