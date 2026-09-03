@@ -28,7 +28,14 @@ requires:
   - token: deterministic-environment
     note: falsification-on-a-single-counterexample depends on it; a stochastic outcome refutes nothing
   - token: interaction-budget
-    note: identification is paid in environment actions taken before the policy is optimal
+    demand: 5.26
+    unit: actions-per-human-baseline-action
+    measured_on: pitfall-screen-1
+    source: https://carlosdiuk.github.io/papers/OORL.pdf
+    note: >-
+      identification is paid in environment actions taken before the policy is optimal: 494
+      actions to learn Pitfall screen 1, against the 94 the optimal policy then takes. This is
+      the only case in the paper reporting both terms, so it is the only ratio enterable here
 cost: medium
 evidence:
   - claim: "529 steps before an optimal policy on Taxi 5x5, against 1676 for factored Rmax"

@@ -50,14 +50,17 @@ def grade(nodes, tokens, profile, members):
     levels = {s["token"]: s for s in profile.get("supplies", [])}
     inter = interactions(nodes, members)
     r = {"members": members, "coverage": [], "removable": [], "synergy": [],
-         "conflicts": [], "untyped": [], "blocked": [], "charged": []}
+         "conflicts": [], "untyped": [], "blocked": [], "charged": [], "over_budget": []}
 
     scr = screen(nodes, tokens, profile)
-    bucket = {nid: b for b in scr for nid, *_ in scr[b]}
-    for nid, blocked, charged, _ in [row for b in scr for row in scr[b]]:
-        if nid in members and blocked:
+    for nid, blocked, charged, _, over in [row for b in scr for row in scr[b]]:
+        if nid not in members:
+            continue
+        if blocked:
             r["blocked"].append((nid, blocked))
-        elif nid in members and charged:
+        elif over:
+            r["over_budget"].append((nid, over))
+        elif charged:
             r["charged"].append((nid, charged))
 
     # a `supplies` edge inside the set fills a member's precondition from another
@@ -136,6 +139,14 @@ def report(r, nodes):
         L.append("INADMISSIBLE — a member needs something this deployment cannot supply")
         for nid, blocked in r["blocked"]:
             L.append(f"  {nid.split('.', 1)[1]}: {', '.join(t for t, _ in blocked)}")
+        L.append("")
+    if r["over_budget"]:
+        L.append("OVER BUDGET — a member's published cost exceeds a stated budget")
+        for nid, over in r["over_budget"]:
+            for tok, demand, limit, frame, on_frame, as_of, checked in over:
+                L.append(f"  {nid.split('.', 1)[1]}: {tok} needs {demand}, budget {limit} "
+                         f"(as of {as_of}); cost measured on "
+                         f"{'this deployment' if on_frame else frame + ', not this deployment'}")
         L.append("")
     if r["charged"]:
         L.append("CHARGED — admissible, at a price the deployment can see")

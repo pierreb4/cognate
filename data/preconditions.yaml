@@ -132,6 +132,7 @@ tokens:
 
   - token: interaction-budget
     kind: resource
+    unit: actions-per-human-baseline-action
     note: enough environment steps for the mechanism to shape behaviour
 
   - token: matched-architecture

@@ -37,6 +37,32 @@ def preconditions():
     return {t["token"]: t for t in doc["tokens"]}
 
 
+def quantity_errors(where, entry, token, field, required):
+    """A number is only comparable with its unit, its vintage and its frame attached.
+
+    `limit` on a profile and `demand` on a technique are the two sides of one
+    comparison, so both are held to the same bar the evidence schema sets for a
+    score: no unit, no compare; no source, no entry.
+    """
+    if entry.get(field) is None:
+        return []
+    errs = []
+    if not token.get("unit"):
+        return [f"{where}: {token['token']!r} has no unit, so it cannot carry a "
+                f"{field!r} — give it a unit in data/preconditions.yaml or drop the number"]
+    if entry.get("unit") != token["unit"]:
+        errs.append(f"{where}: {field} on {token['token']!r} is in {entry.get('unit')!r} "
+                    f"but the token's unit is {token['unit']!r}; two numbers on different "
+                    f"axes must not be compared")
+    if not isinstance(entry[field], (int, float)) or entry[field] <= 0:
+        errs.append(f"{where}: {field} must be a positive number, got {entry[field]!r}")
+    for f in required:
+        if not entry.get(f):
+            errs.append(f"{where}: {field} on {token['token']!r} needs {f!r} — a quantity "
+                        f"without it cannot be read back")
+    return errs
+
+
 def load():
     nodes, errors = {}, []
     for d in ("patterns", "techniques", "bundles", "profiles"):
@@ -91,6 +117,9 @@ def validate(nodes, errors, tokens):
                 elif r["token"] not in tokens:
                     errors.append(f"{where}: unknown precondition token {r['token']!r} "
                                   f"(add it to data/preconditions.yaml or reuse one)")
+                else:
+                    errors += quantity_errors(where, r, tokens[r["token"]], "demand",
+                                              ("measured_on", "source"))
 
             for x in n.get("interacts", []):
                 other, rel, on = x.get("technique"), x.get("rel"), x.get("scope")
@@ -161,6 +190,14 @@ def validate(nodes, errors, tokens):
                 if tokens.get(tok, {}).get("kind") == "assumption":
                     errors.append(f"{where}: {tok!r} is an assumption — it can be checked, "
                                   f"not supplied; drop it from `supplies:`")
+                if tok in tokens:
+                    errors += quantity_errors(where, s, tokens[tok], "limit",
+                                              ("as_of", "checked", "source"))
+                for h in s.get("history", []):
+                    for f in ("as_of", "source", "note"):
+                        if not h.get(f):
+                            errors.append(f"{where}: {tok}: a superseded quantity needs "
+                                          f"{f!r} — that is the whole point of keeping it")
             for tok, spec in tokens.items():
                 if spec["kind"] != "assumption" and tok not in seen:
                     WARNINGS.append(f"{where}: no position on {tok!r} — the screen will "
@@ -242,38 +279,60 @@ def screen(nodes, tokens, profile):
     assumption can be. The screen is about admissibility, never about quality.
     """
     levels = {s["token"]: s for s in profile.get("supplies", [])}
-    out = {"clear": [], "charged": [], "blocked": []}
+    own = set(profile.get("own_splits", []))
+    out = {"clear": [], "charged": [], "over_budget": [], "blocked": []}
     for nid, n in sorted(nodes.items()):
         if n.get("kind") != "technique":
             continue
-        blocked, charged, checks = [], [], []
+        blocked, charged, checks, over = [], [], [], []
         for r in n.get("requires", []):
             tok = r["token"]
             if tokens[tok]["kind"] == "assumption":
                 checks.append(tok)
                 continue
             s = levels.get(tok, {"level": "none", "binding": "project"})
+            # Quantity beats level: a precondition the deployment supplies, in an amount
+            # smaller than the mechanism is published to need, is not "partial" — it is
+            # a refutation with arithmetic behind it.
+            if s.get("limit") and r.get("demand") and s.get("unit") == r.get("unit"):
+                if r["demand"] > s["limit"]:
+                    over.append((tok, r["demand"], s["limit"], r.get("measured_on"),
+                                 r["measured_on"] in own if r.get("measured_on") else False,
+                                 s.get("as_of"), s.get("checked")))
+                    continue
             if s["level"] == "none":
                 blocked.append((tok, s.get("binding")))
             elif s["level"] == "partial":
                 charged.append(tok)
-        row = (nid, blocked, charged, checks)
-        out["blocked" if blocked else "charged" if charged else "clear"].append(row)
+        row = (nid, blocked, charged, checks, over)
+        out["blocked" if blocked else "over_budget" if over
+            else "charged" if charged else "clear"].append(row)
     return out
 
 
 def screen_report(nodes, tokens, addressed, profile):
     res = screen(nodes, tokens, profile)
     lines = [f"PROFILE  {profile['id']}  —  {profile.get('name')}", ""]
-    for bucket, label in (("clear", "CLEAR    every precondition supplied in full"),
-                          ("charged", "CHARGED  admissible, but something is supplied only in part"),
-                          ("blocked", "BLOCKED  a precondition is not available at all")):
+    for bucket, label in (
+            ("clear", "CLEAR       every precondition supplied in full"),
+            ("charged", "CHARGED     admissible, but something is supplied only in part"),
+            ("over_budget", "OVER BUDGET the deployment supplies this, in less than the "
+                            "published cost"),
+            ("blocked", "BLOCKED     a precondition is not available at all")):
         lines.append(f"{label}  ({len(res[bucket])})")
-        for nid, blocked, charged, checks in res[bucket]:
+        for nid, blocked, charged, checks, over in res[bucket]:
             name = nid.split(".", 1)[1]
             if blocked:
                 by = ", ".join(f"{t} [{b}]" for t, b in blocked)
                 lines.append(f"  {name:<34} needs {by}")
+            elif over:
+                for tok, demand, limit, frame, on_frame, as_of, checked in over:
+                    lines.append(f"  {name:<34} {tok}: needs {demand}, budget {limit} "
+                                 f"({demand / limit:.2f}x over)")
+                    lines.append(f"  {'':<34}   budget as of {as_of}, checked {checked}")
+                    lines.append(f"  {'':<34}   cost measured on {frame}" +
+                                 ("" if on_frame else " — NOT this deployment, so the "
+                                                      "arithmetic is indicative, not a verdict"))
             elif charged:
                 lines.append(f"  {name:<34} partial: {', '.join(charged)}")
             else:
@@ -281,6 +340,14 @@ def screen_report(nodes, tokens, addressed, profile):
             if checks:
                 lines.append(f"  {'':<34} assumes {', '.join(checks)} — check, cannot supply")
         lines.append("")
+
+    quantified = sum(1 for b in res for _, _, _, _, over in res[b] if over)
+    have_demand = sum(1 for nid, n in nodes.items() if n.get("kind") == "technique"
+                      and any(r.get("demand") for r in n.get("requires", [])))
+    total = sum(1 for n in nodes.values() if n.get("kind") == "technique")
+    lines.append(f"QUANTIFIED  {have_demand} of {total} techniques publish a cost in a unit "
+                 f"this profile can screen against; {quantified} exceed a stated budget.")
+    lines.append("")
 
     admissible = {nid for b in ("clear", "charged") for nid, *_ in res[b]}
     lines.append("COVERAGE of this profile's stated requirements, admissible techniques only")
@@ -292,9 +359,30 @@ def screen_report(nodes, tokens, addressed, profile):
         lost = [t for t, _ in addressed.get(cap, []) if t not in admissible]
         tail = f"  (blocked here: {len(lost)})" if lost else ""
         lines.append(f"  {mark:<11} {c['criticality']:<9} {cap}{tail}")
+    # A technique refuted only by arithmetic, only just, and on someone else's frame is
+    # not the same as one that cannot run here at all. It does not count as coverage, and
+    # it is not silently dropped either: it is named, with the margin that decides it.
+    over = {nid: over for nid, _, _, _, over in res["over_budget"]}
+    contingent = []
+    for c in profile.get("requires_capabilities", []):
+        cap = c["capability"]
+        have = max((STRENGTH.get(s, 0) for t, s in addressed.get(cap, [])
+                    if t in admissible), default=0)
+        for t, s in addressed.get(cap, []):
+            if t in over and STRENGTH.get(s, 0) > have:
+                tok, demand, limit, frame, on_frame, *_ = over[t][0]
+                now = {3: "direct", 2: "partial", 1: "incidental", 0: "nothing"}[have]
+                contingent.append(f"  {cap}: {now} -> {s} if {t.split('.', 1)[1]} qualifies, "
+                                  f"held out by {demand} vs {limit} on {tok}, measured on "
+                                  f"{'this deployment' if on_frame else frame}")
+    if contingent:
+        lines += ["", "CONTINGENT ON A BUDGET QUESTION — coverage that turns on a number, "
+                      "not on a capability:"] + contingent
+
     unmet = [c["capability"] for c in profile.get("requires_capabilities", [])
              if c["criticality"] == "required"
-             and not any(t in admissible for t, _ in addressed.get(c["capability"], []))]
+             and not any(t in admissible for t, _ in addressed.get(c["capability"], []))
+             and not any(t in over for t, _ in addressed.get(c["capability"], []))]
     lines += ["", f"{len(unmet)} required capability(ies) with no admissible technique at all:"]
     lines += [f"  {u}" for u in unmet] or ["  none"]
     return lines

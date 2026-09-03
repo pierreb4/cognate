@@ -81,14 +81,29 @@ supplies:
   - token: interaction-budget
     level: partial
     binding: competition
+    limit: 5
+    unit: actions-per-human-baseline-action
+    as_of: '2026-04-17'
+    checked: '2026-09-03'
+    source: https://arxiv.org/abs/2603.24621
     note: >-
-      the technical report scores a level S = min(1.0, h/a)^2 on human action baseline h and
-      agent actions a, aggregates as E = sum_l l*S_l / (n(n+1)/2) over at least six levels, and
-      states a HARD CUTOFF at five times the human baseline: "If a human takes 10 actions to
-      beat a certain level on average, then we will cut the AI agent off after 50 actions."
-      So exploration is not merely charged, it is walled: a mechanism needing more than 5h
-      actions on a level does not merely score badly there, it is stopped, and every later
-      and more heavily weighted level goes unattempted
+      v2 section 4.3 imposes "an action budget of five times the human-baseline median
+      action count per level", justified there by the cost of evaluating frontier models
+      rather than as a property of the task. Scoring in v2 is S = min(1.15, h/a)^2 per level,
+      aggregated as the MINIMUM of the weighted completion fraction and the weighted average
+      of level scores, with w_l = l over at least six levels. So exploration is charged twice:
+      quadratically in the score, and against a budget that ends the level when it runs out.
+    history:
+      - as_of: '2026-03-24'
+        limit: 5
+        unit: actions-per-human-baseline-action
+        source: https://arxiv.org/html/2603.24621v1
+        note: >-
+          v1 stated the same 5x figure as a hard cutoff in the scoring section ("we set a hard
+          cutoff of 5x human performance per level"), capped a level at 1.0 rather than 1.15,
+          and aggregated as sum_l l*S_l / (n(n+1)/2) with no completion-fraction term. The
+          budget survived the revision; the cap and the aggregation did not. A screen run
+          against v1 was run against a different rule, which is why this row is kept.
   - token: per-candidate-executor
     level: partial
     binding: competition
@@ -144,6 +159,10 @@ supplies:
     binding: project
     note: the evaluation games are unseen, so no per-task identifier could be fitted anyway
 
+own_splits:
+  # a cost measured somewhere else is indicative here, never a verdict; the screen says so
+  - arc-agi-3/public-preview
+  - arc-agi-3/hidden-eval
 requires_capabilities:
   - capability: goal-setting.goal-inference
     criticality: required

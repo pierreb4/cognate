@@ -105,6 +105,55 @@ Two techniques that address the same capability at `direct` or `partial` strengt
 declared interaction appear in the builder's **untyped co-coverage** report. That is a
 to-do list: until the pair is typed, no combination containing both can be graded.
 
+### Quantities: `limit` and `demand`
+
+A precondition is usually yes/no. Some are a *budget*, and there the interesting question is
+not whether the deployment has any but whether it has enough. A token in
+`data/preconditions.yaml` may declare a `unit:`; only such a token can carry a number.
+
+```yaml
+# on a technique, in `requires:` — what the mechanism is published to cost
+  - token: interaction-budget
+    demand: 5.26
+    unit: actions-per-human-baseline-action
+    measured_on: pitfall-screen-1        # the split it was measured on
+    source: https://...
+
+# on a profile, in `supplies:` — what the deployment allows
+  - token: interaction-budget
+    limit: 5
+    unit: actions-per-human-baseline-action
+    as_of: '2026-04-17'                  # the version of the rule this is
+    checked: '2026-09-03'                # when someone last read the source
+    source: https://...
+    history:                             # superseded values, never deleted
+      - as_of: '2026-03-24'
+        limit: 5
+        source: https://...
+        note: what changed, and what did not
+```
+
+The screen compares the two only when the units match, and reports `OVER BUDGET` — a
+bucket of its own, distinct from `BLOCKED`, because a mechanism refuted by arithmetic is a
+different object from one that cannot run at all.
+
+**Three disciplines, and they are the point of the feature.**
+
+*Vintage.* `as_of` is which version of the rule this is; `checked` is when a human last
+read the source. A benchmark's scoring rules change, and a screen run against last
+quarter's budget is not wrong so much as undated. Superseded values go in `history` with a
+note saying what changed — deleting them would erase the reason an older verdict differed.
+
+*Frame.* `measured_on` names the split the cost was measured on. A profile may list
+`own_splits:`; a demand measured anywhere else is printed as **indicative, not a verdict**.
+Comparing a cost measured on one domain against a budget set for another is the same error
+the evidence schema already forbids for scores, and the screen says so on every line rather
+than quietly doing the arithmetic.
+
+*Contingency.* Where an over-budget technique would have covered a capability better than
+anything admissible, the screen prints that under `CONTINGENT ON A BUDGET QUESTION` with the
+margin. Coverage that turns on a number should be visible as such, not rounded to zero.
+
 ### Rules the validator enforces
 
 1. Every `evidence` entry has `split`, `regime`, `source`, `stars`.
@@ -123,6 +172,10 @@ to-do list: until the pair is typed, no combination containing both can be grade
 10. `subsumes` requires the source's `strength` on `scope` to be strictly greater than
     the target's. `supplies` requires `scope` to be a token the target actually
     `requires`. `composes` requires `evidence:`.
+11. A `limit` or `demand` may only sit on a token that declares a `unit`, must state that
+    same unit, and must be a positive number. A `limit` needs `as_of`, `checked` and
+    `source`; a `demand` needs `measured_on` and `source`; a `history` entry needs
+    `as_of`, `source` and `note`.
 
 ## `kind: bundle`
 
