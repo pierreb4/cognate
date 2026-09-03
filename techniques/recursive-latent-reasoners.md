@@ -13,6 +13,7 @@ requires:
     note: the recurrent model itself, trained before deployment
   - token: task-identifier-embedding
     note: a puzzle identifier embedding (see caveats — this turns out to be load-bearing)
+leverage: computation
 cost: low
 evidence:
   - claim: "HRM: 40.3% on ARC-AGI-1"
@@ -20,6 +21,7 @@ evidence:
     split: arc-agi-1/semi-private
     regime: uncapped
     source: https://arxiv.org/abs/2506.21734
+    date: 2025-06
     stars: 1
   - claim: "HRM: 32% ARC-AGI-1, 2% ARC-AGI-2 under ARC Prize verification"
     kind: measured
@@ -27,11 +29,13 @@ evidence:
     regime: uncapped
     source: https://arcprize.org/blog/hrm-analysis
     stars: 4
+    date: 2025-08-15
   - claim: "TRM: 45% ARC-AGI-1, 8% ARC-AGI-2 claimed; 40% and 6.2% measured"
     kind: measured
     split: arc-agi-1/semi-private + arc-agi-2/semi-private
     regime: uncapped
     source: https://arxiv.org/abs/2510.04871
+    date: 2025-10
     stars: 3
 no_absolute_score: false
 caveats:

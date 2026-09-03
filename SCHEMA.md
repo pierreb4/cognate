@@ -45,6 +45,7 @@ requires:                       # preconditions, as tokens from data/preconditio
     note: gradient access to the weights (rules out closed API-only models)
   - token: per-task-compute
     note: per-task inference compute
+leverage: knowledge | computation | both   # REQUIRED — see below
 cost: low | medium | high | extreme
 evidence:
   - claim: "53.0% on ARC-AGI-1 public eval"
@@ -53,7 +54,9 @@ evidence:
     regime: uncapped                # REQUIRED — cost cap, compute budget, or 'uncapped'
     source: https://arxiv.org/abs/2411.07279
     stars: 3
-    date: 2024-11-11            # when the claim was made or measured (ISO); enables trend views
+    date: 2024-11-11            # YYYY, YYYY-MM or YYYY-MM-DD — partial is honest where that
+                                # is all the source supports (an arXiv id fixes the month of
+                                # v1 and no more); a trend view can still order by it
 no_absolute_score: false        # true if the work publishes only relative claims
 caveats:
   - one line, with a source
@@ -104,6 +107,45 @@ are declared on the source and derive as `subsumed_by` / `supplied_by`.
 Two techniques that address the same capability at `direct` or `partial` strength with no
 declared interaction appear in the builder's **untyped co-coverage** report. That is a
 to-do list: until the pair is typed, no combination containing both can be graded.
+
+### `leverage:` — which side of the bitter lesson a technique sits on
+
+- `knowledge` — performance is bounded by human-authored content; more compute alone does
+  little
+- `computation` — performance improves with compute or data without new authored content
+- `both` — needs authored content *and* scales with compute
+
+It is **declared, never derived**. An earlier attempt to infer it from `requires` tokens got
+`evolutionary-program-synthesis` wrong, because that node's tokens and its evidence
+disagreed — the same disagreement `requires_beyond` now records. A technique whose side you
+cannot state is one you do not understand well enough to grade, so the validator requires it.
+
+`--trend [split]` orders dated evidence by this axis, and `--profile` cross-tabulates it
+against admissibility. That is what turns a much-cited essay into a query over the corpus.
+
+### `kind: hypothesis`
+
+A dated, sourced, falsifiable claim **about the register's own contents** — held as a node so
+it can be checked and moved rather than assumed. `predicts:` is required: each entry pairs a
+`claim` with the `check` that would test it against the corpus. A hypothesis with nothing to
+predict cannot earn its place, and `status: argued` may not exceed two stars, exactly as an
+argued technique claim may not.
+
+### `arrival:` on a capability
+
+```yaml
+arrival: engineered | emergent-claimed | emergent-demonstrated | contested
+emerges_from: [technique.x]    # REQUIRED unless `engineered` — the named carrier
+arrival_source: https://...    # REQUIRED unless `engineered`
+arrival_date: '2026-01'
+```
+
+`EMPTY` in the gap report used to be ambiguous between *nobody has built a mechanism for
+this* and *this arrives as a byproduct of scaling something else*. Those call for opposite
+actions, so the field forces the choice, and the gap report prints it.
+
+Anything but `engineered` must name a carrier. "It might emerge" with no technique attached
+is a claim that can never lose, and would become the field that launders every empty cell.
 
 ### `requires_beyond:` — the result cost more than the mechanism
 
@@ -194,7 +236,13 @@ margin. Coverage that turns on a number should be visible as such, not rounded t
 10. `subsumes` requires the source's `strength` on `scope` to be strictly greater than
     the target's. `supplies` requires `scope` to be a token the target actually
     `requires`. `composes` requires `evidence:`.
-11. A `limit` or `demand` may only sit on a token that declares a `unit`, must state that
+11. Every technique declares `leverage`. A capability's `arrival`, if not `engineered`,
+    names `emerges_from`, `arrival_source` and `arrival_date`. A hypothesis carries
+    `claim`, `source`, `date`, `status`, `stars` and a non-empty `predicts`.
+12. `date` is `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. A missing date on a scored entry warns; a
+    `not-applicable` split is exempt. A `source` that is a bare domain warns — it does not
+    cite the result.
+13. A `limit` or `demand` may only sit on a token that declares a `unit`, must state that
     same unit, and must be a positive number. A `limit` needs `as_of`, `checked` and
     `source`; a `demand` needs `measured_on` and `source`; a `history` entry needs
     `as_of`, `source` and `note`.

@@ -16,6 +16,7 @@ requires:
     note: an executor that can run candidate programs against the demonstration pairs
   - token: per-task-compute
     note: a per-task sample budget in the thousands
+leverage: computation
 cost: high
 evidence:
   - claim: "50% on ARC-AGI-1 public eval with GPT-4o, ~8k Python programs sampled per task"
@@ -24,6 +25,7 @@ evidence:
     regime: uncapped-~8k-samples-per-task
     source: https://blog.redwoodresearch.org/p/getting-50-sota-on-arc-agi-with-gpt
     stars: 2
+    date: 2024-06-17
 no_absolute_score: false
 caveats:
   - "A widely-circulated 43% figure attributed to the semi-private set has no primary source pairing that number with that set; it is not entered here."

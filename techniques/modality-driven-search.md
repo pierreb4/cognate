@@ -16,6 +16,7 @@ requires:
     note: a judge that can compare candidates produced in different representations
   - token: parallel-inference-budget
     note: parallel inference budget
+leverage: computation
 cost: high
 evidence:
   - claim: "72.9% on ARC-AGI-2 semi-private using text, image and code as parallel search operators plus a judge"
@@ -23,6 +24,7 @@ evidence:
     split: arc-agi-2/semi-private
     regime: $38.99-per-task
     source: https://arxiv.org/abs/2606.31543
+    date: 2026-06
     stars: 2
 no_absolute_score: false
 caveats:

@@ -13,6 +13,7 @@ requires:
     note: a synthetic task generator large enough to train both
   - token: candidate-arbiter
     note: a rule for combining or selecting between the two
+leverage: computation
 cost: high
 evidence:
   - claim: "56.75% combined on ARC-AGI-1 validation; 38.0% induction alone, 43.0% transduction alone"
@@ -20,6 +21,7 @@ evidence:
     split: arc-agi-1/validation
     regime: uncapped
     source: https://arxiv.org/abs/2411.02272
+    date: 2024-11
     stars: 2
 no_absolute_score: false
 caveats:

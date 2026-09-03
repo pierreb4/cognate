@@ -21,6 +21,7 @@ requires:
     note: a search or synthesis procedure over compositions of those primitives
   - token: solution-in-span
     note: tasks whose solutions actually lie in the span of the chosen primitives
+leverage: knowledge
 cost: low
 evidence: []
 no_absolute_score: true

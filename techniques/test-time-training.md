@@ -16,6 +16,7 @@ requires:
     note: per-task inference compute
   - token: augmentation-scheme
     note: an augmentation scheme that preserves task semantics
+leverage: computation
 cost: high
 evidence:
   - claim: "53.0% on ARC-AGI-1 public eval (61.9% ensembled)"
@@ -23,6 +24,7 @@ evidence:
     split: arc-agi-1/public-eval
     regime: uncapped
     source: https://arxiv.org/abs/2411.07279
+    date: 2024-11
     stars: 2
   - claim: "53.5% — winning Kaggle 2024 entry"
     kind: measured
@@ -30,18 +32,21 @@ evidence:
     regime: kaggle-2024-compute-limit
     source: https://github.com/da-fr/arc-prize-2024
     stars: 3
+    date: 2024
   - claim: "16.53% (ARChitects, 2D masked-diffusion LM + self-refinement)"
     kind: measured
     split: arc-agi-2/kaggle-private-2025
     regime: kaggle-2025-cost-cap-~$0.20/task
     source: https://arcprize.org/blog/arc-prize-2025-results-analysis
     stars: 3
+    date: 2025-12-05
   - claim: "24.03% (NVARC — TTT plus heavy synthetic pretraining data)"
     kind: measured
     split: arc-agi-2/kaggle-private-2025
     regime: kaggle-2025-cost-cap-~$0.20/task
     source: https://arcprize.org/blog/arc-prize-2025-results-analysis
     stars: 3
+    date: 2025-12-05
 no_absolute_score: false
 caveats:
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system trained on AGI-2 train and scored on AGI-1 eval is inflated (flagged in the TRM README)."

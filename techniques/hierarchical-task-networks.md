@@ -16,6 +16,7 @@ requires:
     note: operators with explicit preconditions and effects
   - token: state-representation
     note: a state representation those preconditions can be evaluated against
+leverage: knowledge
 cost: low
 evidence: []
 no_absolute_score: true

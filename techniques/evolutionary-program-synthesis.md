@@ -16,6 +16,7 @@ requires:
     note: a mutation or recombination operator over the program representation
   - token: per-task-compute
     note: a per-task budget large enough for many generations
+leverage: both
 cost: extreme
 evidence:
   - claim: "29.4% on ARC-AGI-2 semi-private, evolving natural-language program descriptions"
@@ -31,12 +32,14 @@ evidence:
     regime: $476-per-task
     source: https://github.com/epang080516/arc_agi
     stars: 2
+    date: 2025
     requires_beyond: [llm-inference]
   - claim: "SOAR: 52% of the ARC-AGI-1 public set, evolutionary search plus hindsight fine-tuning on the system's own search traces"
     kind: claimed
     split: arc-agi-1/public-eval
     regime: uncapped
     source: https://arxiv.org/abs/2507.14172
+    date: 2025-07
     stars: 2
     requires_beyond: [llm-inference, weight-gradients]
 no_absolute_score: false

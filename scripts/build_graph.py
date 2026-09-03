@@ -10,6 +10,7 @@ pattern language cannot disagree.
     build_graph.py --to <id>       reverse:  technique   -> capabilities it bears on
     build_graph.py --profile <id>  screen every technique against a deployment
     build_graph.py --pairs         list the untyped co-coverage pairs in full
+    build_graph.py --trend [split] dated evidence by leverage side, to test a hypothesis
 """
 import json
 import re
@@ -22,6 +23,10 @@ ROOT = Path(__file__).resolve().parent.parent
 FACULTY_ROOTS = {"exploration", "modeling", "goal-setting",
                  "planning-execution", "priors", "prior"}
 FM = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+# A date may be a year, a year-month, or a full day. Partial is honest where that is
+# all the source supports -- an arXiv identifier fixes the month of v1 and no more --
+# and a trend view can still order by it.
+ISO_DATE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
 
 STRENGTH = {"direct": 3, "partial": 2, "incidental": 1}
 # Symmetric relations are declared once, on the alphabetically-first technique id;
@@ -65,7 +70,7 @@ def quantity_errors(where, entry, token, field, required):
 
 def load():
     nodes, errors = {}, []
-    for d in ("patterns", "techniques", "bundles", "profiles"):
+    for d in ("patterns", "techniques", "bundles", "profiles", "hypotheses"):
         for path in sorted((ROOT / d).rglob("*.md")):
             m = FM.match(path.read_text())
             if not m:
@@ -153,6 +158,10 @@ def validate(nodes, errors, tokens):
                     errors.append(f"{where}: 'composes' claims the combination adds coverage — "
                                   f"cite a source measuring it, or use 'overlaps'")
 
+            if n.get("leverage") not in ("knowledge", "computation", "both"):
+                errors.append(f"{where}: leverage must be 'knowledge' (bounded by authored "
+                              f"content), 'computation' (improves with compute alone) or "
+                              f"'both'; got {n.get('leverage')!r}")
             no_abs = n.get("no_absolute_score", False)
             kinds = set()
             for ev in n.get("evidence", []):
@@ -171,7 +180,14 @@ def validate(nodes, errors, tokens):
                     elif tb in [r.get("token") for r in n.get("requires", [])]:
                         errors.append(f"{where}: requires_beyond {tb!r} is already in this "
                                       f"technique's requires — 'beyond' means beyond")
-                if not ev.get("date"):
+                src = str(ev.get("source", ""))
+                if re.match(r"^https?://[^/]+/?$", src):
+                    WARNINGS.append(f"{where}: source {src} is a bare domain, not a citation "
+                                    f"of the result: {ev.get('claim')!r}")
+                if ev.get("date") and not ISO_DATE.match(str(ev["date"])):
+                    errors.append(f"{where}: date {ev['date']!r} must be YYYY, YYYY-MM or "
+                                  f"YYYY-MM-DD")
+                if not ev.get("date") and ev.get("split") != "not-applicable":
                     WARNINGS.append(f"{where}: evidence has no date (needed for trend views): {ev.get('claim')!r}")
                 if no_abs and "%" in str(ev.get("claim", "")):
                     errors.append(f"{where}: no_absolute_score set but claim carries a %")
@@ -179,6 +195,38 @@ def validate(nodes, errors, tokens):
             caveats = " ".join(n.get("caveats", [])).lower()
             if ("claim" in caveats or "unsupported" in caveats) and "claimed" not in kinds:
                 errors.append(f"{where}: caveats dispute a claim, but no evidence entry of kind 'claimed'")
+
+        if n.get("kind") == "hypothesis":
+            for f in ("claim", "source", "date", "status", "stars"):
+                if not n.get(f):
+                    errors.append(f"{where}: hypothesis needs {f!r}")
+            if n.get("status") not in ("argued", "supported", "contested", "refuted"):
+                errors.append(f"{where}: status must be argued/supported/contested/refuted")
+            if n.get("stars", 0) > 2 and n.get("status") == "argued":
+                errors.append(f"{where}: an argued hypothesis may not exceed 2 stars")
+            if not n.get("predicts"):
+                errors.append(f"{where}: a hypothesis with no `predicts` cannot be checked "
+                              f"against the corpus, which is the only reason to hold one")
+            for ref in n.get("bears_on", []):
+                if ref != "all" and not resolves(ref):
+                    errors.append(f"{where}: bears_on unknown {ref!r}")
+
+        if n.get("kind") == "capability":
+            arrival = n.get("arrival", "engineered")
+            if arrival not in ("engineered", "emergent-claimed", "emergent-demonstrated",
+                               "contested"):
+                errors.append(f"{where}: arrival must be engineered / emergent-claimed / "
+                              f"emergent-demonstrated / contested, got {arrival!r}")
+            if arrival != "engineered":
+                if not n.get("emerges_from"):
+                    errors.append(f"{where}: arrival {arrival!r} must name `emerges_from` — "
+                                  f"emergence with no carrier is not a falsifiable claim")
+                for f in ("arrival_source", "arrival_date"):
+                    if not n.get(f):
+                        errors.append(f"{where}: arrival {arrival!r} needs {f!r}")
+                for ref in n.get("emerges_from", []):
+                    if nodes.get(ref, {}).get("kind") != "technique":
+                        errors.append(f"{where}: emerges_from {ref!r} is not a technique")
 
         if n.get("kind") == "profile":
             seen = set()
@@ -269,10 +317,14 @@ def gap_report(nodes, addressed):
             continue
         hits = addressed.get(nid, [])
         direct = [t for t, s in hits if s == "direct"]
+        arrival = n.get("arrival", "engineered")
+        tail = "" if arrival == "engineered" else \
+            f"  [{arrival} from {', '.join(n.get('emerges_from', []))}]"
         if not hits:
-            lines.append(f"  EMPTY     {nid}  ({n.get('status')})  — no technique addresses this")
+            lines.append(f"  EMPTY     {nid}  ({n.get('status')})  — no technique addresses "
+                         f"this{tail or '; arrival is engineered, so this is a build, not a wait'}")
         elif not direct:
-            lines.append(f"  INDIRECT  {nid}  ({n.get('status')})  — {len(hits)} edge(s), none 'direct'")
+            lines.append(f"  INDIRECT  {nid}  ({n.get('status')})  — {len(hits)} edge(s), none 'direct'{tail}")
     return lines
 
 
@@ -359,6 +411,18 @@ def screen_report(nodes, tokens, addressed, profile):
                              f"{', '.join(toks)}")
         lines.append("")
 
+    cross = {}
+    for b in res:
+        for nid, *_ in res[b]:
+            lev = nodes[nid].get("leverage", "?")
+            cross.setdefault(lev, {}).setdefault(b, []).append(nid.split(".", 1)[1])
+    lines.append("LEVERAGE  which side of the bitter lesson this deployment can reach")
+    for lev in ("knowledge", "both", "computation"):
+        row = cross.get(lev, {})
+        counts = ", ".join(f"{len(v)} {k}" for k, v in sorted(row.items()))
+        lines.append(f"  {lev:<12}{counts}")
+    lines.append("")
+
     quantified = sum(1 for b in res for *_, over, _ in res[b] if over)
     have_demand = sum(1 for nid, n in nodes.items() if n.get("kind") == "technique"
                       and any(r.get("demand") for r in n.get("requires", [])))
@@ -404,6 +468,35 @@ def screen_report(nodes, tokens, addressed, profile):
     lines += ["", f"{len(unmet)} required capability(ies) with no admissible technique at all:"]
     lines += [f"  {u}" for u in unmet] or ["  none"]
     return lines
+
+
+def trend(nodes, want=None):
+    """Dated evidence ordered in time, tagged by which side of the bitter lesson it sits on.
+
+    The point is that this is a QUERY over the register's own rows, not a citation of
+    an essay. Undated rows are listed separately rather than dropped silently — a trend
+    computed over an unknown fraction of the evidence is not a trend.
+    """
+    rows, undated = [], []
+    for n in nodes.values():
+        if n.get("kind") != "technique":
+            continue
+        for ev in n.get("evidence", []):
+            split = ev.get("split")
+            if split == "not-applicable" or (want and want not in str(split)):
+                continue
+            r = (str(ev.get("date")), split, n.get("leverage"), n["name"], ev.get("claim", ""),
+                 ev.get("kind"), ev.get("stars"))
+            (rows if ev.get("date") else undated).append(r)
+    L = [f"TREND  {want or 'all splits'}", ""]
+    for date, split, lev, name, claim, kind, stars in sorted(rows):
+        L.append(f"  {date:<11}{str(lev):<12}{str(split):<30}{'*' * (stars or 0):<5}{kind}")
+        L.append(f"  {'':<11}{name} — {claim[:74]}")
+    if undated:
+        L += ["", f"  {len(undated)} undated row(s) EXCLUDED — a trend over an unknown "
+                  f"fraction of the evidence is not a trend:"]
+        L += [f"    {r[3]} — {r[4][:66]}" for r in undated]
+    return L
 
 
 def unclassified_pairs(nodes, addressed):
@@ -453,6 +546,9 @@ def main():
                                         "note": v["note"], "_path": "data/preconditions.yaml"}
                   for t, v in tokens.items()})
 
+    if len(sys.argv) > 1 and sys.argv[1] == "--trend":
+        print("\n".join(trend(nodes, sys.argv[2] if len(sys.argv) > 2 else None)))
+        return 0
     if len(sys.argv) > 2 and sys.argv[1] == "--profile":
         pid = sys.argv[2]
         pid = pid if pid in nodes else f"profile.{pid}"

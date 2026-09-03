@@ -13,6 +13,7 @@ requires:
     note: a fast, typically compiled, implementation
   - token: per-task-compute
     note: a compute budget that scales with the composition depth you want
+leverage: both
 cost: medium
 evidence:
   - claim: "20% on the ARC-AGI-1 2020 Kaggle private leaderboard"
@@ -21,6 +22,7 @@ evidence:
     regime: kaggle-2020-compute-limit
     source: https://github.com/top-quarks/ARC-solution
     stars: 3
+    date: 2020
 no_absolute_score: false
 caveats:
   - "The 20% is under the 2020 Kaggle compute limit on the 2020 private set; it is not on the same axis as any later leaderboard or uncapped result."

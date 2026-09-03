@@ -13,6 +13,7 @@ requires:
     note: test-time gradient search
   - token: per-task-compute
     note: the search budget that gradient search spends per task
+leverage: computation
 cost: medium
 evidence:
   - claim: "Test-time search doubles out-of-distribution performance relative to no search"
@@ -20,6 +21,7 @@ evidence:
     split: not-applicable
     regime: uncapped
     source: https://arxiv.org/abs/2411.08706
+    date: 2024-11
     stars: 1
 no_absolute_score: true
 caveats:

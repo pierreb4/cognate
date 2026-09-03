@@ -36,6 +36,7 @@ requires:
       identification is paid in environment actions taken before the policy is optimal: 494
       actions to learn Pitfall screen 1, against the 94 the optimal policy then takes. This is
       the only case in the paper reporting both terms, so it is the only ratio enterable here
+leverage: knowledge
 cost: medium
 evidence:
   - claim: "529 steps before an optimal policy on Taxi 5x5, against 1676 for factored Rmax"

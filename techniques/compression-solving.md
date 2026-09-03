@@ -16,6 +16,7 @@ requires:
     note: inference-time optimization per puzzle
   - token: matched-architecture
     note: an architecture whose inductive biases match the domain's symmetries
+leverage: computation
 cost: medium
 evidence:
   - claim: "20% of ARC-AGI-1 evaluation puzzles with a 76K-parameter model and no pretraining"
@@ -23,6 +24,7 @@ evidence:
     split: arc-agi-1/public-eval
     regime: uncapped-no-pretraining-single-puzzle-training
     source: https://arxiv.org/abs/2512.06104
+    date: 2025-12
     stars: 2
 no_absolute_score: false
 caveats:

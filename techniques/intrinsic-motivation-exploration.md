@@ -13,6 +13,7 @@ requires:
     note: a novelty estimator — a count, a density model, or a fixed random target network
   - token: interaction-budget
     note: enough interaction budget for the bonus to shape behaviour
+leverage: both
 cost: medium
 evidence:
   - claim: "Random network distillation reaches state-of-the-art on Montezuma's Revenge and better than average human performance without demonstrations or access to underlying game state"
@@ -20,6 +21,7 @@ evidence:
     split: atari/montezumas-revenge
     regime: not-applicable
     source: https://arxiv.org/abs/1810.12894
+    date: 2018-10
     stars: 2
     requires_beyond: [trained-model, weight-gradients]
 no_absolute_score: false

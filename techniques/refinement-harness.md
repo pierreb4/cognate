@@ -18,6 +18,7 @@ requires:
     note: an automatic verifier over candidate answers
   - token: orchestration-layer
     note: an orchestration layer holding the attempt history
+leverage: computation
 cost: medium
 evidence:
   - claim: "54% on ARC-AGI-2 semi-private, ARC Prize verified, orchestrating frontier models with no training"
@@ -26,6 +27,7 @@ evidence:
     regime: $30.57-per-task
     source: https://poetiq.ai/posts/arcagi_verified/
     stars: 3
+    date: 2025-12-05
 no_absolute_score: false
 caveats:
   - "The harness's score is inseparable from the underlying frontier models. It is a measurement of orchestration ON a given model generation, and it moves when that generation moves."

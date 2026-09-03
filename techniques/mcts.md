@@ -16,6 +16,7 @@ requires:
     note: a terminal or heuristic value signal
   - token: per-task-compute
     note: many simulations per decision
+leverage: computation
 cost: medium
 evidence: []
 no_absolute_score: true

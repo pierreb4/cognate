@@ -13,6 +13,7 @@ requires:
     note: a computable difference function between states
   - token: state-representation
     note: a state representation the difference function can read
+leverage: knowledge
 cost: low
 evidence:
   - claim: "Foundational method of the General Problem Solver; the operator/precondition/effect formulation is the basis of all subsequent classical planning"
