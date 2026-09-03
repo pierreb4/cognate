@@ -8,6 +8,8 @@ pattern language cannot disagree.
     build_graph.py                 validate + emit + print the gap report
     build_graph.py --from <id>     forward:  requirement -> techniques / bundles
     build_graph.py --to <id>       reverse:  technique   -> capabilities it bears on
+    build_graph.py --profile <id>  screen every technique against a deployment
+    build_graph.py --pairs         list the untyped co-coverage pairs in full
 """
 import json
 import re
@@ -37,7 +39,7 @@ def preconditions():
 
 def load():
     nodes, errors = {}, []
-    for d in ("patterns", "techniques", "bundles"):
+    for d in ("patterns", "techniques", "bundles", "profiles"):
         for path in sorted((ROOT / d).rglob("*.md")):
             m = FM.match(path.read_text())
             if not m:
@@ -143,6 +145,33 @@ def validate(nodes, errors, tokens):
             if ("claim" in caveats or "unsupported" in caveats) and "claimed" not in kinds:
                 errors.append(f"{where}: caveats dispute a claim, but no evidence entry of kind 'claimed'")
 
+        if n.get("kind") == "profile":
+            seen = set()
+            for s in n.get("supplies", []):
+                tok, level = s.get("token"), s.get("level")
+                if tok not in tokens:
+                    errors.append(f"{where}: unknown precondition token {tok!r}")
+                elif tok in seen:
+                    errors.append(f"{where}: token {tok!r} declared twice")
+                seen.add(tok)
+                if level not in ("full", "partial", "none"):
+                    errors.append(f"{where}: {tok}: level must be full/partial/none, got {level!r}")
+                if s.get("binding") not in ("competition", "project"):
+                    errors.append(f"{where}: {tok}: binding must be 'competition' or 'project'")
+                if tokens.get(tok, {}).get("kind") == "assumption":
+                    errors.append(f"{where}: {tok!r} is an assumption — it can be checked, "
+                                  f"not supplied; drop it from `supplies:`")
+            for tok, spec in tokens.items():
+                if spec["kind"] != "assumption" and tok not in seen:
+                    WARNINGS.append(f"{where}: no position on {tok!r} — the screen will "
+                                    f"treat it as unavailable")
+            for c in n.get("requires_capabilities", []):
+                if not resolves(c.get("capability", "")):
+                    errors.append(f"{where}: requires unknown capability {c.get('capability')!r}")
+                if c.get("criticality") not in ("required", "useful"):
+                    errors.append(f"{where}: {c.get('capability')}: criticality must be "
+                                  f"'required' or 'useful'")
+
         if n.get("kind") == "bundle":
             for ref in n.get("satisfies", []):
                 if not resolves(ref):
@@ -204,6 +233,73 @@ def gap_report(nodes, addressed):
     return lines
 
 
+def screen(nodes, tokens, profile):
+    """Which techniques this deployment could hold at all, and at what price.
+
+    A technique is BLOCKED by any precondition the profile supplies at `none`,
+    CHARGED where it is supplied only in part, and CLEAR otherwise. Assumption
+    tokens never block — they are reported for checking, which is all an
+    assumption can be. The screen is about admissibility, never about quality.
+    """
+    levels = {s["token"]: s for s in profile.get("supplies", [])}
+    out = {"clear": [], "charged": [], "blocked": []}
+    for nid, n in sorted(nodes.items()):
+        if n.get("kind") != "technique":
+            continue
+        blocked, charged, checks = [], [], []
+        for r in n.get("requires", []):
+            tok = r["token"]
+            if tokens[tok]["kind"] == "assumption":
+                checks.append(tok)
+                continue
+            s = levels.get(tok, {"level": "none", "binding": "project"})
+            if s["level"] == "none":
+                blocked.append((tok, s.get("binding")))
+            elif s["level"] == "partial":
+                charged.append(tok)
+        row = (nid, blocked, charged, checks)
+        out["blocked" if blocked else "charged" if charged else "clear"].append(row)
+    return out
+
+
+def screen_report(nodes, tokens, addressed, profile):
+    res = screen(nodes, tokens, profile)
+    lines = [f"PROFILE  {profile['id']}  —  {profile.get('name')}", ""]
+    for bucket, label in (("clear", "CLEAR    every precondition supplied in full"),
+                          ("charged", "CHARGED  admissible, but something is supplied only in part"),
+                          ("blocked", "BLOCKED  a precondition is not available at all")):
+        lines.append(f"{label}  ({len(res[bucket])})")
+        for nid, blocked, charged, checks in res[bucket]:
+            name = nid.split(".", 1)[1]
+            if blocked:
+                by = ", ".join(f"{t} [{b}]" for t, b in blocked)
+                lines.append(f"  {name:<34} needs {by}")
+            elif charged:
+                lines.append(f"  {name:<34} partial: {', '.join(charged)}")
+            else:
+                lines.append(f"  {name:<34}")
+            if checks:
+                lines.append(f"  {'':<34} assumes {', '.join(checks)} — check, cannot supply")
+        lines.append("")
+
+    admissible = {nid for b in ("clear", "charged") for nid, *_ in res[b]}
+    lines.append("COVERAGE of this profile's stated requirements, admissible techniques only")
+    for c in profile.get("requires_capabilities", []):
+        cap = c["capability"]
+        hits = [(t, s) for t, s in addressed.get(cap, []) if t in admissible]
+        best = max((STRENGTH.get(s, 0) for _, s in hits), default=0)
+        mark = {3: "direct", 2: "partial", 1: "incidental", 0: "NOTHING"}[best]
+        lost = [t for t, _ in addressed.get(cap, []) if t not in admissible]
+        tail = f"  (blocked here: {len(lost)})" if lost else ""
+        lines.append(f"  {mark:<11} {c['criticality']:<9} {cap}{tail}")
+    unmet = [c["capability"] for c in profile.get("requires_capabilities", [])
+             if c["criticality"] == "required"
+             and not any(t in admissible for t, _ in addressed.get(c["capability"], []))]
+    lines += ["", f"{len(unmet)} required capability(ies) with no admissible technique at all:"]
+    lines += [f"  {u}" for u in unmet] or ["  none"]
+    return lines
+
+
 def unclassified_pairs(nodes, addressed):
     """Technique pairs that co-cover a capability with no interaction declared.
 
@@ -251,6 +347,18 @@ def main():
                                         "note": v["note"], "_path": "data/preconditions.yaml"}
                   for t, v in tokens.items()})
 
+    if len(sys.argv) > 2 and sys.argv[1] == "--profile":
+        pid = sys.argv[2]
+        pid = pid if pid in nodes else f"profile.{pid}"
+        if nodes.get(pid, {}).get("kind") != "profile":
+            print(f"no such profile: {sys.argv[2]}", file=sys.stderr)
+            return 1
+        if errors:
+            print(f"{len(errors)} validation error(s) — fix before trusting a screen",
+                  file=sys.stderr)
+            return 1
+        print("\n".join(screen_report(nodes, tokens, addressed, nodes[pid])))
+        return 0
     if len(sys.argv) > 2 and sys.argv[1] == "--from":
         cap = sys.argv[2]
         print(f"FORWARD  {cap}")
