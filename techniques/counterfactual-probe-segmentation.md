@@ -41,7 +41,7 @@ caveats:
   - "The paper's downstream transfer arm is partly in-family: 3DEditBench and the LRAS-3D editor are the same authors on the same backbone. Three independently authored editors (LightningDrag, DiffusionHandles, DiffusionAsShader) do move the same way under a pure segment swap, on smaller margins; cite those three, not the benchmark."
 provenance:
   entered: 2026-09-03
-  commit: 976c551
+  commit: 6346d73
   frame: exploration-harness
   note: >-
     admitted by exploration-harness run wf_b93ef41d-166, the item-3 re-ask with the
