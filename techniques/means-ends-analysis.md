@@ -7,9 +7,12 @@ addresses:
     strength: direct
     note: recursively reduces the difference between current and goal state by selecting an operator that reduces it
 requires:
-  - operators expressed as (preconditions, effects)
-  - a computable difference function between states
-  - a state representation the difference function can read
+  - token: operator-preconditions
+    note: operators expressed as (preconditions, effects)
+  - token: state-difference-function
+    note: a computable difference function between states
+  - token: state-representation
+    note: a state representation the difference function can read
 cost: low
 evidence:
   - claim: "Foundational method of the General Problem Solver; the operator/precondition/effect formulation is the basis of all subsequent classical planning"
@@ -21,7 +24,6 @@ evidence:
 no_absolute_score: true
 caveats:
   - "Its classical failure is the difference function: MEA is only as good as the state abstraction it is handed, and on raw perceptual input the difference function is the actual open problem."
-related: [technique.hierarchical-task-networks]
 ---
 
 # Means-Ends Analysis (GPS / STRIPS)

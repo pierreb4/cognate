@@ -10,9 +10,12 @@ addresses:
     strength: partial
     note: a failing candidate is mutated in light of its own execution trace — revision, not just rejection; but the revision is proposed, not derived from the error
 requires:
-  - an executor giving per-candidate feedback on the demonstration pairs
-  - a mutation or recombination operator over the program representation
-  - a per-task budget large enough for many generations
+  - token: per-candidate-executor
+    note: an executor giving per-candidate feedback on the demonstration pairs
+  - token: mutation-operator
+    note: a mutation or recombination operator over the program representation
+  - token: per-task-compute
+    note: a per-task budget large enough for many generations
 cost: extreme
 evidence:
   - claim: "29.4% on ARC-AGI-2 semi-private, evolving natural-language program descriptions"
@@ -38,7 +41,19 @@ caveats:
   - "The two ARC-AGI-2 rows sit at $3,648 and $476 per task — a 7.7x cost difference for 3.4 points. Ranking them by percentage alone inverts the useful comparison."
   - "SOAR words its split as 'the public test set'; read it as the ARC-AGI-1 public evaluation set and not as a held-out leaderboard number."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system fine-tuned on AGI-2 train and scored on AGI-1 eval is inflated."
-related: [technique.llm-sampling-program-synthesis, technique.refinement-harness]
+interacts:
+  - technique: technique.llm-sampling-program-synthesis
+    rel: subsumes
+    scope: modeling.belief-update
+    note: >-
+      mutating a failing candidate in light of its trace contains rejection sampling as the
+      special case where the mutation ignores the trace
+  - technique: technique.refinement-harness
+    rel: overlaps
+    scope: modeling.belief-update
+    note: >-
+      both close the revision gap by feeding a failure back into the next attempt; one
+      mutates a population, the other re-prompts
 ---
 
 # Evolutionary Program Synthesis

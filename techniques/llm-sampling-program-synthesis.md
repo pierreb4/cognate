@@ -10,9 +10,12 @@ addresses:
     strength: incidental
     note: rejection against the demonstrations filters the pool; no sample is ever revised in light of why it failed
 requires:
-  - a frontier model with strong code generation
-  - an executor that can run candidate programs against the demonstration pairs
-  - a per-task sample budget in the thousands
+  - token: llm-inference
+    note: a frontier model with strong code generation
+  - token: per-candidate-executor
+    note: an executor that can run candidate programs against the demonstration pairs
+  - token: per-task-compute
+    note: a per-task sample budget in the thousands
 cost: high
 evidence:
   - claim: "50% on ARC-AGI-1 public eval with GPT-4o, ~8k Python programs sampled per task"
@@ -25,7 +28,6 @@ no_absolute_score: false
 caveats:
   - "A widely-circulated 43% figure attributed to the semi-private set has no primary source pairing that number with that set; it is not entered here."
   - "The result is a sample-budget result. Read it against the regime field, not against cost-capped leaderboard entries."
-related: [technique.evolutionary-program-synthesis, technique.refinement-harness]
 ---
 
 # Program Synthesis by LLM Sampling

@@ -7,9 +7,12 @@ addresses:
     strength: partial
     note: shows the representation choice is not a detail — induced programs and directly predicted outputs succeed on different tasks
 requires:
-  - two models trained on the same task distribution with different output types
-  - a synthetic task generator large enough to train both
-  - a rule for combining or selecting between the two
+  - token: trained-model
+    note: two models trained on the same task distribution with different output types
+  - token: training-distribution
+    note: a synthetic task generator large enough to train both
+  - token: candidate-arbiter
+    note: a rule for combining or selecting between the two
 cost: high
 evidence:
   - claim: "56.75% combined on ARC-AGI-1 validation; 38.0% induction alone, 43.0% transduction alone"
@@ -21,7 +24,19 @@ evidence:
 no_absolute_score: false
 caveats:
   - "The headline is not the combined number. It is that the two approaches solve substantially DISJOINT task sets — the ensemble gain comes from non-overlap, not from either method being better."
-related: [technique.llm-sampling-program-synthesis, technique.test-time-training]
+interacts:
+  - technique: technique.llm-sampling-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the induction arm is program synthesis with a trained generator in place of a prompted
+      one
+  - technique: technique.modality-driven-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both run one task through two representations and arbitrate; the gain is claimed from
+      non-overlap of the solved sets in each case
 ---
 
 # Induction / Transduction Ensembling

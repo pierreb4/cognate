@@ -10,9 +10,12 @@ addresses:
     strength: direct
     note: the hypothesis is whatever shortest description reproduces the demonstrations; the objective itself is the commitment
 requires:
-  - a differentiable description-length objective over the task
-  - inference-time optimization per puzzle
-  - an architecture whose inductive biases match the domain's symmetries
+  - token: differentiable-objective
+    note: a differentiable description-length objective over the task
+  - token: per-task-compute
+    note: inference-time optimization per puzzle
+  - token: matched-architecture
+    note: an architecture whose inductive biases match the domain's symmetries
 cost: medium
 evidence:
   - claim: "20% of ARC-AGI-1 evaluation puzzles with a 76K-parameter model and no pretraining"
@@ -24,7 +27,19 @@ evidence:
 no_absolute_score: false
 caveats:
   - "The comparison that matters is not 20% against leaderboard entries but 20% against ZERO pretraining and 76K parameters. Ranked on the percentage axis alone this node reads as weak, which is the wrong reading."
-related: [technique.test-time-training, technique.latent-program-search]
+interacts:
+  - technique: technique.latent-program-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both reach a hypothesis by optimizing a continuous objective at test time rather than
+      by enumerating discrete candidates
+  - technique: technique.test-time-training
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      both spend per-task gradient steps on the instance; they differ in what is fitted, not
+      in when
 ---
 
 # MDL / Compression-Based Solving

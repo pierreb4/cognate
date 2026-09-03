@@ -7,8 +7,12 @@ addresses:
     strength: partial
     note: the outer refinement loop, not the recursion, appears to carry the result
 requires:
-  - training on the target task distribution
-  - a puzzle identifier embedding (see caveats — this turns out to be load-bearing)
+  - token: training-distribution
+    note: training on the target task distribution
+  - token: trained-model
+    note: the recurrent model itself, trained before deployment
+  - token: task-identifier-embedding
+    note: a puzzle identifier embedding (see caveats — this turns out to be load-bearing)
 cost: low
 evidence:
   - claim: "HRM: 40.3% on ARC-AGI-1"
@@ -34,7 +38,13 @@ caveats:
   - "ARC Prize ablation: a plain transformer lands within ~5pp of HRM; the outer refinement loop is worth +13pp; training on eval tasks recovers 31 of 41 points. The 'hierarchical reasoning' explanation is unsupported. (https://arcprize.org/blog/hrm-analysis)"
   - "Independent critique: blank or randomized puzzle-ID embeddings drop accuracy to zero, and the recursion saturates at step 1. (https://arxiv.org/abs/2512.11847)"
   - "The exact eval split behind TRM's 40% / 6.2% is not independently confirmed."
-related: [technique.test-time-training]
+interacts:
+  - technique: technique.test-time-training
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      both adapt to the instance without naming a hypothesis; recurrence depth versus fitted
+      weights
 ---
 
 # Recursive Latent Reasoners (HRM / TRM)

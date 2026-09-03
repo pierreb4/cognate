@@ -10,9 +10,12 @@ addresses:
     strength: incidental
     note: all the adaptation is inference-time routing between representations, with no per-task fitting
 requires:
-  - a model that accepts and emits more than one modality
-  - a judge that can compare candidates produced in different representations
-  - parallel inference budget
+  - token: multimodal-model
+    note: a model that accepts and emits more than one modality
+  - token: candidate-arbiter
+    note: a judge that can compare candidates produced in different representations
+  - token: parallel-inference-budget
+    note: parallel inference budget
 cost: high
 evidence:
   - claim: "72.9% on ARC-AGI-2 semi-private using text, image and code as parallel search operators plus a judge"
@@ -24,7 +27,6 @@ evidence:
 no_absolute_score: false
 caveats:
   - "UNVERIFIED SOURCE: the arXiv identifier above was reported to this register second-hand and has not been fetched and confirmed here. Treat the row as provisional until the identifier is checked against arxiv.org."
-related: [technique.refinement-harness, technique.induction-transduction-ensemble]
 ---
 
 # Modality-Driven Search

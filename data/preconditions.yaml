@@ -1,0 +1,139 @@
+# Precondition vocabulary — the closed token set a technique's `requires:` may cite.
+#
+# This file is hand-maintained; `scripts/build_graph.py` validates every
+# `requires.token` against it. Tokens exist so that a project profile can state
+# what it can supply and the register can screen techniques mechanically. A
+# precondition written only as prose cannot be screened, which is why the prose
+# now lives in the `note:` beside the token rather than in place of it.
+#
+# kind:
+#   artifact     something you must build, train, or already hold
+#   resource     compute or budget, spent per task or per run
+#   environment  a property of the deployment environment, not yours to choose
+#   human        ongoing human labour, not a one-off cost
+#   assumption   a claim about domain fit that cannot be supplied, only checked
+#                — a profile screen reports these as warnings, never hard fails
+tokens:
+  - token: dsl-primitives
+    kind: artifact
+    note: a closed set of primitive operations over the domain
+
+  - token: search-procedure
+    kind: artifact
+    note: a search or synthesis procedure over compositions of the primitives
+
+  - token: compiled-implementation
+    kind: artifact
+    note: a fast, typically compiled, inner loop
+
+  - token: expert-authored-library
+    kind: human
+    note: a human who authors and maintains domain content — primitives, methods, operators
+
+  - token: operator-preconditions
+    kind: artifact
+    note: operators expressed as (preconditions, effects)
+
+  - token: state-representation
+    kind: artifact
+    note: a state representation those preconditions or differences can be evaluated against
+
+  - token: state-difference-function
+    kind: artifact
+    note: a computable difference function between two states
+
+  - token: per-candidate-executor
+    kind: environment
+    note: the ability to run a candidate against the task and get per-candidate feedback
+
+  - token: automatic-verifier
+    kind: artifact
+    note: a verifier that can judge a candidate answer without a human
+
+  - token: candidate-arbiter
+    kind: artifact
+    note: a rule or judge that selects among candidates produced in different representations
+
+  - token: mutation-operator
+    kind: artifact
+    note: a mutation or recombination operator over the candidate representation
+
+  - token: orchestration-layer
+    kind: artifact
+    note: a control layer holding attempt history across calls
+
+  - token: novelty-estimator
+    kind: artifact
+    note: a count, density model, or fixed random target network scoring novelty
+
+  - token: augmentation-scheme
+    kind: artifact
+    note: an augmentation scheme that preserves task semantics
+
+  - token: task-identifier-embedding
+    kind: artifact
+    note: a per-task identifier embedding carried by the model
+
+  - token: learned-latent-space
+    kind: artifact
+    note: a learned latent space over programs or solutions
+
+  - token: differentiable-objective
+    kind: artifact
+    note: a differentiable objective over the task, optimizable at inference
+
+  - token: trained-model
+    kind: artifact
+    note: a parametric model you can train before deployment and ship with the system
+
+  - token: weight-gradients
+    kind: artifact
+    note: gradient access to the weights — rules out closed API-only models
+
+  - token: training-distribution
+    kind: artifact
+    note: a task distribution, and the pipeline to train on it, large enough to fit the model
+
+  - token: llm-inference
+    kind: artifact
+    note: a language model with strong generation available at inference time
+
+  - token: multimodal-model
+    kind: artifact
+    note: a model that accepts and emits more than one modality
+
+  - token: network-access
+    kind: environment
+    note: outbound network calls at inference time
+
+  - token: resettable-simulator
+    kind: environment
+    note: an environment you can roll forward and reset to a chosen state
+
+  - token: value-signal
+    kind: environment
+    note: a terminal or heuristic value for a reached state
+
+  - token: reward-channel
+    kind: environment
+    note: an extrinsic reward stream an intrinsic bonus can be added to
+
+  - token: per-task-compute
+    kind: resource
+    note: inference compute spent per task, scaling with search depth or sample count
+
+  - token: parallel-inference-budget
+    kind: resource
+    note: many candidates evaluated in parallel
+
+  - token: interaction-budget
+    kind: resource
+    note: enough environment steps for the mechanism to shape behaviour
+
+  - token: matched-architecture
+    kind: assumption
+    note: an architecture whose inductive biases match the domain's symmetries
+
+  - token: solution-in-span
+    kind: assumption
+    note: the tasks' solutions actually lie in the span of the chosen primitives

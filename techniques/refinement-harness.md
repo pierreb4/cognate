@@ -10,9 +10,14 @@ addresses:
     strength: partial
     note: a verifier's result is fed back as the input to the next attempt; the revision is textual and unstructured
 requires:
-  - one or more frontier models available by API
-  - an automatic verifier over candidate answers
-  - an orchestration layer holding the attempt history
+  - token: llm-inference
+    note: one or more frontier models
+  - token: network-access
+    note: those models are reached by API
+  - token: automatic-verifier
+    note: an automatic verifier over candidate answers
+  - token: orchestration-layer
+    note: an orchestration layer holding the attempt history
 cost: medium
 evidence:
   - claim: "54% on ARC-AGI-2 semi-private, ARC Prize verified, orchestrating frontier models with no training"
@@ -24,7 +29,19 @@ evidence:
 no_absolute_score: false
 caveats:
   - "The harness's score is inseparable from the underlying frontier models. It is a measurement of orchestration ON a given model generation, and it moves when that generation moves."
-related: [technique.evolutionary-program-synthesis, technique.modality-driven-search]
+interacts:
+  - technique: technique.llm-sampling-program-synthesis
+    rel: subsumes
+    scope: modeling.belief-update
+    note: >-
+      a verifier plus attempt history contains independent sampling as the case where the
+      history is discarded between attempts
+  - technique: technique.modality-driven-search
+    rel: subsumes
+    scope: modeling.per-task-adaptation
+    note: >-
+      both are inference-time orchestration of frozen models; parallel candidates plus a
+      judge is one configuration of a refinement loop
 ---
 
 # Refinement Harness

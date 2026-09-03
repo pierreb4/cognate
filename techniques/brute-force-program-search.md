@@ -7,9 +7,12 @@ addresses:
     strength: incidental
     note: enumerates compositions rather than committing to an account; nothing downstream can be told what the system currently believes
 requires:
-  - a small closed set of primitive operations
-  - a fast, typically compiled, implementation
-  - a compute budget that scales with the composition depth you want
+  - token: dsl-primitives
+    note: a small closed set of primitive operations
+  - token: compiled-implementation
+    note: a fast, typically compiled, implementation
+  - token: per-task-compute
+    note: a compute budget that scales with the composition depth you want
 cost: medium
 evidence:
   - claim: "20% on the ARC-AGI-1 2020 Kaggle private leaderboard"
@@ -21,7 +24,13 @@ evidence:
 no_absolute_score: false
 caveats:
   - "The 20% is under the 2020 Kaggle compute limit on the 2020 private set; it is not on the same axis as any later leaderboard or uncapped result."
-related: [technique.dsl-search]
+interacts:
+  - technique: technique.dsl-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both enumerate compositions of a fixed primitive set; running both buys coverage only
+      where the two primitive sets differ
 ---
 
 # Brute-Force DAG Search

@@ -10,16 +10,25 @@ addresses:
     strength: incidental
     note: produces a sequence of actions toward a goal without ever naming an intermediate one; nothing in the tree is a subgoal
 requires:
-  - a simulator you can roll forward and reset — the binding precondition
-  - a terminal or heuristic value signal
-  - many simulations per decision
+  - token: resettable-simulator
+    note: a simulator you can roll forward and reset — the binding precondition
+  - token: value-signal
+    note: a terminal or heuristic value signal
+  - token: per-task-compute
+    note: many simulations per decision
 cost: medium
 evidence: []
 no_absolute_score: true
 caveats:
   - "The precondition does the work. MCTS is available exactly when a resettable forward model exists; for an agent that must learn the environment's rules from interaction, the model MCTS needs is the thing that is missing."
   - "Its demonstrated results are in games with exact simulators (see the survey, https://dblp.org/rec/journals/tciaig/BrownePWLCRTPSC12.html). Those carry no split or regime on any benchmark in this register, so no percentage is entered."
-related: [technique.means-ends-analysis, technique.intrinsic-motivation-exploration]
+interacts:
+  - technique: technique.means-ends-analysis
+    rel: overlaps
+    scope: planning-execution.goal-decomposition
+    note: >-
+      both turn a goal into an action sequence; sampled rollouts versus derived sub-goals,
+      and only means-ends leaves the decomposition inspectable
 ---
 
 # Monte-Carlo Tree Search

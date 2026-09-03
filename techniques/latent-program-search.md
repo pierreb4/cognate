@@ -7,8 +7,12 @@ addresses:
     strength: direct
     note: the hypothesis is an explicit latent, searchable by gradient, without a hand-written DSL
 requires:
-  - a learned latent space over programs
-  - test-time gradient search
+  - token: learned-latent-space
+    note: a learned latent space over programs
+  - token: weight-gradients
+    note: test-time gradient search
+  - token: per-task-compute
+    note: the search budget that gradient search spends per task
 cost: medium
 evidence:
   - claim: "Test-time search doubles out-of-distribution performance relative to no search"
@@ -20,7 +24,13 @@ evidence:
 no_absolute_score: true
 caveats:
   - "Frequently cited as though it carried an ARC percentage. It does not. Any ARC number attributed to LPN is someone else's reimplementation and must be sourced separately."
-related: [technique.test-time-training]
+interacts:
+  - technique: technique.test-time-training
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both run gradient descent per task to reach an instance-specific account; only the
+      latent one can be read back, which is why the two differ by two strength steps here
 ---
 
 # Latent Program Search (LPN)

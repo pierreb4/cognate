@@ -21,6 +21,19 @@ FACULTY_ROOTS = {"exploration", "modeling", "goal-setting",
                  "planning-execution", "priors", "prior"}
 FM = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
+STRENGTH = {"direct": 3, "partial": 2, "incidental": 1}
+# Symmetric relations are declared once, on the alphabetically-first technique id;
+# the reverse is derived here, exactly as `addresses:` is.
+SYMMETRIC = {"overlaps", "composes", "conflicts"}
+ASYMMETRIC = {"subsumes": "subsumed_by", "supplies": "supplied_by"}
+INTERACTIONS = SYMMETRIC | set(ASYMMETRIC)
+
+
+def preconditions():
+    """The closed token vocabulary a technique's `requires:` may cite."""
+    doc = yaml.safe_load((ROOT / "data" / "preconditions.yaml").read_text())
+    return {t["token"]: t for t in doc["tokens"]}
+
 
 def load():
     nodes, errors = {}, []
@@ -49,10 +62,17 @@ def load():
 WARNINGS = []
 
 
-def validate(nodes, errors):
+def validate(nodes, errors, tokens):
     def resolves(ref):
         return ref in nodes or ref in FACULTY_ROOTS
 
+    def strength_on(tid, cap):
+        for e in nodes.get(tid, {}).get("addresses", []):
+            if e.get("capability") == cap:
+                return e.get("strength")
+        return None
+
+    declared = set()
     for nid, n in nodes.items():
         where = n["_path"]
         for ref in n.get("part_of", []) + n.get("completed_by", []):
@@ -63,6 +83,45 @@ def validate(nodes, errors):
             for e in n.get("addresses", []):
                 if not resolves(e.get("capability", "")):
                     errors.append(f"{where}: addresses unknown capability {e.get('capability')!r}")
+            for r in n.get("requires", []):
+                if not isinstance(r, dict) or "token" not in r:
+                    errors.append(f"{where}: requires entry is prose, not a token: {r!r}")
+                elif r["token"] not in tokens:
+                    errors.append(f"{where}: unknown precondition token {r['token']!r} "
+                                  f"(add it to data/preconditions.yaml or reuse one)")
+
+            for x in n.get("interacts", []):
+                other, rel, on = x.get("technique"), x.get("rel"), x.get("scope")
+                if rel not in INTERACTIONS:
+                    errors.append(f"{where}: unknown interaction {rel!r}")
+                    continue
+                if other == nid or nodes.get(other, {}).get("kind") != "technique":
+                    errors.append(f"{where}: interacts target {other!r} is not another technique")
+                    continue
+                key = (min(nid, other), max(nid, other), rel, on)
+                if key in declared:
+                    errors.append(f"{where}: interaction {rel} with {other} on {on} declared twice")
+                declared.add(key)
+                if rel in SYMMETRIC and nid > other:
+                    errors.append(f"{where}: symmetric '{rel}' must be declared on {other} "
+                                  f"(the alphabetically-first id); the reverse is derived")
+                if rel == "supplies":
+                    if on not in tokens:
+                        errors.append(f"{where}: supplies must name a precondition token, got {on!r}")
+                    elif on not in [r.get("token") for r in nodes[other].get("requires", [])]:
+                        errors.append(f"{where}: {other} does not require {on!r}, so it cannot be supplied")
+                elif rel != "conflicts":
+                    mine, theirs = strength_on(nid, on), strength_on(other, on)
+                    if mine is None or theirs is None:
+                        errors.append(f"{where}: '{rel}' on {on!r} but "
+                                      f"{'this node' if mine is None else other} does not address it")
+                    elif rel == "subsumes" and STRENGTH[mine] <= STRENGTH[theirs]:
+                        errors.append(f"{where}: subsumes {other} on {on} but its strength "
+                                      f"'{mine}' is not greater than '{theirs}'")
+                if rel == "composes" and not x.get("evidence"):
+                    errors.append(f"{where}: 'composes' claims the combination adds coverage — "
+                                  f"cite a source measuring it, or use 'overlaps'")
+
             no_abs = n.get("no_absolute_score", False)
             kinds = set()
             for ev in n.get("evidence", []):
@@ -108,6 +167,17 @@ def build(nodes):
                 edges.append({"from": nid, "to": cap, "rel": "addresses",
                               "strength": e.get("strength"), "note": e.get("note")})
                 addressed.setdefault(cap, []).append((nid, e.get("strength")))
+            for r in n.get("requires", []):
+                edges.append({"from": nid, "to": f"precondition.{r['token']}", "rel": "requires",
+                              "note": r.get("note")})
+            for x in n.get("interacts", []):
+                rel, other = x["rel"], x["technique"]
+                edges.append({"from": nid, "to": other, "rel": "interacts",
+                              "interaction": rel, "scope": x.get("scope"), "note": x.get("note"),
+                              "evidence": x.get("evidence")})
+                edges.append({"from": other, "to": nid, "rel": "interacts", "derived": True,
+                              "interaction": ASYMMETRIC.get(rel, rel), "scope": x.get("scope"),
+                              "note": x.get("note"), "evidence": x.get("evidence")})
         for ref in n.get("part_of", []):
             edges.append({"from": nid, "to": ref, "rel": "part_of"})
         for ref in n.get("completed_by", []):
@@ -134,10 +204,52 @@ def gap_report(nodes, addressed):
     return lines
 
 
+def unclassified_pairs(nodes, addressed):
+    """Technique pairs that co-cover a capability with no interaction declared.
+
+    Until a pair is typed, a combination holding both cannot be graded: the
+    grader has no way to tell added coverage from a duplicate. Load-bearing
+    pairs only — two 'incidental' edges are not a combination anyone would build.
+    """
+    typed = set()
+    for n in nodes.values():
+        for x in n.get("interacts", []):
+            typed.add((min(n["id"], x["technique"]), max(n["id"], x["technique"]), x.get("scope")))
+    out = {}
+    for cap, hits in addressed.items():
+        strong = sorted(t for t, s in hits if STRENGTH.get(s, 0) >= 2)
+        for i, a in enumerate(strong):
+            for b in strong[i + 1:]:
+                if (a, b, cap) not in typed:
+                    out.setdefault(cap, []).append((a, b))
+    return out
+
+
+def pair_report(pairs, verbose):
+    total = sum(len(v) for v in pairs.values())
+    lines = [f"\nuntyped co-coverage ({total} load-bearing pair(s) not gradable):"]
+    if not total:
+        return lines + ["  none"]
+    for cap, ps in sorted(pairs.items()):
+        if verbose:
+            lines += [f"  {cap}: {a.split('.', 1)[1]} ~ {b.split('.', 1)[1]}" for a, b in ps]
+        else:
+            members = sorted({t for p in ps for t in p})
+            lines.append(f"  {cap}: {len(ps)} pair(s) over {len(members)} techniques")
+    if not verbose:
+        lines.append("  (--pairs to list them)")
+    return lines
+
+
 def main():
     nodes, errors = load()
-    errors = validate(nodes, errors)
+    tokens = preconditions()
+    errors = validate(nodes, errors, tokens)
     edges, addressed = build(nodes)
+    nodes.update({f"precondition.{t}": {"id": f"precondition.{t}", "kind": "precondition",
+                                        "name": t, "precondition_kind": v["kind"],
+                                        "note": v["note"], "_path": "data/preconditions.yaml"}
+                  for t, v in tokens.items()})
 
     if len(sys.argv) > 2 and sys.argv[1] == "--from":
         cap = sys.argv[2]
@@ -154,6 +266,18 @@ def main():
         for e in edges:
             if e["from"] == tid and e["rel"] == "addresses":
                 print(f"  -> {e['to']} [{e['strength']}] {e['note'] or ''}")
+        req = [e for e in edges if e["from"] == tid and e["rel"] == "requires"]
+        if req:
+            print("  requires:")
+            for e in req:
+                tok = e["to"].split(".", 1)[1]
+                print(f"    {tok} [{nodes[e['to']]['precondition_kind']}] — {e['note']}")
+        inter = [e for e in edges if e["from"] == tid and e["rel"] == "interacts"]
+        if inter:
+            print("  interacts:")
+            for e in inter:
+                mark = " (derived)" if e.get("derived") else ""
+                print(f"    {e['interaction']} {e['to']} on {e['scope']}{mark}")
         return 0
 
     (ROOT / "data").mkdir(exist_ok=True)
@@ -168,6 +292,8 @@ def main():
     gaps = gap_report(nodes, addressed)
     print(f"\ngap report ({len(gaps)} unmet):")
     print("\n".join(gaps) if gaps else "  none")
+    print("\n".join(pair_report(unclassified_pairs(nodes, addressed),
+                                "--pairs" in sys.argv)))
     if WARNINGS:
         print(f"\n{len(WARNINGS)} warning(s) (non-blocking):")
         for w in WARNINGS:

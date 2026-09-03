@@ -10,16 +10,25 @@ addresses:
     strength: incidental
     note: a subtask counts as achieved when its decomposition's primitives have executed and their effects hold; the achievement test is authored by hand, never inferred
 requires:
-  - a library of methods written by a domain expert
-  - operators with explicit preconditions and effects
-  - a state representation those preconditions can be evaluated against
+  - token: expert-authored-library
+    note: a library of methods written by a domain expert
+  - token: operator-preconditions
+    note: operators with explicit preconditions and effects
+  - token: state-representation
+    note: a state representation those preconditions can be evaluated against
 cost: low
 evidence: []
 no_absolute_score: true
 caveats:
   - "SHOP2 (https://arxiv.org/abs/1106.4869) won an award at the 2002 International Planning Competition; no percentage is entered here because planning-competition results carry no split or regime comparable to anything else in this register."
   - "The method library is the system. HTN performance is a statement about the expert who wrote the methods, and is not transferable to a domain where no one has written them."
-related: [technique.means-ends-analysis]
+interacts:
+  - technique: technique.means-ends-analysis
+    rel: overlaps
+    scope: planning-execution.goal-decomposition
+    note: >-
+      both decompose a goal through operator preconditions; HTN reads a human's method
+      library where means-ends derives the split from a difference function
 ---
 
 # Hierarchical Task Networks (HTN)

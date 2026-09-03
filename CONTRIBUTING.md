@@ -18,7 +18,11 @@
    you do not yet have the number — find the primary source or omit the claim.
 3. Declare edges **only** on the technique, in `addresses:`. Never add a technique list
    to a capability; the reverse direction is derived.
-4. Run `python3 scripts/build_graph.py`. It must exit 0.
+4. Write `requires:` as tokens from `data/preconditions.yaml`, keeping your sentence in
+   the `note:`. Reuse a token before adding one.
+5. Type the pair against every technique that already covers the same capability, in
+   `interacts:`. The builder's untyped co-coverage report names the pairs still owed.
+6. Run `python3 scripts/build_graph.py`. It must exit 0.
 
 ## The evidence bar
 
@@ -34,6 +38,12 @@ Three stars or more requires `kind: measured`. The validator enforces this.
 **Claimed and measured are separate entries.** Where an independent measurement
 disagrees with a published claim, both stay on the record. Keeping only the flattering
 one is the failure this register exists to prevent.
+
+**A combination is a claim too.** `interacts: rel: composes` says two techniques cover
+more together than apart. That is an empirical claim and it carries the same burden as a
+score: cite the source that measured the combination. Where none exists, the edge is
+`overlaps` — the assumption that the coverage does not add — and the pair stays a
+candidate rather than a result.
 
 **Prose is a sentence, not a paragraph.** Each node has four moves — context, problem,
 therefore, limit. If a section runs past a short paragraph, the node is probably two nodes.

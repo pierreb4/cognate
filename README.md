@@ -53,7 +53,8 @@ frontmatter — so the two directions can never drift.
 patterns/     capability side — a named cognitive requirement
 techniques/   machine side — a named mechanism, with evidence
 bundles/      minimal sets of techniques that jointly satisfy a requirement cluster
-data/         generated: graph.json (edges, derived from frontmatter)
+data/         preconditions.yaml — the closed token vocabulary `requires:` cites
+              graph.json — generated (edges, derived from frontmatter)
 scripts/      build_graph.py — parse, validate, emit
 ```
 

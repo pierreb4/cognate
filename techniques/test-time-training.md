@@ -10,9 +10,12 @@ addresses:
     strength: incidental
     note: the hypothesis is held in weights and cannot be named, inspected, or refuted
 requires:
-  - gradient access to the weights (rules out closed API-only models)
-  - per-task inference compute
-  - an augmentation scheme that preserves task semantics
+  - token: weight-gradients
+    note: gradient access to the weights (rules out closed API-only models)
+  - token: per-task-compute
+    note: per-task inference compute
+  - token: augmentation-scheme
+    note: an augmentation scheme that preserves task semantics
 cost: high
 evidence:
   - claim: "53.0% on ARC-AGI-1 public eval (61.9% ensembled)"
@@ -43,7 +46,6 @@ no_absolute_score: false
 caveats:
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system trained on AGI-2 train and scored on AGI-1 eval is inflated (flagged in the TRM README)."
   - "The 2024 and 2025 numbers are under different cost regimes and different benchmarks — they do not form a trend line."
-related: [technique.recursive-latent-reasoners]
 ---
 
 # Test-Time Training

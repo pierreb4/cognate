@@ -7,9 +7,12 @@ addresses:
     strength: incidental
     note: delivers coverage of unvisited states, which is the thing that capability explicitly distinguishes itself FROM
 requires:
-  - a reward channel the intrinsic bonus can be added to
-  - a novelty estimator — a count, a density model, or a fixed random target network
-  - enough interaction budget for the bonus to shape behaviour
+  - token: reward-channel
+    note: a reward channel the intrinsic bonus can be added to
+  - token: novelty-estimator
+    note: a novelty estimator — a count, a density model, or a fixed random target network
+  - token: interaction-budget
+    note: enough interaction budget for the bonus to shape behaviour
 cost: medium
 evidence:
   - claim: "Random network distillation reaches state-of-the-art on Montezuma's Revenge and better than average human performance without demonstrations or access to underlying game state"
@@ -22,7 +25,13 @@ no_absolute_score: false
 caveats:
   - "The RND row is an Atari hard-exploration result. Nothing here has been measured on any ARC split, and the register does not carry a transfer argument in place of a measurement."
   - "Count-based bonuses and novelty search belong to the same family and are described in the prose without evidence rows, because no primary source was checked for them here."
-related: [technique.mcts]
+interacts:
+  - technique: technique.mcts
+    rel: supplies
+    scope: value-signal
+    note: >-
+      the novelty bonus is a value for a reached state where the environment gives none,
+      which is exactly MCTS's binding second precondition
 ---
 
 # Intrinsic-Motivation Exploration

@@ -13,15 +13,25 @@ addresses:
     strength: incidental
     note: same — counting and ordering exist because someone wrote the primitive, not because the system learned to count
 requires:
-  - a human who will author and maintain the primitive set
-  - a search or synthesis procedure over compositions of those primitives
-  - tasks whose solutions actually lie in the span of the chosen primitives
+  - token: dsl-primitives
+    note: the primitive set itself
+  - token: expert-authored-library
+    note: a human who will author and maintain the primitive set
+  - token: search-procedure
+    note: a search or synthesis procedure over compositions of those primitives
+  - token: solution-in-span
+    note: tasks whose solutions actually lie in the span of the chosen primitives
 cost: low
 evidence: []
 no_absolute_score: true
 caveats:
   - "arc-dsl publishes a solver for every ARC-AGI-1 training task but reports no benchmark percentage; any number attached to it is someone else's search procedure and must be sourced separately (https://github.com/michaelhodel/arc-dsl)."
-related: [technique.brute-force-program-search, technique.latent-program-search]
+interacts:
+  - technique: technique.latent-program-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the same generate-and-test over a program space; hand-authored versus learned
 ---
 
 # Hand-Crafted DSL + Search
