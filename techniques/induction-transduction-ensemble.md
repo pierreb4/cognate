@@ -27,6 +27,18 @@ no_absolute_score: false
 caveats:
   - "The headline is not the combined number. It is that the two approaches solve substantially DISJOINT task sets — the ensemble gain comes from non-overlap, not from either method being better."
 interacts:
+  - technique: technique.latent-program-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both put the account in learned parameters; one emits a program from a trained
+      generator, the other keeps it as a latent it can still search
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a trained generator's program against an identified rule set; the first needs a task
+      distribution to have existed, the second needs a vocabulary to have been written
   - technique: technique.llm-sampling-program-synthesis
     rel: overlaps
     scope: modeling.hypothesis-formation

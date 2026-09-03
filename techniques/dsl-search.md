@@ -28,6 +28,25 @@ no_absolute_score: true
 caveats:
   - "arc-dsl publishes a solver for every ARC-AGI-1 training task but reports no benchmark percentage; any number attached to it is someone else's search procedure and must be sourced separately (https://github.com/michaelhodel/arc-dsl)."
 interacts:
+  - technique: technique.induction-transduction-ensemble
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the induction arm emits a program exactly as the DSL search does; its primitives are
+      learned from a task distribution rather than authored, which moves the cost rather than
+      removing it
+  - technique: technique.llm-sampling-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the same generate-and-test, with the model's pretraining supplying what a DSL author
+      would otherwise have to enumerate
+  - technique: technique.modality-driven-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both search a space of candidate accounts; one space is authored and closed, the other
+      is whatever several modalities of a frozen model will emit
   - technique: technique.oomdp-identification
     rel: overlaps
     scope: modeling.hypothesis-formation

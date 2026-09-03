@@ -48,6 +48,37 @@ caveats:
   - "SOAR words its split as 'the public test set'; read it as the ARC-AGI-1 public evaluation set and not as a held-out leaderboard number."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system fine-tuned on AGI-2 train and scored on AGI-1 eval is inflated."
 interacts:
+  - technique: technique.induction-transduction-ensemble
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a population refined under executor feedback against two fixed models run once; both
+      end holding programs, and only the first can improve one it already has
+  - technique: technique.latent-program-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      mutation over discrete programs against gradient descent over a latent; the same
+      search, in spaces whose neighbourhoods mean different things
+  - technique: technique.llm-sampling-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both draw many candidate programs and keep what survives the demonstrations; they
+      differ in whether a draw is informed by the previous one, which is a belief-update
+      distinction, not a hypothesis-formation one
+  - technique: technique.modality-driven-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      breadth bought by mutation against breadth bought by representation; the accounts are
+      the same kind of object
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a program that reproduces demonstrations against rules that predict transitions; both
+      are refutable and inspectable, and neither infers the vocabulary it is written in
   - technique: technique.oomdp-identification
     rel: overlaps
     scope: modeling.belief-update

@@ -29,6 +29,13 @@ evidence:
 no_absolute_score: false
 caveats:
   - "UNVERIFIED SOURCE: the arXiv identifier above was reported to this register second-hand and has not been fetched and confirmed here. Treat the row as provisional until the identifier is checked against arxiv.org."
+interacts:
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      parallel candidates judged against a single account narrowed by refutation; the first
+      needs a judge it can trust, the second needs no judge at all
 ---
 
 # Modality-Driven Search

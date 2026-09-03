@@ -32,6 +32,12 @@ no_absolute_score: false
 caveats:
   - "The harness's score is inseparable from the underlying frontier models. It is a measurement of orchestration ON a given model generation, and it moves when that generation moves."
 interacts:
+  - technique: technique.test-time-training
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      adaptation with no weight update against adaptation that is nothing but weight updates;
+      the cost profiles differ far more than the coverage does
   - technique: technique.llm-sampling-program-synthesis
     rel: subsumes
     scope: modeling.belief-update

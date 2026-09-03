@@ -27,6 +27,24 @@ no_absolute_score: true
 caveats:
   - "Frequently cited as though it carried an ARC percentage. It does not. Any ARC number attributed to LPN is someone else's reimplementation and must be sourced separately."
 interacts:
+  - technique: technique.llm-sampling-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a latent searched by gradient against programs sampled from a model; the latent is
+      cheaper to search and cannot be read, which is the trade the register keeps recording
+  - technique: technique.modality-driven-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      one continuous space searched against several discrete ones compared; no capability is
+      covered twice by holding both
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      an optimized latent against an accumulated rule set; the second can say what it
+      believes and the first cannot, at equal coverage of this capability
   - technique: technique.test-time-training
     rel: overlaps
     scope: modeling.hypothesis-formation

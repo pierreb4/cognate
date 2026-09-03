@@ -30,6 +30,26 @@ no_absolute_score: false
 caveats:
   - "A widely-circulated 43% figure attributed to the semi-private set has no primary source pairing that number with that set; it is not entered here."
   - "The result is a sample-budget result. Read it against the regime field, not against cost-capped leaderboard entries."
+interacts:
+  - technique: technique.modality-driven-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      modality-driven search contains this as its code arm; it scores lower here because
+      arbitrating across representations does not itself commit to a named account
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a sampled program against an identified rule set; the sample is drawn from a prior over
+      human code, the rule from the transitions actually observed
+  - technique: technique.evolutionary-program-synthesis
+    rel: supplies
+    scope: mutation-operator
+    note: >-
+      a language model asked to revise a failing program IS a mutation operator over the
+      program representation, which is the precondition the evolutionary family names and
+      does not otherwise supply
 ---
 
 # Program Synthesis by LLM Sampling

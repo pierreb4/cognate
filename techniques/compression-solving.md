@@ -30,6 +30,56 @@ no_absolute_score: false
 caveats:
   - "The comparison that matters is not 20% against leaderboard entries but 20% against ZERO pretraining and 76K parameters. Ranked on the percentage axis alone this node reads as weak, which is the wrong reading."
 interacts:
+  - technique: technique.dsl-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      one account per task in both; the DSL's reachable set is a human's guess at the domain
+      and the description-length objective's is the architecture's, so they fail on different
+      tasks for the same reason
+  - technique: technique.evolutionary-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a single account driven to a minimum against a population held at once; compression
+      cannot report its second-best hypothesis, which is what makes an evolutionary pool
+      useful
+  - technique: technique.induction-transduction-ensemble
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      one objective against two representations arbitrated; compression has no second arm
+      that could disagree with the first
+  - technique: technique.llm-sampling-program-synthesis
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both commit to an account the demonstrations can refute; the prior sits in the
+      objective in one and in a pretrained model's weights in the other
+  - technique: technique.modality-driven-search
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a single representation optimized against several generated and judged; running both
+      buys candidate diversity, not a second kind of account
+  - technique: technique.oomdp-identification
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a shortest description scored globally against condition-effect rules killed locally,
+      one counterexample at a time; neither reads the other's account
+  - technique: technique.recursive-latent-reasoners
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      fitting to the instance at inference in both; gradient steps on the one puzzle against
+      recurrent depth plus a puzzle identifier
+  - technique: technique.refinement-harness
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      the register's sharpest contrast on this capability: everything is fitted to the
+      instance in one and nothing is, in the other
   - technique: technique.latent-program-search
     rel: overlaps
     scope: modeling.hypothesis-formation

@@ -43,6 +43,12 @@ caveats:
   - "Independent critique: blank or randomized puzzle-ID embeddings drop accuracy to zero, and the recursion saturates at step 1. (https://arxiv.org/abs/2512.11847)"
   - "The exact eval split behind TRM's 40% / 6.2% is not independently confirmed."
 interacts:
+  - technique: technique.refinement-harness
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      adaptation held in a recurrent pass against adaptation held in an orchestration loop;
+      neither touches weights at test time and neither can name what it adapted
   - technique: technique.test-time-training
     rel: overlaps
     scope: modeling.per-task-adaptation
