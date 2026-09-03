@@ -11,6 +11,7 @@ pattern language cannot disagree.
     build_graph.py --profile <id>  screen every technique against a deployment
     build_graph.py --pairs         list the untyped co-coverage pairs in full
     build_graph.py --trend [split] dated evidence by leverage side, to test a hypothesis
+    build_graph.py --provenance    what SELECTED the corpus: nodes by entry frame
 """
 import json
 import re
@@ -536,6 +537,40 @@ def pair_report(pairs, verbose):
     return lines
 
 
+def provenance(nodes):
+    """Report the corpus by entry frame — the register's own selection effect.
+
+    A pattern language is curated, not sampled, so its composition is evidence about
+    its authors before it is evidence about the field. This report is what lets a
+    distributional reading (see hypotheses/) state its own frame instead of assuming
+    it does not have one. Nodes are grouped by `provenance.frame`, the instrument that
+    put them in view; a frame holding most of the corpus is the corpus's blind spot.
+    """
+    import collections
+    by = collections.defaultdict(list)
+    for n in nodes.values():
+        if n.get("kind") not in ("technique", "capability"):
+            continue
+        pr = n.get("provenance") or {}
+        by[pr.get("frame", "UNDECLARED")].append((n["kind"], n.get("name", n["id"]), pr))
+    total = sum(len(v) for v in by.values())
+    L = ["PROVENANCE  — what selected the corpus", ""]
+    for frame, rows in sorted(by.items(), key=lambda kv: -len(kv[1])):
+        k = collections.Counter(r[0] for r in rows)
+        dates = sorted({r[2].get("entered") for r in rows if r[2].get("entered")})
+        span = dates[0] if len(dates) < 2 else f"{dates[0]}..{dates[-1]}"
+        L.append(f"  {len(rows):>3}/{total}  {100*len(rows)//total:>3}%  {frame}"
+                 f"   [{k['technique']} technique, {k['capability']} capability]  {span}")
+        note = rows[0][2].get("note")
+        if note:
+            L.append(f"           {note}")
+        L.append("")
+    top = max(by.items(), key=lambda kv: len(kv[1]))
+    L += [f"  DOMINANT FRAME: {top[0]} holds {100*len(top[1])//total}% of the corpus.",
+          "  A distributional claim over these nodes measures this frame first.", ""]
+    return L
+
+
 def main():
     nodes, errors = load()
     tokens = preconditions()
@@ -546,6 +581,9 @@ def main():
                                         "note": v["note"], "_path": "data/preconditions.yaml"}
                   for t, v in tokens.items()})
 
+    if len(sys.argv) > 1 and sys.argv[1] == "--provenance":
+        print("\n".join(provenance(nodes)))
+        return
     if len(sys.argv) > 1 and sys.argv[1] == "--trend":
         print("\n".join(trend(nodes, sys.argv[2] if len(sys.argv) > 2 else None)))
         return 0

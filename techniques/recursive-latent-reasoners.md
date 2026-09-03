@@ -61,6 +61,14 @@ interacts:
     note: >-
       both adapt to the instance without naming a hypothesis; recurrence depth versus fitted
       weights
+provenance:
+  entered: 2026-09-02
+  commit: fb41fa3
+  frame: catalogue-survey-seed
+  note: >-
+    chosen to make both traversal directions real, from the four catalogue works the README
+    names (Minsky; Hassabis et al.; Kotseruba & Tsotsos; Wray, Kirk & Laird) - selected to
+    exercise the format, not sampled from a field
 ---
 
 # Recursive Latent Reasoners (HRM / TRM)

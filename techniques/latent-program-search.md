@@ -51,6 +51,14 @@ interacts:
     note: >-
       both run gradient descent per task to reach an instance-specific account; only the
       latent one can be read back, which is why the two differ by two strength steps here
+provenance:
+  entered: 2026-09-02
+  commit: fb41fa3
+  frame: catalogue-survey-seed
+  note: >-
+    chosen to make both traversal directions real, from the four catalogue works the README
+    names (Minsky; Hassabis et al.; Kotseruba & Tsotsos; Wray, Kirk & Laird) - selected to
+    exercise the format, not sampled from a field
 ---
 
 # Latent Program Search (LPN)

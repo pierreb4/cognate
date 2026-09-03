@@ -80,6 +80,13 @@ interacts:
     note: >-
       both revise in light of a failure, one by falsifying a prediction the evidence
       contradicts and one by re-prompting with the failure attached
+provenance:
+  entered: 2026-09-03
+  commit: e384cbc
+  frame: exploration-harness
+  note: >-
+    surfaced by exploration-harness run wf_0ec3b5f3-06e, which was asking a different
+    question and admitted this for a different cell
 ---
 
 # Object-Oriented MDP Identification (DOORMAX)

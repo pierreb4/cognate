@@ -11,6 +11,13 @@ human_source:
 part_of: [priors]
 completed_by: []
 status: open
+provenance:
+  entered: 2026-09-02
+  commit: 6f81060
+  frame: arc-prize-2025-taxonomy
+  note: >-
+    stocked from the ARC Prize 2025 report's refinement-loop taxonomy (technique side) and
+    Chollet's Core Knowledge prior list plus ARC-AGI-3's added priors (capability side)
 ---
 
 # Basic Physics

@@ -48,6 +48,20 @@ candidate rather than a result.
 **Prose is a sentence, not a paragraph.** Each node has four moves — context, problem,
 therefore, limit. If a section runs past a short paragraph, the node is probably two nodes.
 
+## Say what put the node in view
+
+Set `provenance.frame` to the instrument that surfaced it — the survey you were reading,
+the taxonomy you were stocking from, the run that turned it up. Not why it is *good*;
+what caused you to *see* it.
+
+This register is curated, not sampled, and that is the right choice: a sampling frame
+keyed to published ARC results would drop `dsl-search`, `hierarchical-task-networks`,
+`mcts` and `means-ends-analysis`, which carry no comparable number and are load-bearing
+anyway. The cost of curation is a selection effect, and the only honest treatment is to
+make it visible: `build_graph.py --provenance` reports the corpus by frame. **Never argue
+from the shape of this corpus to the shape of the field** without printing that report
+first — and prefer a population you did not select when the claim is about the field.
+
 ## Empty cells are contributions
 
 A capability with `status: open` and no incoming edge is a stated research gap. Adding a

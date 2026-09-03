@@ -25,6 +25,14 @@ evidence:
 no_absolute_score: true
 caveats:
   - "Its classical failure is the difference function: MEA is only as good as the state abstraction it is handed, and on raw perceptual input the difference function is the actual open problem."
+provenance:
+  entered: 2026-09-02
+  commit: fb41fa3
+  frame: catalogue-survey-seed
+  note: >-
+    chosen to make both traversal directions real, from the four catalogue works the README
+    names (Minsky; Hassabis et al.; Kotseruba & Tsotsos; Wray, Kirk & Laird) - selected to
+    exercise the format, not sampled from a field
 ---
 
 # Means-Ends Analysis (GPS / STRIPS)

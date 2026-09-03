@@ -54,6 +54,14 @@ caveats:
   - "Do not read this paper's 42.2% -> 73.5% solved-set statistic as complementarity. The authors' own gloss is the opposite: TTT 'significantly improves the neural model's ability to learn systematic reasoning patterns SIMILAR TO those captured by program synthesis models' — convergence, not disjointness. The complementarity finding it is often confused with belongs to arXiv 2411.02272 and is held on `induction-transduction-ensemble`."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system trained on AGI-2 train and scored on AGI-1 eval is inflated (flagged in the TRM README)."
   - "The 2024 and 2025 numbers are under different cost regimes and different benchmarks — they do not form a trend line."
+provenance:
+  entered: 2026-09-02
+  commit: fb41fa3
+  frame: catalogue-survey-seed
+  note: >-
+    chosen to make both traversal directions real, from the four catalogue works the README
+    names (Minsky; Hassabis et al.; Kotseruba & Tsotsos; Wray, Kirk & Laird) - selected to
+    exercise the format, not sampled from a field
 ---
 
 # Test-Time Training

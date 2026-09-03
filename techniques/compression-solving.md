@@ -92,6 +92,13 @@ interacts:
     note: >-
       both spend per-task gradient steps on the instance; they differ in what is fitted, not
       in when
+provenance:
+  entered: 2026-09-02
+  commit: 6f81060
+  frame: arc-prize-2025-taxonomy
+  note: >-
+    stocked from the ARC Prize 2025 report's refinement-loop taxonomy (technique side) and
+    Chollet's Core Knowledge prior list plus ARC-AGI-3's added priors (capability side)
 ---
 
 # MDL / Compression-Based Solving

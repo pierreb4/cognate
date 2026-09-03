@@ -108,6 +108,24 @@ Two techniques that address the same capability at `direct` or `partial` strengt
 declared interaction appear in the builder's **untyped co-coverage** report. That is a
 to-do list: until the pair is typed, no combination containing both can be graded.
 
+### `provenance:` — what put the node in view
+
+```yaml
+provenance:
+  entered: 2026-09-02          # when it entered the corpus
+  commit: 6f81060              # the commit that added it
+  frame: arc-prize-2025-taxonomy   # THE INSTRUMENT that surfaced it
+  note: >-                     # one line on what that instrument was reading
+```
+
+Optional, and it describes the register rather than the field, so it never affects a
+grade. It exists because a curated pattern language is evidence about its authors before
+it is evidence about anything else: `frame` names the instrument a node came through, so
+`build_graph.py --provenance` can report how much of the corpus one instrument supplied.
+Any distributional reading of this corpus — see `hypotheses/` — must state that number
+before it states its own. A frame holding most of the corpus is the corpus's blind spot,
+and the register would rather print that than pretend to be a sample.
+
 ### `leverage:` — which side of the bitter lesson a technique sits on
 
 - `knowledge` — performance is bounded by human-authored content; more compute alone does

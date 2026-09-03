@@ -51,6 +51,13 @@ interacts:
     note: >-
       both run one task through two representations and arbitrate; the gain is claimed from
       non-overlap of the solved sets in each case
+provenance:
+  entered: 2026-09-02
+  commit: 6f81060
+  frame: arc-prize-2025-taxonomy
+  note: >-
+    stocked from the ARC Prize 2025 report's refinement-loop taxonomy (technique side) and
+    Chollet's Core Knowledge prior list plus ARC-AGI-3's added priors (capability side)
 ---
 
 # Induction / Transduction Ensembling

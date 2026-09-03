@@ -66,6 +66,13 @@ interacts:
     scope: modeling.hypothesis-formation
     note: >-
       the same generate-and-test over a program space; hand-authored versus learned
+provenance:
+  entered: 2026-09-02
+  commit: 6f81060
+  frame: arc-prize-2025-taxonomy
+  note: >-
+    stocked from the ARC Prize 2025 report's refinement-loop taxonomy (technique side) and
+    Chollet's Core Knowledge prior list plus ARC-AGI-3's added priors (capability side)
 ---
 
 # Hand-Crafted DSL + Search

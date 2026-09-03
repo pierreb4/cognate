@@ -37,6 +37,13 @@ interacts:
     note: >-
       both turn a goal into an action sequence; sampled rollouts versus derived sub-goals,
       and only means-ends leaves the decomposition inspectable
+provenance:
+  entered: 2026-09-02
+  commit: 6f81060
+  frame: arc-prize-2025-taxonomy
+  note: >-
+    stocked from the ARC Prize 2025 report's refinement-loop taxonomy (technique side) and
+    Chollet's Core Knowledge prior list plus ARC-AGI-3's added priors (capability side)
 ---
 
 # Monte-Carlo Tree Search

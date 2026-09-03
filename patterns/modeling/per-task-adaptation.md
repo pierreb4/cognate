@@ -9,6 +9,14 @@ human_source:
 part_of: [modeling]
 completed_by: []
 status: covered
+provenance:
+  entered: 2026-09-02
+  commit: fb41fa3
+  frame: catalogue-survey-seed
+  note: >-
+    chosen to make both traversal directions real, from the four catalogue works the README
+    names (Minsky; Hassabis et al.; Kotseruba & Tsotsos; Wray, Kirk & Laird) - selected to
+    exercise the format, not sampled from a field
 ---
 
 # Per-Task Adaptation
