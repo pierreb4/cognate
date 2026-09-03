@@ -207,7 +207,7 @@ private overlay keyed by node `id`, as `SCHEMA.md` requires. Everything here is 
 published competition rule or a stated architectural constraint of the reference
 submission; nothing here is a result.
 
-**Why the split between `competition` and `project` matters.** Six of the nine `none`
+**Why the split between `competition` and `project` matters.** Seven of the ten `none`
 tokens are project constraints, not competition rules. The competition permits
 accelerators; the single-file, stdlib-only submission is a choice made for reproducibility
 and for a splice-into-notebook build. The screen therefore reports two different things:
