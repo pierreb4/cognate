@@ -80,7 +80,7 @@ caveats:
 interacts: []
 provenance:
   entered: 2026-09-05
-  commit: pending
+  commit: b163844
   frame: hand-search-run-11-gate
   note: >-
     listed as 'a second (B) candidate, not a refusal' in the goal-inference node's hand search
