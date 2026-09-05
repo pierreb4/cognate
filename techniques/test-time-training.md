@@ -10,6 +10,12 @@ addresses:
     strength: incidental
     note: the hypothesis is held in weights and cannot be named, inspected, or refuted
 requires:
+  - token: trained-model
+    note: >-
+      a pretrained parametric model whose weights are adapted per task — every row here
+      fine-tunes one (an 8B language model in Akyürek et al.; NVARC adds heavy synthetic
+      pretraining, which is where `training-distribution` enters at the row level, not the
+      mechanism's)
   - token: weight-gradients
     note: gradient access to the weights (rules out closed API-only models)
   - token: per-task-compute
