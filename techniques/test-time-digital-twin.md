@@ -75,7 +75,7 @@ caveats:
 interacts: []
 provenance:
   entered: 2026-09-05
-  commit: pending
+  commit: 90bb75b
   frame: hand-search-run-11-gate
   note: >-
     found by a hand literature search against the pre-committed Run 11 gate (stance c,
