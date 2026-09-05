@@ -15,9 +15,10 @@ addresses:
       that rank which reachable states are worth proposing as goals — see caveats
 requires:
   - token: llm-inference
-    note: a frontier code model driving a coding agent (GPT-5.6 Sol through OpenAI Codex)
-  - token: network-access
-    note: the model is a hosted service reached during play; web search is disabled but the model call is not local
+    note: >-
+      a code-capable language model driving a coding agent; the published runs used GPT-5.6
+      Sol through OpenAI Codex as a hosted service, which is a property of the RESULT, not the
+      mechanism — see `requires_beyond` on the evidence rows
   - token: orchestration-layer
     note: >-
       a harness holding the full transition log across agent restarts and enforcing two hard
@@ -56,6 +57,7 @@ evidence:
     source: https://arxiv.org/abs/2608.14490v1
     date: 2026-08-14
     stars: 2
+    requires_beyond: [network-access]
   - claim: "93.3 action-efficiency score, 23 of 25 games and 179 of 183 levels cleared, against the same base model in off-the-shelf Codex with the validate-explore-plan loop removed at 61.1 (13 games, 148 levels), Prime Agent 78.3 on the same base model, OPINE-World 78.4 (Claude Opus 4.8), EWM 63.8 (GPT-5.5), and direct play 7.8"
     kind: claimed
     split: arc-agi-3/public-25-games
@@ -63,6 +65,7 @@ evidence:
     source: https://arxiv.org/abs/2608.14490v1
     date: 2026-08-14
     stars: 2
+    requires_beyond: [network-access]
 no_absolute_score: false
 caveats:
   - "The row for this cell is the 87.2% / 0.214 PAIR, not either number alone. Per level, the first committed goal is right on 156 of 179; per scored action, 508 of 646 goal claims are wrong and the authors say so: 'Most wins are claimed, and most claims are wrong' and 'the twins learn how the world moves more reliably than they learn what winning in it means' (Appendix J). A reader who carries only 87.2 has read the headline."
