@@ -24,9 +24,11 @@ provenance:
 **Context.** A hypothesis is held and an experiment has returned an outcome.
 
 **Problem.** Revising a held account in light of evidence is the step that closes the
-loop; without it, hypothesis formation and experimentation both become decoration. The
-ARC-AGI-3 failure list names this twice — agents "can't convert reward into corrected
-actions" and "can't form a theory, test it, update it."
+loop; without it, hypothesis formation and experimentation both become decoration. ARC
+Prize's ARC-AGI-3 replay audit names this as its third failure mode, "solved the level,
+didn't learn the game": "even if a model beat a level, that reward did not translate into
+further success", and "without an explicit check on why the prior level was won, models will
+carry their misconception into the next level" ([source](https://arcprize.org/blog/arc-agi-3-gpt-5-5-opus-4-7-analysis)).
 
 **Therefore.** Make the update operation explicit and cheap enough to run every step.
 The representation choice made in [`modeling.hypothesis-formation`] determines what is

@@ -73,6 +73,22 @@ history:
       which the leaderboard shows in one column. Indicative, not matched. The leaderboard
       is also itself selected — verified submissions only, and its own note says "Only
       systems which required less than $10,000 to run are shown."
+  - as_of: '2026-09-05'
+    status: argued
+    source: https://arcprize.org/blog/astra
+    note: >-
+      ARC-AGI-3, the split both profiles here are built for, now has a general-model top.
+      ARC Prize reports GPT-6 Astra (OpenAI) at 62.7% on the semi-private set for $26,098
+      in its Standard harness, which only carries forward notes the model chooses to keep,
+      and 99.9% for $18,817 with a Provider Adapter that "preserves opaque reasoning state
+      between requests"; across the reasoning-effort grid the Standard harness runs 17.5%
+      (low) to 62.7% (max) while the adapter runs 96.7% (none) to 99.9% (high), so with
+      reasoning state carried the score is flat in effort. The purpose-built comparison on
+      the same benchmark is `technique.test-time-digital-twin` at 93.3 on the PUBLIC 25
+      games (2026-08) — not split-matched, and the competition's in-kernel track publishes
+      no semi-private number — so this is the ARC-AGI-2 caveat again: indicative, not
+      matched. Neither harness publishes a mechanism, so no register node can carry the
+      row; it lives here as the external check's third split.
 ---
 
 # The Bitter Lesson

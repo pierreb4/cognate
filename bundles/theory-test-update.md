@@ -23,8 +23,9 @@ does_not_give:
 # Theory / Test / Update
 
 **The requirement.** "My agent must form a theory, test it, and update it." This is the
-single most-cited capability gap for interactive agents, named verbatim in ARC Prize's
-ARC-AGI-3 failure analysis.
+loop ARC Prize's ARC-AGI-3 replay audit says the environments demand — "forming a working
+theory, testing it, updating it when the evidence disagrees" — and the one it reports frontier
+models failing at, at a different step in each model ([source](https://arcprize.org/blog/arc-agi-3-gpt-5-5-opus-4-7-analysis)).
 
 **The minimum, as currently stocked.** Two of the three legs have credible members:
 an explicit, optimizable hypothesis ([`technique.latent-program-search`]) and a planner
