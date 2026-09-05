@@ -125,7 +125,8 @@ supplies:
     level: full
     binding: project
     note: >-
-      a 27B language model (Qwen3.6-27B, fp8) served in-kernel by vLLM from an attached model
+      a language model (Qwen3.8-Flash-Next, NVFP4, with multi-token prediction; lineage as of
+      2026-09-05, previously Qwen3.6-27B fp8) served in-kernel by vLLM from an attached model
       dataset on the RTX PRO 6000; no network, so nothing is called — the model is co-located
   - token: compiled-implementation
     level: partial
