@@ -16,15 +16,16 @@ requires:
 leverage: computation
 cost: high
 evidence:
-  - claim: "56.75% combined on ARC-AGI-1 validation; 38.0% induction alone, 43.0% transduction alone"
+  - claim: "56.75% for the ensemble (TTT + reranking) on the 400-task ARC-AGI-1 validation set; the arms are 38.00% induction (20k samples, majority vote) and 29.125% BARE transduction (no TTT, no reranking) — the 43.00% often quoted as the transduction arm is Table 2's 'Transduction (TTT + reranking)' row, which contains test-time training"
     kind: claimed
     split: arc-agi-1/validation
     regime: uncapped
-    source: https://arxiv.org/abs/2411.02272
+    source: https://arxiv.org/abs/2411.02272v4
     date: 2024-11
     stars: 2
 no_absolute_score: false
 caveats:
+  - "The transduction arm this node used to quote (43.0%) was Table 2's 'Transduction (TTT + reranking)' row, not the arm: bare transduction is 29.125%, reranking alone lifts it to 35.25%, TTT alone to 39.25%. The 56.75% ensemble row likewise carries TTT + reranking on its transduction side, so it is a combination of THREE register mechanisms (inductive sampling, transductive prediction, test-time training), not two. Corrected 2026-09-05 against v4 (2 Dec 2024)."
   - "The headline is not the combined number. It is that the two approaches solve substantially DISJOINT task sets — the ensemble gain comes from non-overlap, not from either method being better."
 interacts:
   - technique: technique.latent-program-search
