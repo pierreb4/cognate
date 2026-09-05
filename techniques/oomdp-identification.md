@@ -80,6 +80,15 @@ interacts:
     note: >-
       both revise in light of a failure, one by falsifying a prediction the evidence
       contradicts and one by re-prompting with the failure attached
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold a dynamics account a single transition refutes under determinism; DOORMAX
+      states it as condition-effect rules over an object vocabulary it is handed, the twin
+      as Python over raw grid cells, which is why one is `partial` and the other `direct`
+      here — and the twin's repair is proposed by a model where DOORMAX's retraction is
+      derived
 provenance:
   entered: 2026-09-03
   commit: e384cbc

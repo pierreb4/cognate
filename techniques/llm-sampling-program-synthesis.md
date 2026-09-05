@@ -50,6 +50,14 @@ interacts:
       a language model asked to revise a failing program IS a mutation operator over the
       program representation, which is the precondition the evolutionary family names and
       does not otherwise supply
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the nearest kin in the register: a Python program an executor refutes, in both;
+      thousands of independent draws against demonstration pairs in one, a single program
+      replayed against every logged transition and repaired in the other — repair is a
+      belief-update distinction, and on this cell the committed object is the same kind
 provenance:
   entered: 2026-09-02
   commit: 6f81060

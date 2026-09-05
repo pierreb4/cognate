@@ -66,6 +66,13 @@ interacts:
     scope: modeling.hypothesis-formation
     note: >-
       the same generate-and-test over a program space; hand-authored versus learned
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold the account as a readable program; the DSL's space is authored and closed,
+      the twin's is whatever Python a coding agent writes, and the refuter is a demonstration
+      pair in one and the next logged transition in the other
 provenance:
   entered: 2026-09-02
   commit: 6f81060

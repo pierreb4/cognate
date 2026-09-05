@@ -99,6 +99,13 @@ interacts:
     note: >-
       both close the revision gap by feeding a failure back into the next attempt; one
       mutates a population, the other re-prompts
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a population of executable accounts held at once against one twin repaired in place;
+      the twin never holds a second-best, which is the pool's whole point, and
+      repair-versus-mutation is a belief-update distinction, not one of this cell
 provenance:
   entered: 2026-09-02
   commit: 6f81060

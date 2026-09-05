@@ -92,6 +92,13 @@ interacts:
     note: >-
       both spend per-task gradient steps on the instance; they differ in what is fitted, not
       in when
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      one account in both, driven to a description-length minimum against demonstrations in
+      one and replayed against a growing transition log in the other; the compressed network
+      cannot state the rule it found and the twin IS the rule, as Python
 provenance:
   entered: 2026-09-02
   commit: 6f81060

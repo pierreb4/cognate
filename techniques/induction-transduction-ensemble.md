@@ -51,6 +51,13 @@ interacts:
     note: >-
       both run one task through two representations and arbitrate; the gain is claimed from
       non-overlap of the solved sets in each case
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the ensemble's finding is that the representation choice decides which tasks fall; the
+      twin fixes the choice as code and buys its coverage from a pretrained coding model
+      rather than from a task distribution two models were trained on
 provenance:
   entered: 2026-09-02
   commit: 6f81060

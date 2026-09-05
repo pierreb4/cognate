@@ -13,6 +13,14 @@ addresses:
       distance rule because two things are handed over: the terminal level-completion flag
       that confirms or refutes each hypothesis, and five authored visual-change heuristics
       that rank which reachable states are worth proposing as goals — see caveats
+  - capability: modeling.hypothesis-formation
+    strength: direct
+    note: >-
+      the account is a Python `step(grid, action) -> grid` written at test time, replayed
+      against every logged transition before any scored action and hash-committed as a
+      prediction before each one — a single executable account the next logged frame can
+      refute; `direct` under this cell's exhibitable-commitment rule, and not capped by the
+      distance rule because this is not one of the seven supplied/acquired cells
 requires:
   - token: llm-inference
     note: >-
@@ -74,7 +82,7 @@ caveats:
   - "Public 25-game set only, one scored run per game, no semi-private or hidden-eval number. The contamination guard covers the base model (Feb 2026 cutoff against a March 2026 game release), web access and deny-listed sources; it cannot cover harness design, which was done with the 25 public games available. The comparison systems were run on different base models except the Codex ablation and Prime Agent ('the Codex ablation and Prime Agent's Sol configuration are the only entries sharing Twin's base model'), so only the 93.3 vs 61.1 vs 78.3 triple is model-matched."
   - "The human row is the score's normalization, 'not a measured system'. The 0.61x action ratio is over the 23 cleared games; two games (sp80 at 92.3% dynamics accuracy, 'goal-limited'; sc25 with 'costly timer-driven tests') are unfinished and the authors name them as 'accurate dynamics, unresolved goals' — the cell's own failure mode, not a dynamics failure."
   - "Scope limits stated by the authors: deterministic dynamics, one-frame state ('mechanics driven by long temporal context ... are beyond this scope'), small discrete grids where cell equality is decidable, fixed search budgets (depth 14 / 30,000 nodes for goal discovery) so 'a goal beyond the horizon goes unfound'. The hosted model exposes no seed, so token sequences are not reproducible; the audit trail (hash-committed prediction before every action, all 25 runs replayable at the project site) is what stands in for it."
-  - "Edges OWED, not declared. The twin is an executable program replayed against the log, which is `direct` on `modeling.hypothesis-formation` by that cell's exhibitable-commitment rule, but declaring it means typing the pair against eight techniques already at direct/partial there; `modeling.belief-update` (counterexample-guided repair) and `exploration.experiment-design` (the 'live wall' picks what the next action should teach, but by one held hypothesis, not by information gain over a set) have no written strength ladder to grade against. This node enters for the cell it was examined against."
+  - "Edges still OWED, not declared. `modeling.belief-update` (counterexample-guided repair of the twin) and `exploration.experiment-design` (the 'live wall' picks what the next action should teach, but by one held hypothesis, not by information gain over a set) have no written strength ladder to grade against. The `modeling.hypothesis-formation` edge is declared: the pair was typed `overlaps` against all eight techniques at direct/partial there, each entry on the alphabetically-first node, so this node's own `interacts:` stays empty by construction."
 interacts: []
 provenance:
   entered: 2026-09-05

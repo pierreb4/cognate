@@ -36,6 +36,13 @@ interacts:
     note: >-
       parallel candidates judged against a single account narrowed by refutation; the first
       needs a judge it can trust, the second needs no judge at all
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      several representations run in parallel and judged, against one representation, code,
+      checked by replay; the twin needs no judge because a logged transition either
+      reproduces or it does not, and it holds no second modality to arbitrate
 provenance:
   entered: 2026-09-02
   commit: 6f81060

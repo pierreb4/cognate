@@ -51,6 +51,13 @@ interacts:
     note: >-
       both run gradient descent per task to reach an instance-specific account; only the
       latent one can be read back, which is why the two differ by two strength steps here
+  - technique: technique.test-time-digital-twin
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a latent searched by gradient against a program written by a coding agent; the twin
+      can be read, replayed and hash-committed before every action, the latent can only be
+      decoded, and neither space was authored by hand
 provenance:
   entered: 2026-09-02
   commit: fb41fa3
