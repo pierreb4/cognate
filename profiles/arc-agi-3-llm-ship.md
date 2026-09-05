@@ -175,8 +175,13 @@ supplies:
     note: the evaluation games are unseen, so no per-task identifier could be fitted anyway
 
 own_splits:
-  # a cost measured somewhere else is indicative here, never a verdict; the screen says so
-  - arc-agi-3/public-preview
+  # a cost measured somewhere else is indicative here, never a verdict; the screen says so.
+  # ARC-AGI-3 is 135 environments (arcprize.org/blog/arc-agi-3-human-dataset): 25 public
+  # (the set Twin's rows name), a semi-private set ARC Prize scores on, and the hidden
+  # competition hold-out. `public-preview` (0fdb878) named the 2025 developer preview, a
+  # different and smaller set, and matched no evidence row.
+  - arc-agi-3/public-25-games
+  - arc-agi-3/semi-private
   - arc-agi-3/hidden-eval
 requires_capabilities:
   - capability: goal-setting.goal-inference
