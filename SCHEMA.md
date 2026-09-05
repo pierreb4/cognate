@@ -135,8 +135,11 @@ SeaRAFT optical flow — correspondence, one level below the persisting index �
 in a frozen DINO feature space and carries `frozen-self-supervised-features`. Neither is
 handed the thing it is graded on; both are capped for what they are handed.
 
-A cell reads EMPTY in the gap report when nothing reaches `direct` or `partial` — which is
-why cells with real incoming edges still read EMPTY: every candidate so far is a consumer.
+The gap report has three states, and `incidental` edges count as hits: a cell reads EMPTY
+when NO technique addresses it at any strength, INDIRECT when it has edges but none at
+`direct`, and is otherwise covered (`gap_report` in `scripts/build_graph.py`). So a cell
+whose every candidate is a consumer reads INDIRECT with its edge count, not EMPTY — the two
+served priors below are the case — and only a cell nobody has tried reads EMPTY.
 `technique.dsl-search` is the worked case, capped at `incidental` on two served priors
 because it "supplies the prior as authored primitives (rotate, reflect, connect, fill)
 rather than acquiring it".
