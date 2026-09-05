@@ -101,6 +101,14 @@ tokens:
       tracking), used as a training target or a readout — a supplied instrument, so a
       technique that needs one has not acquired correspondence from observation itself
 
+  - token: goal-grammar
+    kind: artifact
+    note: >-
+      an authored hypothesis space over objectives — the shape a goal may take, such as a
+      termination-rule template or a goal predicate language — strictly upstream of the
+      objective the system then infers; caps a goal-inference grade at `partial` rather
+      than disqualifying it, because a family of objectives is not the objective
+
   - token: llm-inference
     kind: artifact
     note: a language model with strong generation available at inference time

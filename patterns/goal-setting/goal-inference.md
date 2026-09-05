@@ -94,10 +94,12 @@ this literature could enter where the earlier asks returned nothing. Examined an
 - **EMPA** (Tsividis et al., arXiv 2107.12544v1, 2021) is the same shape a Bayesian way round:
   termination rules of the form `WIN IF count(c)==0` inferred from observed Win/Loss status,
   held as "a superset of possible explanations" the planner tries to satisfy, on 90 VGDL games
-  against humans. It is a second (B) candidate, not a refusal. Not entered this pass because
-  the goal grammar is one authored template, the 90 games are the same lab's own VGDL suite
-  (`solution-in-span` by construction), and it is a v1-only preprint whose row needs its own
-  reading.
+  against humans. It is a second (B) candidate, not a refusal, and was ENTERED later the same
+  day as [`technique.theory-based-rl`] at `partial` after its own reading, the 2026 journal
+  version included: same distance-rule clause as Twin, heavier cap, because the goal grammar
+  is one authored template (the new `goal-grammar` token) and the 90 games are the same
+  lab's own VGDL suite (`solution-in-span` by construction); no number in either version
+  isolates the objective-finding step.
 - **WorldCoder** (Tang, Key & Ellis, 2402.12275v3) learns a reward function as code, but "the
   agent receives a goal in natural language" in every environment (mission strings, "win the
   game", ALFWorld instructions). The objective is consumed. Refused; Twin cites it as the

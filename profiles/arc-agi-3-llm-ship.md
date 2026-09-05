@@ -45,6 +45,12 @@ supplies:
   - token: novelty-estimator
     level: full
     binding: project
+  - token: goal-grammar
+    level: full
+    binding: project
+    note: >-
+      an authored template of what a level's win looks like can be written; whether any
+      template spans the hidden games is the `solution-in-span` question, not a supply
   - token: augmentation-scheme
     level: full
     binding: project
