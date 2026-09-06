@@ -23,7 +23,7 @@ requires:
   - token: augmentation-scheme
     note: an augmentation scheme that preserves task semantics
 leverage: computation
-cost: high
+cost: low
 evidence:
   - claim: "53.0% on ARC-AGI-1 public eval; 61.9% ensembled with BARC's program synthesizer"
     kind: claimed

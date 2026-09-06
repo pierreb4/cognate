@@ -190,6 +190,32 @@ cannot state is one you do not understand well enough to grade, so the validator
 `--trend [split]` orders dated evidence by this axis, and `--profile` cross-tabulates it
 against admissibility. That is what turns a much-cited essay into a query over the corpus.
 
+### `cost:` — the per-task inference price band
+
+`cost:` is what one task costs to RUN with the technique, in USD per task, at the price the
+node's best published number was bought for. Four bands, upper bound inclusive:
+
+| band | per task |
+|---|---|
+| `low` | up to $1 |
+| `medium` | $1 to $10 |
+| `high` | $10 to $100 |
+| `extreme` | above $100 |
+
+Training, pretraining and authoring spend are NOT in it — they are named in `requires:`
+(`trained-model`, `training-distribution`, `expert-authored-library`) and, when a result cost
+more than the mechanism, in `requires_beyond:`. A one-value label cannot carry two currencies,
+and the 2026-09-06 audit found it carrying neither consistently: a `cost: medium` node held a
+`$30.57-per-task` row and a `cost: extreme` node held `$3.97-per-task`.
+
+The label is checked against the rows. Any evidence row whose `regime:` prices the run in
+dollars per task (`$30.40-per-task`, `kaggle-2025-cost-cap-~$0.20/task`) is parsed, and the
+label must equal the band of the DEAREST such row — cheaper rows may sit below it and say so
+in their own `regime:`, but the label answers "what must I be prepared to pay for the best
+number here". Where no row is priced in $/task the label is the author's estimate from the
+regime strings and is not checked; a node that wants its label enforced prices a row.
+`grade_combination.py` reads the label as the combination's heaviest member tier.
+
 ### `kind: hypothesis`
 
 A dated, sourced, falsifiable claim **about the register's own contents** — held as a node so
@@ -313,6 +339,8 @@ margin. Coverage that turns on a number should be visible as such, not rounded t
     same unit, and must be a positive number. A `limit` needs `as_of`, `checked` and
     `source`; a `demand` needs `measured_on` and `source`; a `history` entry needs
     `as_of`, `source` and `note`.
+14. `cost` is one of `low | medium | high | extreme`, and if any evidence row's `regime`
+    prices the run in $/task the label equals the band of the dearest such row.
 
 ## `kind: bundle`
 

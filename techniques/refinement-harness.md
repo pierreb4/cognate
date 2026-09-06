@@ -19,7 +19,7 @@ requires:
   - token: orchestration-layer
     note: an orchestration layer holding the attempt history
 leverage: computation
-cost: medium
+cost: high
 evidence:
   - claim: "54% on ARC-AGI-2 semi-private, ARC Prize verified, orchestrating frontier models with no training"
     kind: measured

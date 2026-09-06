@@ -17,7 +17,7 @@ requires:
   - token: per-task-compute
     note: a per-task budget large enough for many generations
 leverage: both
-cost: extreme
+cost: high
 evidence:
   - claim: "29.4% on ARC-AGI-2 semi-private, evolving natural-language program descriptions"
     kind: claimed

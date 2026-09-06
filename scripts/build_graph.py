@@ -37,6 +37,19 @@ ASYMMETRIC = {"subsumes": "subsumed_by", "supplies": "supplied_by"}
 INTERACTIONS = SYMMETRIC | set(ASYMMETRIC)
 
 
+
+# `cost:` bands — per-task inference spend in USD, upper bound inclusive. Declared once here
+# and enforced against any evidence row whose `regime:` prices the run in $/task.
+COST_BANDS = {"low": 1.0, "medium": 10.0, "high": 100.0, "extreme": float("inf")}
+PRICE_RE = re.compile(r"\$\s*([0-9]+(?:\.[0-9]+)?)\s*(?:-per-task|/task)")
+
+
+def price_band(usd_per_task):
+    for band, upper in COST_BANDS.items():
+        if usd_per_task <= upper:
+            return band
+    return "extreme"
+
 def preconditions():
     """The closed token vocabulary a technique's `requires:` may cite."""
     doc = yaml.safe_load((ROOT / "data" / "preconditions.yaml").read_text())
@@ -163,6 +176,19 @@ def validate(nodes, errors, tokens):
                 errors.append(f"{where}: leverage must be 'knowledge' (bounded by authored "
                               f"content), 'computation' (improves with compute alone) or "
                               f"'both'; got {n.get('leverage')!r}")
+            # `cost:` is the per-task inference price band (SCHEMA.md). A label is an estimate
+            # until a row prices the run in $/task; then it must equal the band of the dearest one.
+            cost = n.get("cost")
+            if cost not in COST_BANDS:
+                errors.append(f"{where}: cost must be one of {list(COST_BANDS)}; got {cost!r}")
+            priced = [(float(m.group(1)), ev) for ev in n.get("evidence", [])
+                      for m in [PRICE_RE.search(str(ev.get("regime", "")))] if m]
+            if priced and cost in COST_BANDS:
+                usd, ev = max(priced, key=lambda pe: pe[0])
+                band = price_band(usd)
+                if band != cost:
+                    errors.append(f"{where}: cost '{cost}' but the dearest priced row is "
+                                  f"${usd:g}/task, band '{band}': {str(ev.get('claim'))[:60]!r}")
             no_abs = n.get("no_absolute_score", False)
             kinds = set()
             for ev in n.get("evidence", []):
