@@ -99,7 +99,7 @@ interacts:
       commitment is exhibited per action, the trace's once per task
 provenance:
   entered: 2026-09-06
-  commit: pending
+  commit: 5177d2b
   frame: kaggle-sweep-2026-09
   note: >-
     Kaggle competitions ending 2026-03..09 swept for ARC-relevant results; entered from the
