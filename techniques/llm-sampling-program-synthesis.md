@@ -47,6 +47,10 @@ caveats:
   - "A widely-circulated 43% figure attributed to the semi-private set has no primary source pairing that number with that set; it is not entered here."
   - "The result is a sample-budget result. Read it against the regime field, not against cost-capped leaderboard entries."
   - "The 38.00% and 4% rows are a fine-tuned 8B generator, not a prompted frontier model. They sit on this node because the paper places them here itself — 'Comparable to our induction model, but instead of fine-tuning, it uses prompting' (§7) — and `requires_beyond` records what the fine-tuning cost. 4% against 14% at the same 384-sample budget, and 38.00% at 20k, is the sample-hunger of the mechanism measured on one model (Figure 8, near-monotone in samples)."
+  - "A bound on the `candidate-arbiter` precondition from AIMO3 (olympiad math, 50 private problems — NOT ARC): the host's tool-free sampling puts gpt-oss-120b at pass@20 ≈ 45.5 and pass@100 ≈ 49/50 on the private set, while the best majority-vote-over-8 score in the independent ablation is 42/50; the paper names the gap 'selection loss: the correct answer appears in the N =8 pool but is outvoted by a more common wrong one' (arXiv 2603.27844 §9, https://arxiv.org/abs/2603.27844, citing the host post https://www.kaggle.com/competitions/ai-mathematical-olympiad-progress-prize-3/discussion/679559). It bears on this node because the executor only filters; the moment no sample reproduces every demonstration pair the arbiter is a vote, and the selector, not the generator, is the bottleneck once the answer is in the pool."
+  - "Under a wall-clock cap more samples per task scored lower: gpt-oss-20b at N=8 reached 31.0 on the AIMO3 public leaderboard against 26 at N=32 — 'per-attempt time shrinks, p̂ drops from 0.61 to 0.52, score drops from 31.0 to 26' (Table 3, https://arxiv.org/abs/2603.27844); the 3rd-place team reports the same direction going from 8 to 16 solver runs, 'leading to an overall increase in errors' (https://www.kaggle.com/competitions/ai-mathematical-olympiad-progress-prize-3/writeups/3rd-place-solution-for-the-aimo3-competition). Sample budgets in this node's regime fields are token budgets, not wall-clock ones; do not read them across."
+  - "Prompt-diversity mixers did not decorrelate errors: pairwise error correlation between attempts was already negative at T=1.0 (mean ρ̂ = −0.122 for N ≥ 7) and every mixed-strategy configuration scored at or below the single-prompt baseline — 'More diversity = worse performance' (Table 1, §4.2, https://arxiv.org/abs/2603.27844). Diversity-by-prompt is not a substitute for a selector."
+  - "Entropy-weighted voting, used by every top AIMO3 entry, has no ablated gain over plain majority in the one ablation that isolates it: the Qwen3.5-35B-A3B table lists 'Entropy voting' at 8/10, equal to the 8/10 baseline (Table 4, https://arxiv.org/abs/2603.27844). Treat the weighting as unproven."
 interacts:
   - technique: technique.modality-driven-search
     rel: overlaps
@@ -103,6 +107,13 @@ interacts:
         source: https://arxiv.org/abs/2411.02272v4
         date: 2024-11
         stars: 2
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      thousands of independent programs filtered by an executor against one scripted enumeration
+      with in-trace checks; the sampled program is a fresh account each draw, the distilled trace
+      re-emits an authored one
 provenance:
   entered: 2026-09-02
   commit: 6f81060

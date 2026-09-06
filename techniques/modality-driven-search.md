@@ -43,6 +43,12 @@ interacts:
       several representations run in parallel and judged, against one representation, code,
       checked by replay; the twin needs no judge because a logged transition either
       reproduces or it does not, and it holds no second modality to arbitrate
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      several representations generated and judged against one representation replayed from
+      weights; running both buys candidate diversity, not a second kind of account
 provenance:
   entered: 2026-09-02
   commit: 6f81060

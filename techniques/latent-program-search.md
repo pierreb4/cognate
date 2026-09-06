@@ -58,6 +58,12 @@ interacts:
       a latent searched by gradient against a program written by a coding agent; the twin
       can be read, replayed and hash-committed before every action, the latent can only be
       decoded, and neither space was authored by hand
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a hypothesis reached by optimizing a continuous latent at test time against one replayed
+      from weights with no test-time optimization; both are capped for what they were handed
 provenance:
   entered: 2026-09-02
   commit: fb41fa3

@@ -29,6 +29,7 @@ evidence:
 no_absolute_score: false
 caveats:
   - "The comparison that matters is not 20% against leaderboard entries but 20% against ZERO pretraining and 76K parameters. Ranked on the percentage axis alone this node reads as weak, which is the wrong reading."
+  - "NeuroGolf 2026 is a warning specimen for shortest-description objectives under a leaky cost model: ONNX code golf on the 400 ARC-AGI-1 public training tasks (answers given), scored max(1, 25 − ln(cost)) with cost = parameters + intermediate-tensor bytes after the organizer chose mid-contest to 'drop MACs from the objective completely' (https://www.kaggle.com/competitions/neurogolf-2026/discussion/691461); the winning artifacts were single terminal Einsum nodes — the 4th-place team reports '224 models contained exactly one node. Of the 224 one-node models, 193 used Einsum.' (https://www.kaggle.com/competitions/neurogolf-2026/writeups/4th-place-solution-writeup) — using fp32 rounding as the selector, 'Float32 ULP-cancellation hashes, fused into a single graph-output Einsum' (https://www.kaggle.com/competitions/neurogolf-2026/discussion/726799). The shortest description under a cost model describes the cost model; this node's objective is only as good as what it charges for."
 interacts:
   - technique: technique.dsl-search
     rel: overlaps
@@ -100,6 +101,13 @@ interacts:
       both adapt to the instance without a rule to show for it; compression fits the whole
       model to the one puzzle, transduction fits nothing and conditions a predictor
       meta-learned on a task distribution
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      one account per task in both; compression finds it by optimizing a description-length
+      objective against the demonstrations at test time, distillation replays an authored solver's
+      enumeration from weights and optimizes nothing at inference
 provenance:
   entered: 2026-09-02
   commit: 6f81060

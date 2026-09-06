@@ -100,6 +100,13 @@ interacts:
       a population of executable accounts held at once against one twin repaired in place;
       the twin never holds a second-best, which is the pool's whole point, and
       repair-versus-mutation is a belief-update distinction, not one of this cell
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      a population revised by mutation against a fixed catalog walked in Hamming order; neither
+      reads the other's account, and the trace's repair never learns from the failure the way a
+      mutation operator is meant to
 provenance:
   entered: 2026-09-02
   commit: 6f81060

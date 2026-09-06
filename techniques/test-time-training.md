@@ -53,6 +53,13 @@ evidence:
     source: https://arcprize.org/blog/arc-prize-2025-results-analysis
     stars: 3
     date: 2025-12-05
+  - claim: "33.89% on the ARC-AGI-2 Kaggle 2026 PUBLIC leaderboard, provisional until the private rerun after the 2026-11-02 deadline (results 2026-12-04): the open 'Failed in AIMO' notebook and its forks, ranks 9-20 at the read date, run the ARChitects/NVARC recipe — a Qwen-family ~4B model fine-tuned per task with LoRA on augmented demonstrations inside the scored kernel, a depth-first decoder, and product-of-experts reranking across augmentations"
+    kind: measured
+    split: arc-agi-2/kaggle-public-2026
+    regime: kaggle-2026-4xL4-12h-offline
+    source: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-2/leaderboard
+    stars: 2
+    date: 2026-09-06
 no_absolute_score: false
 caveats:
   - "The 61.9% is NOT this technique alone: it is an acknowledged joint submission with the BARC team (arXiv 2411.02272), TTT applied inside BARC's pipeline with their induction model used as-is. Attribute the ensembled figure to the pair, never to TTT (https://arxiv.org/html/2411.07279v2)."
@@ -60,6 +67,8 @@ caveats:
   - "Do not read this paper's 42.2% -> 73.5% solved-set statistic as complementarity. The authors' own gloss is the opposite: TTT 'significantly improves the neural model's ability to learn systematic reasoning patterns SIMILAR TO those captured by program synthesis models' — convergence, not disjointness. The complementarity finding it is often confused with belongs to arXiv 2411.02272 and is held on the `composes` edge between `technique.llm-sampling-program-synthesis` and `technique.transductive-output-prediction`."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system trained on AGI-2 train and scored on AGI-1 eval is inflated (flagged in the TRM README)."
   - "The 2024 and 2025 numbers are under different cost regimes and different benchmarks — they do not form a trend line."
+  - "The 2026 row is a PUBLIC leaderboard number, read 2026-09-06 with the Kaggle CLI, and it is `measured` at two stars deliberately: Kaggle scores it on the hidden set, so it is not self-reported, but the private result lands only after the 2026-11-02 deadline (https://arcprize.org/competitions/2026), and the entries at the same score are reruns of one public notebook (https://www.kaggle.com/code/koushikrudra/failed-in-aimo), not an independent reproduction of the method. The regime is read from that notebook's own code — `global_end_time = time.time() + 12 * 3600 - 600` and a comment stating L4 22GB x4, offline — because the Kaggle rules page is rendered client-side and was not fetched."
+  - "The top of the 2026 ARC-AGI-2 public board is NOT this row and is not attributable to any technique: rabbithole 73.33 and nvbanana 72.08 (PUBLIC LB, provisional, read 2026-09-06, https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-2/leaderboard) publish no method. nvbanana is the NVARC team, whose 2025 winner was 'A synthetic-data-driven ensemble of an improved Architects-style test-time-trained model and TRM-based components that reaches ~24% on ARC-AGI-2 under contest constraints' (https://arcprize.org/blog/arc-prize-2025-results-analysis) — a prior about the team, not a description of the 2026 entry. For scale, the same post gives the 2025 Kaggle private SOTA: 'The top Kaggle score winner reached a new SOTA on the ARC-AGI-2 private dataset of 24% for $0.20/task.'"
 interacts:
   - technique: technique.transductive-output-prediction
     rel: composes

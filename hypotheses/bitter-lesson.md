@@ -89,6 +89,29 @@ history:
       no semi-private number — so this is the ARC-AGI-2 caveat again: indicative, not
       matched. Neither harness publishes a mechanism, so no register node can carry the
       row; it lives here as the external check's third split.
+  - as_of: '2026-09-06'
+    status: argued
+    source: https://arcprize.org/results/anthropic-claude-opus-5
+    note: >-
+      the ARC-AGI-2 external check gains three verified general-model rows, and one of
+      them answers the 2026-09-03 budget confound at the cap itself. ARC Prize verified,
+      semi-private: Claude Opus 5 — 'At Max reasoning effort, Opus 5 scores 97.5% on
+      ARC-AGI-1 and 90.4% on ARC-AGI-2 Semi-Private.' (2026-07-24); Claude Fable 5.1 — 'At
+      max effort, Claude Fable 5.1 scores 97.5% on ARC-AGI-1 Semi-Private at $1.40 per task
+      and 90.0% on ARC-AGI-2 Semi-Private at $4.49 per task.'
+      (https://arcprize.org/results/anthropic-claude-fable-5-1, 2026-09-01); Gemini 3.7
+      Flash — 'At high effort, Gemini 3.7 Flash scores 95.5% on ARC-AGI-1 Semi-Private at
+      $0.12 per task and 84.6% on ARC-AGI-2 Semi-Private at $0.25 per task.'
+      (https://arcprize.org/results/google-gemini-3-7-flash, 2026-08-13). The $0.25/task
+      row sits at the Kaggle cap (~$0.20/task, https://arcprize.org/blog/arc-prize-2025-results-analysis)
+      and above every `Custom` entry ever verified, so the iso-cost reading no longer
+      rests on a fifth-of-cap outlier. Still NOT split-matched: these are semi-private and
+      the `Custom` column is Kaggle private. The 2026 Kaggle ARC-AGI-2 PUBLIC board (read
+      2026-09-06, https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-2/leaderboard)
+      holds two undescribed entries at 73.33 and 72.08 — provisional, no method, and no
+      SYSTEM TYPE until verified after the 2026-11-02 deadline — so the purpose-built side
+      may have moved as well and cannot be read until it is described. Status and stars
+      unchanged.
 ---
 
 # The Bitter Lesson

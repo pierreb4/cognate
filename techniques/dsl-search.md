@@ -66,6 +66,13 @@ interacts:
       both hold the account as a readable program; the DSL's space is authored and closed,
       the twin's is whatever Python a coding agent writes, and the refuter is a demonstration
       pair in one and the next logged transition in the other
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold an authored candidate space; the DSL is searched at inference by a program, the
+      solver's enumeration is rendered into traces and replayed by a model that memorized the
+      catalog — the same kind of authored space, with the search moved from inference to training
 provenance:
   entered: 2026-09-02
   commit: 6f81060

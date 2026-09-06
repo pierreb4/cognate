@@ -9,6 +9,10 @@ source:
     url: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3
   - title: ARC-AGI-3 technical report (scoring, aggregation, action cutoff)
     url: https://arxiv.org/abs/2603.24621
+  - title: ARC-AGI-3 scoring methodology as the Kaggle competition states it (RHAE, upper-median human baseline, 1.15 cap)
+    url: https://docs.arcprize.org/methodology.md
+  - title: ARC Prize 2026 Kaggle starter kit (accelerator table, offline sessions)
+    url: https://docs.arcprize.org/arc-prize-2026.md
 supplies:
   # level: full | partial | none   — what the deployment can actually provide.
   # binding: competition | project — a competition rule cannot be relaxed; a project
@@ -58,7 +62,17 @@ supplies:
   - token: per-task-compute
     level: full
     binding: competition
-    note: in-process engine, no per-game cost cap beyond the notebook's wall clock
+    note: >-
+      in-process engine, no per-game cost cap beyond the notebook's wall clock. The Kaggle
+      cap as server-rendered sources state it (the rules page is client-rendered and was not
+      fetched; read 2026-09-06): one accelerator, the starter kit reserving `rtx6000` as
+      'ARC-AGI-3 exclusive' and stating 'All accelerated Kaggle sessions have internet
+      disabled' (https://docs.arcprize.org/arc-prize-2026.md); a wall clock the milestone-1
+      third-place notebook hard-codes as GLOBAL_TIME_LIMIT_SECONDS = 9 * 60 * 60 shared
+      across all games (https://www.kaggle.com/code/mbmmurad/arc-agi-3-lb-0-86-3rd-place-candidate-milestone);
+      scored on the 55-game private set (arXiv 2605.25931 reports a code entry on 'the full
+      55-game private evaluation', https://arxiv.org/abs/2605.25931). This token declares no
+      unit, so the cap cannot be a `limit` and stays prose until the vocabulary gains one.
   - token: parallel-inference-budget
     level: full
     binding: competition
@@ -99,6 +113,15 @@ supplies:
       aggregated as the MINIMUM of the weighted completion fraction and the weighted average
       of level scores, with w_l = l over at least six levels. So exploration is charged twice:
       quadratically in the score, and against a budget that ends the level when it runs out.
+      The Kaggle competition's own statement of the rule (https://docs.arcprize.org/methodology.md,
+      read 2026-09-06) is 'level_score = (human_baseline_actions / ai_actions) ^ 2' against
+      the upper median first-time human per level, a per-level cap of 1.15, a game score
+      that is the weighted average of per-level scores with the 1-indexed level number as
+      weight, and a total that is the plain average of game scores — the same per-level term
+      and weights as v2, without v2's completion-fraction minimum, and with NO action budget
+      stated: the 5x figure this `limit` carries is the paper's, and the docs page does not
+      repeat it. Public-leaderboard numbers before 2026-04-14 were on the earlier rule
+      (2nd-best human baseline, 1.0 cap; https://arcprize.org/blog/arc-agi-3-human-dataset).
     history:
       - as_of: '2026-03-24'
         limit: 5

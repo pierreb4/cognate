@@ -89,6 +89,12 @@ interacts:
       as Python over raw grid cells, which is why one is `partial` and the other `direct`
       here — and the twin's repair is proposed by a model where DOORMAX's retraction is
       derived
+  - technique: technique.solver-trace-distillation
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      condition-effect rules identified from observed transitions against a catalog authored
+      from a known generator; the commitment is acquired in one and installed in the other
 provenance:
   entered: 2026-09-03
   commit: e384cbc
