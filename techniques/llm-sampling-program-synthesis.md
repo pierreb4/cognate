@@ -26,10 +26,27 @@ evidence:
     source: https://blog.redwoodresearch.org/p/getting-50-sota-on-arc-agi-with-gpt
     stars: 2
     date: 2024-06-17
+  - claim: "38.00% on the ARC-AGI-1 public validation set with a Llama-3.1-8B-instruct generator fine-tuned on 400k synthetic problems — 20k samples per task, filtered on the demonstration pairs, majority vote over execution results (BARC induction model, Table 2, ARC-Potpourri)"
+    kind: claimed
+    split: arc-agi-1/public-eval
+    regime: uncapped-20k-samples-per-task
+    source: https://arxiv.org/abs/2411.02272v4
+    date: 2024-11
+    stars: 2
+    requires_beyond: [trained-model, training-distribution, weight-gradients]
+  - claim: "4% on the ARC Prize 2024 Kaggle private test set with the same generator at 384 samples per task; 14% on the public validation set at that budget (Table 3)"
+    kind: claimed
+    split: arc-agi-1/kaggle-private-2024
+    regime: kaggle-2024-compute-limit-384-samples-per-task
+    source: https://arxiv.org/abs/2411.02272v4
+    date: 2024-11
+    stars: 2
+    requires_beyond: [trained-model, training-distribution, weight-gradients]
 no_absolute_score: false
 caveats:
   - "A widely-circulated 43% figure attributed to the semi-private set has no primary source pairing that number with that set; it is not entered here."
   - "The result is a sample-budget result. Read it against the regime field, not against cost-capped leaderboard entries."
+  - "The 38.00% and 4% rows are a fine-tuned 8B generator, not a prompted frontier model. They sit on this node because the paper places them here itself — 'Comparable to our induction model, but instead of fine-tuning, it uses prompting' (§7) — and `requires_beyond` records what the fine-tuning cost. 4% against 14% at the same 384-sample budget, and 38.00% at 20k, is the sample-hunger of the mechanism measured on one model (Figure 8, near-monotone in samples)."
 interacts:
   - technique: technique.modality-driven-search
     rel: overlaps
@@ -58,6 +75,34 @@ interacts:
       thousands of independent draws against demonstration pairs in one, a single program
       replayed against every logged transition and repaired in the other — repair is a
       belief-update distinction, and on this cell the committed object is the same kind
+  - technique: technique.transductive-output-prediction
+    rel: composes
+    scope: modeling.hypothesis-formation
+    note: >-
+      the register's one measured representation-union: a fine-tuned program generator
+      (this node's 38.00% row) and a direct output predictor (43.00%, with TTT and
+      reranking stacked) solve substantially disjoint task sets, and the induction-first /
+      transduction-fallback rule (eq. 5: sample programs, keep those that reproduce every
+      demonstration pair, fall back to the predictor only when none does) reaches 56.75%.
+      What adds is tasks solved, not this cell's grade — the transductive arm is
+      `incidental` here by the exhibitable-commitment rule, so the pair's coverage of
+      hypothesis-formation stays at this node's `direct`; nothing here predicts which
+      representation a given task needs
+    evidence:
+      - claim: "56.75% ensemble vs 38.00% induction alone vs 43.00% transduction alone (TTT + reranking), ARC-AGI-1 public validation, 2 tries (Table 2, ARC-Potpourri); 37.50% vs 30.50% vs 19.25% with no TTT anywhere (Table 2, ARC-Heavy); 19% vs 4% vs 18% on the Kaggle 2024 private set at 384 samples / beam 3, no TTT (Table 3)"
+        kind: claimed
+        split: arc-agi-1/public-eval
+        regime: uncapped-2-tries
+        source: https://arxiv.org/abs/2411.02272v4
+        date: 2024-11
+        stars: 2
+      - claim: "the disjointness is stable across random seeds — solved sets correlate within a class and not across it (Figure 5B, 5C); 26.50% ensemble vs 18.78% / 15.25% at the 100k-problem scale (Table 1)"
+        kind: claimed
+        split: arc-agi-1/public-eval
+        regime: 100k-synthetic-problems
+        source: https://arxiv.org/abs/2411.02272v4
+        date: 2024-11
+        stars: 2
 provenance:
   entered: 2026-09-02
   commit: 6f81060

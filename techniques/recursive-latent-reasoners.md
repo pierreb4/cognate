@@ -61,6 +61,13 @@ interacts:
     note: >-
       both adapt to the instance without naming a hypothesis; recurrence depth versus fitted
       weights
+  - technique: technique.transductive-output-prediction
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      the same output — a grid predicted directly by a model trained on a task distribution;
+      one recurses over a latent with a per-task identifier under an outer refinement loop,
+      the other conditions a language model on the demonstrations in context and stops
 provenance:
   entered: 2026-09-02
   commit: fb41fa3

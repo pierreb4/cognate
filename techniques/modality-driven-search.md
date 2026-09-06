@@ -58,9 +58,9 @@ provenance:
 language description, a rendered image, an executable program — as parallel operators in
 one search, and let a judge choose among what they produce.
 
-**The cognate.** It generalizes the finding on
-[`technique.induction-transduction-ensemble`]. If two representations solve disjoint task
-sets, the representation is not a design decision to be made once; it is a dimension the
+**The cognate.** It generalizes the finding held on the `composes` edge between
+[`technique.llm-sampling-program-synthesis`] and [`technique.transductive-output-prediction`]
+(arXiv 2411.02272). If two representations solve disjoint task sets, the representation is not a design decision to be made once; it is a dimension the
 search should be moving along.
 
 **Therefore.** Where you already run an ensemble, consider making the representation an

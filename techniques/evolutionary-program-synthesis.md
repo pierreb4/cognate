@@ -49,12 +49,6 @@ caveats:
   - "SOAR words its split as 'the public test set'; read it as the ARC-AGI-1 public evaluation set and not as a held-out leaderboard number."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system fine-tuned on AGI-2 train and scored on AGI-1 eval is inflated."
 interacts:
-  - technique: technique.induction-transduction-ensemble
-    rel: overlaps
-    scope: modeling.hypothesis-formation
-    note: >-
-      a population refined under executor feedback against two fixed models run once; both
-      end holding programs, and only the first can improve one it already has
   - technique: technique.latent-program-search
     rel: overlaps
     scope: modeling.hypothesis-formation

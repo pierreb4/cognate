@@ -50,6 +50,12 @@ interacts:
     note: >-
       both are inference-time orchestration of frozen models; parallel candidates plus a
       judge is one configuration of a refinement loop
+  - technique: technique.transductive-output-prediction
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      neither touches weights at inference; the harness accumulates attempts across calls
+      under a verifier, the transductive model conditions once and cannot be told it was wrong
 provenance:
   entered: 2026-09-02
   commit: 6f81060

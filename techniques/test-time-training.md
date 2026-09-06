@@ -57,9 +57,19 @@ no_absolute_score: false
 caveats:
   - "The 61.9% is NOT this technique alone: it is an acknowledged joint submission with the BARC team (arXiv 2411.02272), TTT applied inside BARC's pipeline with their induction model used as-is. Attribute the ensembled figure to the pair, never to TTT (https://arxiv.org/html/2411.07279v2)."
   - "The published latest version disagrees with itself on that number: the abstract says 61.9%, Table 1's cell says 62.8%, and the v1 table said 61.875%. Only 61.875% is expressible on the paper's own denominator (247.5/400; 0.628 x 400 = 251.2 is not a half-task multiple). Cite 61.9% from the abstract and expect the table to differ."
-  - "Do not read this paper's 42.2% -> 73.5% solved-set statistic as complementarity. The authors' own gloss is the opposite: TTT 'significantly improves the neural model's ability to learn systematic reasoning patterns SIMILAR TO those captured by program synthesis models' — convergence, not disjointness. The complementarity finding it is often confused with belongs to arXiv 2411.02272 and is held on `induction-transduction-ensemble`."
+  - "Do not read this paper's 42.2% -> 73.5% solved-set statistic as complementarity. The authors' own gloss is the opposite: TTT 'significantly improves the neural model's ability to learn systematic reasoning patterns SIMILAR TO those captured by program synthesis models' — convergence, not disjointness. The complementarity finding it is often confused with belongs to arXiv 2411.02272 and is held on the `composes` edge between `technique.llm-sampling-program-synthesis` and `technique.transductive-output-prediction`."
   - "ARC-AGI-2 training data contains ARC-AGI-1 eval data; any system trained on AGI-2 train and scored on AGI-1 eval is inflated (flagged in the TRM README)."
   - "The 2024 and 2025 numbers are under different cost regimes and different benchmarks — they do not form a trend line."
+interacts:
+  - technique: technique.transductive-output-prediction
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      TTT is an operator applied to a transductive model, not a second coverage beside it:
+      every TTT row on this node fine-tunes a direct output predictor, and arXiv 2411.02272
+      Table 2 measures the operator's gain on one such model (29.125% -> 39.25% without
+      reranking). Held at overlaps because the substrate is not removable from the operator;
+      promotable to composes on that row if the pair is read as a combination instead
 provenance:
   entered: 2026-09-02
   commit: fb41fa3

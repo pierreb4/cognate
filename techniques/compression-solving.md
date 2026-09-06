@@ -44,12 +44,6 @@ interacts:
       a single account driven to a minimum against a population held at once; compression
       cannot report its second-best hypothesis, which is what makes an evolutionary pool
       useful
-  - technique: technique.induction-transduction-ensemble
-    rel: overlaps
-    scope: modeling.hypothesis-formation
-    note: >-
-      one objective against two representations arbitrated; compression has no second arm
-      that could disagree with the first
   - technique: technique.llm-sampling-program-synthesis
     rel: overlaps
     scope: modeling.hypothesis-formation
@@ -99,6 +93,13 @@ interacts:
       one account in both, driven to a description-length minimum against demonstrations in
       one and replayed against a growing transition log in the other; the compressed network
       cannot state the rule it found and the twin IS the rule, as Python
+  - technique: technique.transductive-output-prediction
+    rel: overlaps
+    scope: modeling.per-task-adaptation
+    note: >-
+      both adapt to the instance without a rule to show for it; compression fits the whole
+      model to the one puzzle, transduction fits nothing and conditions a predictor
+      meta-learned on a task distribution
 provenance:
   entered: 2026-09-02
   commit: 6f81060
