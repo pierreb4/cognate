@@ -63,7 +63,7 @@ caveats:
   - "Trained from seed programs for ARC-AGI-1 training tasks only (§4: 'a 100-problem subset of the training split'; §5: 160 seeds); the ARC-AGI-2-contains-AGI-1-eval contamination flag on other nodes does not apply to a 2024 result."
 provenance:
   entered: 2026-09-05
-  commit: pending
+  commit: 4734d4a
   frame: arc-prize-2025-taxonomy
   note: >-
     split out of `technique.induction-transduction-ensemble` — itself stocked from the ARC
