@@ -216,6 +216,51 @@ number here". Where no row is priced in $/task the label is the author's estimat
 regime strings and is not checked; a node that wants its label enforced prices a row.
 `grade_combination.py` reads the label as the combination's heaviest member tier.
 
+#### `cost:` ages
+
+The band is nominal. It records what a task cost in the dollars of the row's `date:`, and
+nothing rewrites it later — a measured row is a primary fact, and a label that drifted on a
+schedule would stop being checkable against the row that justifies it. But compute gets
+cheaper, so a 2023 `high` and a 2026 `high` are not the same claim, and a reader comparing
+them is comparing two vintages without being told.
+
+The register's answer is to deflate at QUERY time and never in the data.
+`build_graph.py --as-of <date>` re-reads every priced row in the dollars of that date and
+prints the nominal price beside the deflated one, with the band each implies, so a label
+moved by ageing alone is visible. The series live in `data/deflators.yaml`, each a dated,
+sourced claim held to the same standard as an evidence row: a rate quoted from a blog citing
+a primary does not enter.
+
+Three currencies age at three rates, so one rate would be wrong for two of them. A row's
+currency is read off its `regime:` string:
+
+| currency | example `regime:` | what moves |
+|---|---|---|
+| `api-usd-per-task` | `$30.57-per-task` | the price of the CAPABILITY: vendor cuts, and cheaper models reaching the same threshold. The fast curve |
+| `gpu-hour` | `~12h-per-100-tasks-1xA100` | the price of an hour of that class. The register stores the hours, which do not change |
+| `fixed-cap` | `kaggle-2025-cost-cap-~$0.20/task` | nothing. A cap is a rule, not a price, and is never deflated. What changes is what it BUYS, which the regime string already records |
+
+A cap still witnesses a band, because it bounds what was paid: `test-time-training` reads
+`cost: low` on the strength of a ~$0.20/task cap.
+
+**A series holds BASES, because the sources disagree and the disagreement is the finding.**
+One basis per primary or per vendor, each naming the span it actually measured
+(`covers_from` / `covers_to`). `status: contested` makes the view print a RANGE across
+bases and never a point estimate, and a date outside a basis's span prints EXTRAPOLATED.
+Both API primaries banked here stop before 2026 while the corpus holds 2026 rows, so every
+current re-pricing is extrapolated and says so. Two points a year apart ARE a rate, and the
+view reads between and beyond them log-linearly; it never invents a basis the sources do not
+support.
+
+A series may also decline to deflate at all. `competition-cost-cap` does so because a cap is
+nominal by construction. `gpu-hour-price` does so because the 2026-09-06 fetch found no
+single index to deflate BY: over 2024 to 2026 one vendor cut A100 by a third and H100 by 44%
+while leaving L4 unchanged to the cent, another vendor's on-demand LIST PRICES ROSE on every
+class checked, and on one day the same chip spans about 2.5x across vendors. Its points are
+banked as evidence of that spread and read by hand. A series with no fetched primary is
+`status: unbanked`, holds no points, and prints NOT BANKED — the honest state, enforced in
+both directions.
+
 ### `kind: hypothesis`
 
 A dated, sourced, falsifiable claim **about the register's own contents** — held as a node so
@@ -341,6 +386,12 @@ margin. Coverage that turns on a number should be visible as such, not rounded t
     `as_of`, `source` and `note`.
 14. `cost` is one of `low | medium | high | extreme`, and if any evidence row's `regime`
     prices the run in $/task the label equals the band of the dearest such row.
+15. Each deflator series in `data/deflators.yaml` names a currency `build_graph.py` can
+    read off a `regime`, and one currency has one series. An `unbanked` series holds no
+    points; `contested` needs at least two bases, because one source is not a disagreement;
+    every basis carries `source`, `covers_from`, `covers_to` and a `note`, and a deflating
+    one holds at least two dated points. Every point cites a declared basis and carries
+    `as_of`, a positive `value` and a `source`.
 
 ## `kind: bundle`
 

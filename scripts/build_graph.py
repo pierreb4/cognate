@@ -12,8 +12,10 @@ pattern language cannot disagree.
     build_graph.py --pairs         list the untyped co-coverage pairs in full
     build_graph.py --trend [split] dated evidence by leverage side, to test a hypothesis
     build_graph.py --provenance    what SELECTED the corpus: nodes by entry frame
+    build_graph.py --as-of <date>  priced rows re-read in the dollars of a later date
 """
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -42,6 +44,33 @@ INTERACTIONS = SYMMETRIC | set(ASYMMETRIC)
 # and enforced against any evidence row whose `regime:` prices the run in $/task.
 COST_BANDS = {"low": 1.0, "medium": 10.0, "high": 100.0, "extreme": float("inf")}
 PRICE_RE = re.compile(r"\$\s*([0-9]+(?:\.[0-9]+)?)\s*(?:-per-task|/task)")
+
+
+# A price is NOMINAL — the dollars of its row's `date:`. Three currencies age at three
+# rates (data/deflators.yaml), and a row's currency is read off its `regime:` string.
+GPU_CLASS = re.compile(r"\b(?:\d+x)?(A100|H100|B200|L4|RTX[ -]?(?:PRO[ -]?)?6000)\b", re.I)
+HOURS = re.compile(r"(\d+(?:\.\d+)?)\s*h(?:ours?)?\b", re.I)
+
+
+def row_currency(regime):
+    """Which deflator series governs this row, or None if it names no price.
+
+    A CAP is nominal by construction and is separated from a price actually paid: both
+    match PRICE_RE, and deflating the first would be a category error.
+    """
+    s = str(regime or "")
+    if PRICE_RE.search(s):
+        return "fixed-cap" if "cap" in s.lower() else "api-usd-per-task"
+    if GPU_CLASS.search(s) and HOURS.search(s):
+        return "gpu-hour"
+    return None
+
+
+def deflators():
+    """The dated price series. Absent file is not an error — every row then reads NOT BANKED."""
+    p = ROOT / "data" / "deflators.yaml"
+    doc = yaml.safe_load(p.read_text()) if p.exists() else {}
+    return {s["id"]: s for s in (doc or {}).get("series", [])}
 
 
 def price_band(usd_per_task):
@@ -107,6 +136,149 @@ def load():
 
 
 WARNINGS = []
+
+
+def validate_deflators(series, errors):
+    """A deflator is a claim about the world and carries a source exactly as a row does."""
+    seen = set()
+    for s in series.values():
+        where = f"data/deflators.yaml: {s.get('id')!r}"
+        if not s.get("id") or not s.get("note"):
+            errors.append(f"{where}: a series needs 'id' and 'note'")
+        if s.get("applies_to") not in ("api-usd-per-task", "gpu-hour", "fixed-cap"):
+            errors.append(f"{where}: applies_to must name a currency build_graph.py can read "
+                          f"off a regime — api-usd-per-task, gpu-hour or fixed-cap; got "
+                          f"{s.get('applies_to')!r}")
+        if s.get("applies_to") in seen:
+            errors.append(f"{where}: two series govern {s.get('applies_to')!r}; one currency, "
+                          f"one series")
+        seen.add(s.get("applies_to"))
+        if s.get("status") not in ("banked", "unbanked", "contested"):
+            errors.append(f"{where}: status must be 'banked', 'unbanked' or 'contested'")
+        bases = {b.get("id"): b for b in (s.get("bases") or [])}
+        pts = s.get("points") or []
+        if s.get("status") == "unbanked" and pts:
+            errors.append(f"{where}: an unbanked series holds no points — bank the primary "
+                          f"or drop them")
+        if s.get("status") == "contested" and len(bases) < 2:
+            errors.append(f"{where}: 'contested' is a claim that the sources disagree — it "
+                          f"needs at least two bases; one source is not a disagreement")
+        for b in (s.get("bases") or []):
+            for f in ("id", "source", "covers_from", "covers_to", "note"):
+                if not b.get(f):
+                    errors.append(f"{where}: basis {b.get('id')!r} needs {f!r} — a rate "
+                                  f"without the span it was measured over cannot be "
+                                  f"extrapolated honestly")
+            mine = [pt for pt in pts if pt.get("basis") == b.get("id")]
+            if s.get("deflates", True) and len({str(pt.get("as_of")) for pt in mine}) < 2:
+                errors.append(f"{where}: basis {b.get('id')!r} deflates but holds fewer than "
+                              f"two dated points; one point is a level, not a trend")
+        for pt in pts:
+            if pt.get("basis") not in bases:
+                errors.append(f"{where}: point cites undeclared basis {pt.get('basis')!r}")
+            for f in ("as_of", "value", "source"):
+                if not pt.get(f):
+                    errors.append(f"{where}: a point needs {f!r}")
+            if not ISO_DATE.match(str(pt.get("as_of", ""))):
+                errors.append(f"{where}: point as_of must be YYYY[-MM[-DD]], got "
+                              f"{pt.get('as_of')!r}")
+            if not isinstance(pt.get("value"), (int, float)) or pt.get("value", 0) <= 0:
+                errors.append(f"{where}: point value must be a positive number, got "
+                              f"{pt.get('value')!r}")
+    return errors
+
+
+def _months(d):
+    parts = (str(d) + "-01")[:7].split("-")
+    return int(parts[0]) * 12 + int(parts[1])
+
+
+def value_at(s, basis, date):
+    """Log-linear read of one basis at `date`, with a flag when it leaves the span the
+    primary measured. Two points a year apart ARE a rate, so reading between and beyond
+    them is the arithmetic the source states — but past `covers_to` it is extrapolation
+    and the view says so rather than printing a bare number."""
+    pts = sorted([pt for pt in (s.get("points") or []) if pt.get("basis") == basis],
+                 key=lambda pt: _months(pt["as_of"]))
+    if len(pts) < 2:
+        return None
+    x = _months(date)
+    lo, hi = pts[0], pts[-1]
+    for a, b in zip(pts, pts[1:]):
+        if _months(a["as_of"]) <= x <= _months(b["as_of"]):
+            lo, hi = a, b
+            break
+    xa, xb = _months(lo["as_of"]), _months(hi["as_of"])
+    ya, yb = math.log(lo["value"]), math.log(hi["value"])
+    val = math.exp(ya + (yb - ya) * ((x - xa) / (xb - xa))) if xb != xa else lo["value"]
+    b = next((bb for bb in (s.get("bases") or []) if bb.get("id") == basis), {})
+    outside = not (_months(b.get("covers_from", "1900-01")) <= x
+                   <= _months(b.get("covers_to", "2999-12")))
+    return val, outside
+
+
+def as_of_report(nodes, series, target):
+    """Every priced row re-read in the dollars of `target`, or the reason it cannot be.
+
+    The view never edits a row. It prints the nominal price beside the deflated one so the
+    two can never be confused, and where the sources disagree it prints their RANGE — a
+    point estimate would hide the disagreement, which is the most important thing the
+    deflators found.
+    """
+    by_currency = {s.get("applies_to"): s for s in series.values()}
+    L = [f"AS OF  {target}    priced rows in the dollars of that date", "",
+         "  Nothing here is written back: a row stays in the dollars of its own date.", ""]
+    n_rows = n_shown = 0
+    for n in sorted(nodes.values(), key=lambda n: n.get("name", "")):
+        if n.get("kind") != "technique":
+            continue
+        lines = []
+        for ev in n.get("evidence", []):
+            cur = row_currency(ev.get("regime"))
+            if not cur:
+                continue
+            n_rows += 1
+            m = PRICE_RE.search(str(ev.get("regime", "")))
+            usd = float(m.group(1)) if m else None
+            nominal = f"${usd:g}/task" if usd else str(ev.get("regime"))[:22]
+            s = by_currency.get(cur)
+            date = str(ev.get("date", "?"))
+            if s is None:
+                verdict = [f"no series governs {cur}"]
+            elif not s.get("deflates", True):
+                why = ("a cap is a rule, not a price" if s.get("status") != "contested"
+                       else f"CONTESTED — {s['id']} found no single index to deflate by")
+                verdict = [f"not deflated: {why}"]
+            else:
+                factors = []
+                for b in (s.get("bases") or []):
+                    a, z = value_at(s, b["id"], date), value_at(s, b["id"], target)
+                    if a and z:
+                        factors.append((z[0] / a[0], b["id"], a[1] or z[1]))
+                if not factors:
+                    verdict = [f"NOT BANKED — {s['id']} holds no usable points"]
+                else:
+                    n_shown += 1
+                    lo, hi = min(f[0] for f in factors), max(f[0] for f in factors)
+                    ex = " EXTRAPOLATED past the primaries' data" if any(f[2] for f in factors) else ""
+                    tag = "CONTESTED " if s.get("status") == "contested" else ""
+                    verdict = [f"{tag}x{lo:.3g}–x{hi:.3g} across {len(factors)} sourced "
+                               f"rate(s){ex}"]
+                    if usd:
+                        b1, b2 = price_band(usd * lo), price_band(usd * hi)
+                        band = b1 if b1 == b2 else f"{b1}..{b2}"
+                        verdict.append(f"      = ${usd * lo:.3g}–${usd * hi:.3g}/task, band "
+                                       f"{band}  (label says {n.get('cost')})")
+            lines.append(f"    {date:<11}{cur:<18}{nominal:<24}{verdict[0]}")
+            lines += verdict[1:]
+        if lines:
+            L.append(f"  {n['name']}  [cost: {n.get('cost')}]")
+            L += lines
+            L.append("")
+    L += [f"  {n_rows} priced row(s); {n_shown} re-priced. A range is not a forecast: it is "
+          f"what the",
+          "  sourced primaries disagree between. See data/deflators.yaml for who they are."]
+    return L
 
 
 def validate(nodes, errors, tokens):
@@ -600,7 +772,9 @@ def provenance(nodes):
 def main():
     nodes, errors = load()
     tokens = preconditions()
+    series = deflators()
     errors = validate(nodes, errors, tokens)
+    errors = validate_deflators(series, errors)
     edges, addressed = build(nodes)
     nodes.update({f"precondition.{t}": {"id": f"precondition.{t}", "kind": "precondition",
                                         "name": t, "precondition_kind": v["kind"],
@@ -610,6 +784,9 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--provenance":
         print("\n".join(provenance(nodes)))
         return
+    if len(sys.argv) > 2 and sys.argv[1] == "--as-of":
+        print("\n".join(as_of_report(nodes, series, sys.argv[2])))
+        return 0
     if len(sys.argv) > 1 and sys.argv[1] == "--trend":
         print("\n".join(trend(nodes, sys.argv[2] if len(sys.argv) > 2 else None)))
         return 0
