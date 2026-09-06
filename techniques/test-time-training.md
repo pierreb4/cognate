@@ -62,14 +62,22 @@ caveats:
   - "The 2024 and 2025 numbers are under different cost regimes and different benchmarks — they do not form a trend line."
 interacts:
   - technique: technique.transductive-output-prediction
-    rel: overlaps
+    rel: composes
     scope: modeling.per-task-adaptation
     note: >-
-      TTT is an operator applied to a transductive model, not a second coverage beside it:
-      every TTT row on this node fine-tunes a direct output predictor, and arXiv 2411.02272
-      Table 2 measures the operator's gain on one such model (29.125% -> 39.25% without
-      reranking). Held at overlaps because the substrate is not removable from the operator;
-      promotable to composes on that row if the pair is read as a combination instead
+      TTT is an operator applied to a transductive model, and the pair is a measured
+      combination: arXiv 2411.02272 Table 2 fine-tunes one direct output predictor per task
+      and reports the operator's gain on the same model, same split, same budget. The
+      substrate alone is amortized adaptation (`partial` here); with the operator the fit is
+      per instance
+    evidence:
+      - claim: "29.125% -> 39.25% on the 400-task ARC-AGI-1 public validation set from adding test-time training to the same transductive model, no reranking in either arm (Table 2, ARC-Potpourri, 'Transduction (no TTT, no reranking)' vs 'Transduction (TTT, no reranking)'); with reranking in both arms 35.25% -> 43.00%"
+        kind: claimed
+        split: arc-agi-1/public-eval
+        regime: uncapped-2-tries-beam-20
+        source: https://arxiv.org/abs/2411.02272v4
+        date: 2024-11
+        stars: 2
 provenance:
   entered: 2026-09-02
   commit: fb41fa3

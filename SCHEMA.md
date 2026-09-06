@@ -99,6 +99,13 @@ another one does not* — the question a combination must answer before anyone b
 combination holding both is no better covered than one holding either. Upgrading a pair
 to `composes` is a claim about a measured combination and needs a source, exactly as an
 evidence entry does. If you cannot cite one, the honest edge is `overlaps`.
+`composes` measures what the source measures: tasks solved on the named split by the
+combination against each member alone. It does not require either arm to reach `direct` or
+`partial` on the scope — a member `incidental` there (a bare output predictor on
+hypothesis-formation) still adds solved tasks, and that is the claim. The combination's
+GRADE on the scope stays the best member's `addresses` strength; `grade_combination.py`
+reads `addresses` and never `composes`. An operator applied to a substrate (test-time
+training on a transductive model) is `composes` too, on the row that measures the gain.
 
 Symmetric relations are declared **once**, on the alphabetically-first technique id; the
 reverse is derived, the same discipline `addresses:` follows. `subsumes` and `supplies`
