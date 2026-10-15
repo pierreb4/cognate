@@ -12,6 +12,7 @@ part_of: [modeling]
 completed_by:
   - exploration.experiment-design
   - modeling.belief-update
+  - modeling.commit-or-abstain
 status: partial
 provenance:
   entered: 2026-09-02
