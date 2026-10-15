@@ -2,6 +2,7 @@
 id: profile.arc-agi-3-llm-ship
 kind: profile
 name: ARC-AGI-3 (ARC Prize 2026, Kaggle) — in-kernel LLM ship lineage
+competition: arc-prize-2026-arc-agi-3   # its `binding: competition` rows must match every profile naming it
 source:
   - title: ARC-AGI-3 — interactive reasoning benchmark
     url: https://arcprize.org/arc-agi/3/
@@ -254,7 +255,9 @@ requires_capabilities:
 never what its team has adopted. This profile is the in-kernel LLM lineage of the same
 competition entry: a language model served locally inside the scored Kaggle kernel, driven
 by a harness that reads the game as text. The stdlib-only single-file lineage is
-`profile.arc-agi-3`; the competition tokens are identical, the project tokens differ.
+`profile.arc-agi-3`; the competition tokens are identical (both name `competition:
+arc-prize-2026-arc-agi-3`, and `build_graph.py` fails if the two copies differ), the project
+tokens differ.
 
 **Why the split between `competition` and `project` matters.** The competition rows are
 unchanged from the stdlib profile: no network, terminal-only reward, an interaction budget

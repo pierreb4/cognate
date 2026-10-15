@@ -392,6 +392,9 @@ margin. Coverage that turns on a number should be visible as such, not rounded t
     every basis carries `source`, `covers_from`, `covers_to` and a `note`, and a deflating
     one holds at least two dated points. Every point cites a declared basis and carries
     `as_of`, a positive `value` and a `source`.
+16. Profiles that name the same `competition:` carry identical `binding: competition`
+    rows: the same tokens, each row equal field for field. Two lineages of one entry copy
+    the competition's rules, and a re-read that edits one copy alone is an error.
 
 ## `kind: bundle`
 

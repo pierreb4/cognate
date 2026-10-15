@@ -474,6 +474,22 @@ def validate(nodes, errors, tokens):
                         errors.append(f"{where}: load_bearing_for unknown {ref!r}")
             if n.get("minimality") == "tested" and not n.get("ablation_source"):
                 errors.append(f"{where}: minimality 'tested' requires an ablation_source")
+
+    # Two lineages of one competition each carry its rules as `binding: competition` rows.
+    # They are copies, so a re-read of the rules that edits one alone fails here.
+    by_comp = {}
+    for nid, n in nodes.items():
+        if n.get("kind") == "profile" and n.get("competition"):
+            rows = {s.get("token"): s for s in n.get("supplies", [])
+                    if s.get("binding") == "competition"}
+            by_comp.setdefault(n["competition"], []).append((n["_path"], rows))
+    for comp, profs in by_comp.items():
+        (first, ref), rest = profs[0], profs[1:]
+        for where, rows in rest:
+            for tok in sorted(set(ref) | set(rows)):
+                if ref.get(tok) != rows.get(tok):
+                    errors.append(f"{where}: competition {comp!r}: row {tok!r} differs from "
+                                  f"{first} — edit both, a competition rule is one rule")
     return errors
 
 
@@ -575,7 +591,16 @@ def screen(nodes, tokens, profile):
 
 def screen_report(nodes, tokens, addressed, profile):
     res = screen(nodes, tokens, profile)
-    lines = [f"PROFILE  {profile['id']}  —  {profile.get('name')}", ""]
+    lines = [f"PROFILE  {profile['id']}  —  {profile.get('name')}"]
+    split = {}
+    for s in profile.get("supplies", []):
+        by = split.setdefault(s.get("level"), {})
+        by[s.get("binding")] = by.get(s.get("binding"), 0) + 1
+    lines.append("SUPPLIES  " + "; ".join(
+        f"{lev} {sum(split[lev].values())} ("
+        + ", ".join(f"{k} {v}" for k, v in sorted(split[lev].items())) + ")"
+        for lev in ("full", "partial", "none") if lev in split))
+    lines.append("")
     for bucket, label in (
             ("clear", "CLEAR       every precondition supplied in full"),
             ("charged", "CHARGED     admissible, but something is supplied only in part"),

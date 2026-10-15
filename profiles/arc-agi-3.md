@@ -2,6 +2,7 @@
 id: profile.arc-agi-3
 kind: profile
 name: ARC-AGI-3 (ARC Prize 2026, Kaggle) — stdlib-only submission lineage
+competition: arc-prize-2026-arc-agi-3   # its `binding: competition` rows must match every profile naming it
 source:
   - title: ARC-AGI-3 — interactive reasoning benchmark
     url: https://arcprize.org/arc-agi/3/
@@ -253,9 +254,9 @@ private overlay keyed by node `id`, as `SCHEMA.md` requires. Everything here is 
 published competition rule or a stated architectural constraint of the reference
 submission; nothing here is a result.
 
-**Why the split between `competition` and `project` matters.** Nine of the ten `none`
-tokens are project constraints, not competition rules; only `network-access` is the
-competition's. The competition permits accelerators and in-kernel model serving; the
+**Why the split between `competition` and `project` matters.** Most of the `none` tokens
+are project constraints, not competition rules; the competition's is `network-access`
+(`build_graph.py --profile arc-agi-3` counts them by binding on its `SUPPLIES` line). The competition permits accelerators and in-kernel model serving; the
 single-file, stdlib-only submission is a choice made for reproducibility
 and for a splice-into-notebook build. The screen therefore reports two different things:
 techniques ruled out by the benchmark, and techniques ruled out by us. Only the second
