@@ -13,6 +13,7 @@ completed_by: []
 status: open
 provenance:
   entered: 2026-10-15
+  commit: 65c4542
   frame: kaggle-sweep-2026-09
   note: >-
     candidates 2 and 3 of the twelve the Kaggle Measuring AGI hackathon write-ups suggested,
