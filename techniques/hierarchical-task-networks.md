@@ -4,8 +4,8 @@ kind: technique
 name: Hierarchical Task Networks (HTN)
 addresses:
   - capability: planning-execution.goal-decomposition
-    strength: direct
-    note: decomposition is the primitive operation — a method names how a task breaks into subtasks, so the hierarchy is data rather than something the planner must discover
+    strength: partial
+    note: decomposition is the primitive operation — a method names how a task breaks into subtasks — but the planner chooses each decomposition from a library a domain expert wrote in advance rather than forming it; `partial` where technique.means-ends-analysis, which derives subgoals from unmet preconditions, is `direct`
   - capability: goal-setting.subgoal-recognition
     strength: incidental
     note: a subtask counts as achieved when its decomposition's primitives have executed and their effects hold; the achievement test is authored by hand, never inferred

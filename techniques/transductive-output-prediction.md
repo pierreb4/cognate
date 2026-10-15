@@ -4,12 +4,14 @@ kind: technique
 name: Transductive Output Prediction
 addresses:
   - capability: modeling.per-task-adaptation
-    strength: partial
+    strength: incidental
     note: >-
       the demonstration pairs condition one forward pass of a predictor meta-learned on a
       task distribution; the adaptation is amortized into weights and nothing is fitted to
-      the instance — the paper's own test-time-training rows (29.125% -> 39.25%, Table 2)
-      measure what per-instance fitting adds on top
+      the instance, so nothing at test time changes in response to this task's evidence
+      (the same reading as technique.solver-trace-distillation) — the paper's own
+      test-time-training rows (29.125% -> 39.25%, Table 2) measure what per-instance fitting
+      adds on top
   - capability: modeling.hypothesis-formation
     strength: incidental
     note: >-
@@ -96,6 +98,7 @@ executable representation and arbitrate; the measured union is on the `composes`
 **The limit.** It cannot be checked against the demonstrations it was shown — the paper
 says so in its own ensembling rule (§2: "we can't check if its predictions match the
 training examples") — which is why it is `incidental` on [`modeling.hypothesis-formation`]
-by that cell's exhibitable-commitment rule, and `partial` rather than `direct` on
-[`modeling.per-task-adaptation`]: nothing is fitted to the instance, and the 10-point
-jump from [`technique.test-time-training`] on the same model measures exactly that gap.
+by that cell's exhibitable-commitment rule, and `incidental` on
+[`modeling.per-task-adaptation`] as well: one forward pass conditioned on the
+demonstrations fits nothing to the instance, and the 10-point jump from
+[`technique.test-time-training`] on the same model measures exactly what fitting adds.

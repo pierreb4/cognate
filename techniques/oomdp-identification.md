@@ -15,11 +15,13 @@ addresses:
       one contradicting transition falsifies a condition-effect prediction outright; under
       determinism the retraction is derived from the error rather than proposed and retried
   - capability: modeling.hypothesis-formation
-    strength: partial
+    strength: direct
     note: >-
       the account is a set of condition-effect predictions per (action, attribute, effect type)
-      that can be printed and pointed at — but it is stated in an object vocabulary the
-      mechanism is given, not one it forms
+      that can be printed, pointed at and refuted by one transition; the object vocabulary it
+      is stated in is given (`expert-authored-library`), but the conditions are formed from it,
+      as technique.dsl-search's programs are formed from authored primitives — outside the
+      seven supplied/acquired cells an authored vocabulary is a precondition, not a cap
 requires:
   - token: expert-authored-library
     note: the object classes, attributes and relations, which the paper states are not learned
