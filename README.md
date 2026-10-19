@@ -33,7 +33,8 @@ questions run both ways.
 
 > "My agent must form a theory, test it, and update it."
 > → [`bundles/theory-test-update`](bundles/) names the smallest set of techniques
-> that jointly cover the three capabilities, what each member is load-bearing for,
+> that jointly cover the capabilities that loop needs, acting on the theory included,
+> what each member is load-bearing for,
 > and what the bundle still does not give you.
 
 **Reverse — *I have a technique; what problems does it bear on?***
