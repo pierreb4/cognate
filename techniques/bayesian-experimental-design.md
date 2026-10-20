@@ -52,6 +52,7 @@ interacts:
       them in a form they can enumerate, so holding both does not buy two selectors
 provenance:
   entered: 2026-10-20
+  commit: a382939
   frame: llm-human-gap-survey-2026-10
   note: >-
     surfaced by the 2026-10-20 survey of the gap between LLM-based systems and human

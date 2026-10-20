@@ -18,6 +18,7 @@ completed_by:
 status: open
 provenance:
   entered: 2026-10-20
+  commit: 92f4379
   frame: llm-human-gap-survey-2026-10
   note: >-
     surfaced by the 2026-10-20 survey of the gap between LLM-based systems and human

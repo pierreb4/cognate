@@ -25,6 +25,7 @@ predicts:
       not a pass
 provenance:
   entered: 2026-10-20
+  commit: 6ee3761
   frame: llm-human-gap-survey-2026-10
   note: >-
     surfaced by the 2026-10-20 survey of the gap between LLM-based systems and human

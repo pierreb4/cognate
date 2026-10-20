@@ -24,6 +24,7 @@ predicts:
     check: Book-SORT protocol (arXiv 2410.08133), fine-tuned arm, 50-word segments
 provenance:
   entered: 2026-10-20
+  commit: 6ee3761
   frame: llm-human-gap-survey-2026-10
   note: >-
     surfaced by the 2026-10-20 survey of the gap between LLM-based systems and human

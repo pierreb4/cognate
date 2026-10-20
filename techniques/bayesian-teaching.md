@@ -56,6 +56,7 @@ interacts:
       failure attached, this has the update rule trained into the weights
 provenance:
   entered: 2026-10-20
+  commit: 9a7b354
   frame: llm-human-gap-survey-2026-10
   note: >-
     surfaced by the 2026-10-20 survey of the gap between LLM-based systems and human

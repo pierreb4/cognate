@@ -57,6 +57,7 @@ caveats:
   - "ADJUDICATED AND REFUSED for `priors.objectness` (2026-10-20, from the survey's reading of arXiv 2502.11831, re-checked on the primary, and of IntPhys 2). Of Chollet's three commitments, influence-via-contact is weak where it is tested (GRASP 66%, InfLevel-lab 62%), persistence shows as a surprise signature on simple scenes and collapses on IntPhys 2, which tests permanence among its properties, and nothing in the output individuates things: the model emits a surprise score, not an index of persisting objects. The cell asks for identity across time as a first-class output, so no edge is written."
 provenance:
   entered: 2026-10-20
+  commit: ed471a4
   frame: llm-human-gap-survey-2026-10
   note: >-
     surfaced by the 2026-10-20 survey of the gap between LLM-based systems and human
