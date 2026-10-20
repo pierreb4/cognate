@@ -46,6 +46,38 @@ COST_BANDS = {"low": 1.0, "medium": 10.0, "high": 100.0, "extreme": float("inf")
 PRICE_RE = re.compile(r"\$\s*([0-9]+(?:\.[0-9]+)?)\s*(?:-per-task|/task)")
 
 
+# `human_baseline:` on an evidence row — a human figure is an axis too. Two "above human"
+# rows built on different aggregations are no more comparable than two scores under
+# different cost caps, so the qualifier names how the human number was made.
+HUMAN_AGGREGATION = re.compile(
+    r"^(individual-mean|panel-union|majority-of-\d+|median-of-completers|percentile-\d+)$")
+HUMAN_BASELINE_FIELDS = {"n", "population", "aggregation", "same_items", "source", "note"}
+
+
+def human_baseline_errors(where, ev, hb):
+    """A human comparison is only readable with its n, its population and its aggregation."""
+    claim = str(ev.get("claim"))[:60]
+    if not isinstance(hb, dict):
+        return [f"{where}: human_baseline must be a mapping: {claim!r}"]
+    errs = [f"{where}: human_baseline has unknown field {k!r}: {claim!r}"
+            for k in sorted(set(hb) - HUMAN_BASELINE_FIELDS)]
+    if not isinstance(hb.get("n"), int) or isinstance(hb.get("n"), bool) or hb["n"] <= 0:
+        errs.append(f"{where}: human_baseline.n must be a positive integer, got "
+                    f"{hb.get('n')!r}: {claim!r}")
+    if not hb.get("population"):
+        errs.append(f"{where}: human_baseline needs 'population' — who the people were: "
+                    f"{claim!r}")
+    if not HUMAN_AGGREGATION.match(str(hb.get("aggregation", ""))):
+        errs.append(f"{where}: human_baseline.aggregation must be individual-mean, "
+                    f"panel-union, majority-of-<k>, median-of-completers or percentile-<k>; "
+                    f"got {hb.get('aggregation')!r}: {claim!r}")
+    if not isinstance(hb.get("same_items"), bool):
+        errs.append(f"{where}: human_baseline.same_items must be true or false: {claim!r}")
+    if not hb.get("source"):
+        errs.append(f"{where}: human_baseline needs 'source': {claim!r}")
+    return errs
+
+
 # A price is NOMINAL — the dollars of its row's `date:`. Three currencies age at three
 # rates (data/deflators.yaml), and a row's currency is read off its `regime:` string.
 GPU_CLASS = re.compile(r"\b(?:\d+x)?(A100|H100|B200|L4|RTX[ -]?(?:PRO[ -]?)?6000)\b", re.I)
@@ -390,6 +422,12 @@ def validate(nodes, errors, tokens):
                     WARNINGS.append(f"{where}: evidence has no date (needed for trend views): {ev.get('claim')!r}")
                 if no_abs and "%" in str(ev.get("claim", "")):
                     errors.append(f"{where}: no_absolute_score set but claim carries a %")
+                if ev.get("human_baseline") is not None:
+                    errors += human_baseline_errors(where, ev, ev["human_baseline"])
+                elif "human" in str(ev.get("claim", "")).lower():
+                    WARNINGS.append(f"{where}: claim compares with humans but has no "
+                                    f"human_baseline (n, population, aggregation, same_items, "
+                                    f"source): {str(ev.get('claim'))[:60]!r}")
             # rule 4 lint: a caveat that disputes a claim needs the claim on the record
             caveats = " ".join(n.get("caveats", [])).lower()
             if ("claim" in caveats or "unsupported" in caveats) and "claimed" not in kinds:

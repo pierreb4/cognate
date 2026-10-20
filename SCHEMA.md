@@ -57,6 +57,13 @@ evidence:
     date: 2024-11-11            # YYYY, YYYY-MM or YYYY-MM-DD — partial is honest where that
                                 # is all the source supports (an arXiv id fixes the month of
                                 # v1 and no more); a trend view can still order by it
+    human_baseline:             # optional; expected whenever the claim compares with humans
+      n: 42                     # people in the baseline
+      population: human players' recorded games, first exposure
+      aggregation: individual-mean   # | panel-union | majority-of-<k> | median-of-completers | percentile-<k>
+      same_items: true          # the people saw the items the machine was scored on
+      source: https://arxiv.org/abs/2510.20886
+      note: optional, one line
 no_absolute_score: false        # true if the work publishes only relative claims
 caveats:
   - one line, with a source
@@ -66,6 +73,25 @@ interacts:                      # technique <-> technique, declared once (see be
     scope: modeling.hypothesis-formation
     note: one line on why
 ```
+
+### `human_baseline:` — a human figure is an axis too
+
+`split` and `regime` exist so that two numbers on different axes are never ranked together.
+A human baseline has the same problem. One name covers an individual's average (H-ARC's
+64.2%), the union of a panel where a task counts as solved once two people solve it
+(ARC-AGI-2's "100%"), a majority vote of three annotators (IntPhys 2), the median player who
+completed a level (ARC-AGI-3) and an 80th-percentile person (AutumnBench). A review of 115
+human baselines in model evaluations found a median of 8 people and a significance test in
+8.7% of them ([arXiv 2506.13776](https://arxiv.org/abs/2506.13776)). A row that says "above
+human" and carries none of this cannot be compared with another that says the same.
+
+So an evidence row whose claim compares with people carries `human_baseline:` with `n`,
+`population`, `aggregation` (one of `individual-mean`, `panel-union`, `majority-of-<k>`,
+`median-of-completers`, `percentile-<k>`, with `k` a number), `same_items` and `source`, and
+optionally a `note`. Two human-comparison rows with different `aggregation` are not ranked
+against each other, for the same reason two `regime`s are not. The field is optional so that
+existing rows stay valid: `build_graph.py` warns, and does not fail, on a row whose `claim`
+mentions humans without it, and fails on a `human_baseline` that is malformed.
 
 ### `requires:` is a token, not a sentence
 
@@ -400,6 +426,10 @@ margin. Coverage that turns on a number should be visible as such, not rounded t
 16. Profiles that name the same `competition:` carry identical `binding: competition`
     rows: the same tokens, each row equal field for field. Two lineages of one entry copy
     the competition's rules, and a re-read that edits one copy alone is an error.
+17. An evidence row whose `claim` contains "human" and has no `human_baseline` is a
+    **warning**. A `human_baseline` that is present must carry a positive integer `n`, a
+    `population`, an `aggregation` from the list above, a boolean `same_items` and a
+    `source`, and no other field than an optional `note`.
 
 ## `kind: bundle`
 
