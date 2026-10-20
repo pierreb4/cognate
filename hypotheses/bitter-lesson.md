@@ -112,6 +112,35 @@ history:
       SYSTEM TYPE until verified after the 2026-11-02 deadline — so the purpose-built side
       may have moved as well and cannot be read until it is described. Status and stars
       unchanged.
+  - as_of: '2026-10-20'
+    status: argued
+    source: https://arcprize.org/results/openai-gpt-6-astra
+    note: >-
+      the ARC-AGI-2 external check, three more verified general-model rows, all semi-private
+      and all from ARC Prize results pages: GPT-6 Astra at max effort 95.0% (listed
+      2026-09-02); Claude Opus 5.5 at high effort 93.3%
+      (https://arcprize.org/results/anthropic-claude-opus-5-5, 2026-09-22); Gemini 4 Argon at
+      high effort 91.3% in the page's table and 91.2% in its summary, so the page is
+      inconsistent with itself (https://arcprize.org/results/google-gemini-4-argon,
+      2026-10-13). The top of the split is now above the testers' own 66% of attempted pairs
+      (arXiv 2505.11831). Argon's ARC-AGI-3 rows on the same page are NOT carried as a
+      third split: ARC Prize files them under "ARC-AGI-3 Public Demo" (25 environments), not
+      semi-private. The same caveats hold as on 2026-09-06: not split-matched against the
+      `Custom` column. Status and stars unchanged.
+  - as_of: '2026-10-20'
+    status: argued
+    source: https://arxiv.org/abs/2608.17120
+    note: >-
+      a note on what scaling pays, not a check and not counted against the node. On the
+      training side the lesson is bought with data: children reach adult-like language on
+      roughly 10^8 words while frontier models train on 10^13 tokens and more, a ratio of
+      about 10^5 that widens as training sets grow. And the two learn differently in kind:
+      children's word learning accelerates with what they already know (kappa 10.6 to 13.3
+      across 1,841 children in five datasets), while a language model trained on
+      child-directed speech shows about constant returns (kappa 1.16, one model, one
+      preprint). The essay claims effectiveness, not efficiency, so neither fact refutes
+      it; both record its price (surveys/2026-10-20-llm-human-gap.md, "Training and
+      learning").
 ---
 
 # The Bitter Lesson

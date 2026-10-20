@@ -48,11 +48,29 @@ system knows is safe, or name the observation that would settle it, which hands 
 [`exploration.experiment-design`]. Grade the coupling between confidence and the choice,
 not the confidence alone: calibration without control is the Gemini row above.
 
-**Limits.** Every number here is a single hosted-API run, scored by its authors, with no
-human baseline (the hackathon closed 2026-04-16 and published no judging scores). The
-abstention literature (selective prediction, reject options) covers one answer to one
+**Limits.** The hackathon numbers above are single hosted-API runs, scored by their authors,
+with no human baseline (the hackathon closed 2026-04-16 and published no judging scores).
+Three measures from outside it now bear on the cell:
+
+- **A human baseline on monitoring.** Cash et al. ([Memory & Cognition
+  2025](https://doi.org/10.3758/s13421-025-01755-4)) compare language models with people on the
+  same prediction, Pictionary and trivia tasks: prospective confidence is about human, but
+  retrospective confidence is not revised after the model's own failure. The figures behind
+  this were read partly from the publisher's summary, not the paper.
+- **A third-party measure of the coupling.** AA-Omniscience
+  ([2511.13029](https://arxiv.org/abs/2511.13029)) scores correct minus incorrect answers on
+  6,000 factual questions, so guessing costs and abstaining does not. In 2025-11 three models
+  scored above zero, with a top of 4.8. It is the measure a technique entered here would be
+  scored on.
+- **Training that works against the cell.** AbstentionBench (20 models, 20 datasets of
+  unanswerable, underspecified and false-premise questions) finds that reasoning fine-tuning
+  cuts abstention by 24% on average, and that "scaling models is of little use"
+  ([2506.09038](https://arxiv.org/abs/2506.09038)).
+
+The abstention literature (selective prediction, reject options) covers one answer to one
 question; it says nothing about when an agent should stop gathering evidence and act, and
-under action-count scoring (ARC-AGI-3) both too early and too late cost score.
+under action-count scoring (ARC-AGI-3) both too early and too late cost score. The
+gather-more branch still has no human-baselined measure.
 
 **Status: open.** No technique in this register addresses it, and the machine-side work
 on the gather-or-commit half is thin.

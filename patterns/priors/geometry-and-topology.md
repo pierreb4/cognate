@@ -44,3 +44,13 @@ rotate, reflect, connect and fill were written by a person.
 incoming edge is `incidental`, from [`technique.dsl-search`], where the relations are
 authored primitives. A system that induces the symmetry group of a domain it was not told
 about has no node.
+
+**What the multimodal models show, against people.** The prior splits. Across eight spatial
+benchmarks with published human baselines, GPT-5 is at human level on metric estimation, below
+random on 3D mental rotation, and 50 to 80 points short on perspective taking
+([2508.13142](https://arxiv.org/abs/2508.13142)). On Dehaene's geometric odd-one-out test (43
+concepts), vision-language models fall below unschooled adults: the best scores 37.78%, against
+65.34% for Munduruku adults and 85.10% for Western adults
+([2505.13281](https://arxiv.org/abs/2505.13281); [2503.03840](https://arxiv.org/abs/2503.03840)).
+Metric relations are acquired by these models, which an authored DSL cannot claim, but no
+node grades multimodal pretraining here: nothing in it is separable from the model.

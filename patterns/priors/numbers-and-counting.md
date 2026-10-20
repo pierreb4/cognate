@@ -45,3 +45,12 @@ count.
 **Status: open.** The only incoming edges are `incidental`, from
 [`technique.dsl-search`], where counting exists because a person wrote the primitive. That
 supplies the prior; it does not acquire it.
+
+**What the multimodal models show.** Their counting is acquired rather than authored, but it
+fails this cell's own commitment: it is not grounded in individuated items. On VLMBias's
+counterfactual images (a dog with five legs, say), models count correctly 17.05% of the time
+on average, against 100% on the unmodified images; they report the count a prior expects
+([2505.23941](https://arxiv.org/abs/2505.23941)). And probes of seven vision-language models
+find numerosity decodable in the vision encoder and lost in the language readout
+([2608.15425](https://arxiv.org/abs/2608.15425)): the front end holds the count and what
+follows it drops it, which is the Therefore above seen from the failing side.

@@ -44,3 +44,12 @@ prior handed over. `direct` requires agents to be individuated from behaviour.
 **Status: open.** Nothing in the register addresses this. It is also the prior on which
 [`goal-setting.goal-inference`] rests: inverse planning has nothing to invert until
 something has been identified as an agent.
+
+**The measurement is missing too.** BIB and AGENT, the infant-paradigm benchmarks that test
+agency by violation of expectation after familiarisation
+([2102.11938](https://arxiv.org/abs/2102.11938);
+[AGENT](https://proceedings.mlr.press/v139/shu21a/shu21a.pdf)), have not been run on a
+frontier multimodal model. The nearest multimodal result is static: on CoreCognition's
+intentionality items o1 scores 87.54 against 81.98 for people
+([2410.10855](https://arxiv.org/abs/2410.10855)), but multiple-choice questions about a still
+scene can be answered from scene priors and do not test individuating agents from behaviour.

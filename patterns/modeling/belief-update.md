@@ -42,7 +42,12 @@ admit retraction but need a search to replace them.
 **It fails in two directions.** Holding on too long is perseveration, what the Wisconsin
 Card Sorting Test measures in people when the sorting rule changes unannounced; letting go
 too soon throws away an account that was right. Miyake et al. find shifting separable from
-updating and inhibition, so neither direction predicts the other. Turn Bench, a Kaggle
+updating and inhibition, so neither direction predicts the other. On the card-sorting test
+itself, language models now score at or above people, but with the error profile reversed:
+o4-mini makes more perseverative than non-perseverative errors (d = +1.195), where 360 people
+make more non-perseverative ones (d = -0.868)
+([2506.16163](https://arxiv.org/abs/2506.16163)). So the gap is not in switching a rule;
+it is in revising a rich account. Turn Bench, a Kaggle
 Measuring AGI write-up, builds both into one hidden-rule game, and the same model fails
 them in opposite ways: "Opus collapses on reversal (42%) while Haiku leads (80%), yet on
 cycling, Opus leads (86%) and Haiku trails (73%)", and on Resistance, where no matchup
@@ -57,8 +62,14 @@ wherever the mechanic is a cycle; reading it needs a game where the same repeats
 (see the variant pair in Turn Bench's design). Whether a system lets go depends on what it
 would have to replace the account with: Haiku "pivots 98% of the time in urgent ... but
 only 8% in super", the variant with the more complex replacement plan. That condition is
-reported once and measured nowhere else. All of these numbers are single author-scored
-runs with no human baseline.
+reported once and measured nowhere else. These Kaggle numbers are single author-scored runs
+with no human baseline, but the revising side now has human-baselined measures. In
+AutumnBench (43 environments, 129 tasks), 517 people "substantially outperform" five frontier
+models at learning a world model by reward-free exploration
+([2510.19788](https://arxiv.org/abs/2510.19788) v4). In ZendoWorld, 19 people win 73.3% of
+games against 45.5% for the best agent ([2607.08233](https://arxiv.org/abs/2607.08233)). In
+RULEARN, people refine a rule after contrary feedback better than agents do, though agents
+guess the first rule better ([2408.10455](https://arxiv.org/abs/2408.10455)).
 
 **Status: open.** Note the asymmetry — the machine-side literature on *scoring* candidate
 programs is vast, while the literature on *revising a committed account* is thin. That

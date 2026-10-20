@@ -42,4 +42,13 @@ dynamics to be inferred from observed motion.
 
 **Status: open.** No technique addresses this. Note also that the register's ARC-facing
 techniques were built for the static benchmarks, where this prior is not exercised at all —
-their scores carry no information about it.
+their scores carry no information about it. ARC-AGI-3 exercises it, but only as part of a
+composite score.
+
+**The measured state of the field.** Against people, every model tested is near chance in
+realistic scenes. On IntPhys 2's Main split (violation of expectation over permanence,
+immutability, spatiotemporal continuity and solidity) people score 96.44, the best model,
+V-JEPA 2-h, 57.51, and the best multimodal LLM, Gemini 2.5 Flash, 55.63
+([2506.09849](https://arxiv.org/abs/2506.09849)). On PhysBench's physical question answering,
+GPT-4o scores 49.49% against 95.87% for people
+([2501.16411](https://arxiv.org/abs/2501.16411)).

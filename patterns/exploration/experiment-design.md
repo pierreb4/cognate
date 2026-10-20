@@ -46,6 +46,13 @@ binds the agent's designer too: a design change whose plausible effect is below 
 evaluation can detect is an experiment every live hypothesis predicts alike, and the same
 remedy applies — price the discrimination before the run, and refuse it when it fails.
 
-**Status: open.** This is a genuinely thin cell. Most published exploration machinery
-addresses coverage; the discriminating-experiment framing has far less machine-side
-work attached to it than the human-side literature would suggest.
+**Status: open.** Most published exploration machinery addresses coverage, but the
+discriminating-experiment framing now has a machine-side result measured against people. In
+Collaborative Battleship, Llama-4-Scout choosing its questions by Monte Carlo Bayesian
+experimental design wins 82% of games against human captains and 67% against GPT-5, at about
+1% of GPT-5's cost, and its questions reach 94.2% of the expected-information-gain noise
+ceiling ([2510.20886](https://arxiv.org/abs/2510.20886), ICLR 2026). The precondition does
+the work: the hypothesis space, the set of possible ship boards, can be enumerated and
+sampled. Where it is open the result does not carry. In ZendoWorld, a Zendo-style visual rule
+game, "VLM-based agents propose near-uninformative experiments", and the best agent wins 45.5%
+of games against 73.3% for people ([2607.08233](https://arxiv.org/abs/2607.08233)).

@@ -55,7 +55,11 @@ here if nothing downstream can kill one. Dated to one model generation: on 2026-
 same auditors report GPT-6 Astra at 62.7% on the semi-private set in their Standard harness,
 which only carries forward notes, and 99.9% with a Provider Adapter that "preserves opaque
 reasoning state between requests" ([source](https://arcprize.org/blog/astra)); no mechanism
-is published for either, so nothing here is graded from it.
+is published for either, so nothing here is graded from it. The interactive rule puzzles of
+RULEARN show which step fails against people: agents guess the first rule better than
+people do (about 30% against about 10%) but refine it worse, so puzzle success is 50.33% for
+the best agent setup against 63.33% for 50 people
+([2408.10455](https://arxiv.org/abs/2408.10455)).
 
 **How a technique is graded here.** The test is *exhibitable commitment*: can the system,
 at any moment, produce one specific account that something downstream could act on and
@@ -72,7 +76,11 @@ emits perfectly readable symbolic programs, so the test is **not** whether the
 representation is nameable, it is whether a commitment exists to be named. A candidate
 *answer* is not a candidate *account*: a system that emits an output and no rule cannot
 tell anything downstream what it believes governs the environment, whatever form its
-output takes.
+output takes. The distinction now has a human-baselined measure: in a hand classification of
+ConceptARC rules, about 27% of o3's correct outputs rest on unintended or incorrect rules,
+against about 7% of humans' correct outputs ([2510.02125](https://arxiv.org/abs/2510.02125)
+v5, 2026-10-16). A right answer reached through the wrong account is common, and more common
+in the machine.
 
 **Related.** Completed by [`exploration.experiment-design`] and [`modeling.belief-update`].
 Its representation choice constrains which techniques can address the other two.

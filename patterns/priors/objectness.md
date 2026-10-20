@@ -52,6 +52,14 @@ acquired-objectness candidates fail on opposite commitments, which is the more i
 fact: poking buys cohesion and contact but not permanence, and predicting buys cohesion but
 neither of the others.
 
+**What the multimodal models show, against people.** On CoreCognition's object-permanence
+items people score 88.10 and the best model 74.14 (InternVL3-78B), and low-level concepts
+such as permanence improve less with scale than high-level ones
+([2410.10855](https://arxiv.org/abs/2410.10855)). On TOC-Bench, which asks about identity,
+state and continuity across occlusion in video, people score 89.3% and GPT-5.5 47.1%
+([2605.09904](https://arxiv.org/abs/2605.09904)). Neither result is a technique, so neither
+moves the grade; they say the persistence commitment is the one current models lack.
+
 **Note on scope.** ARC-AGI-3's environment-design constraints add **basic physics**
 (gravity, momentum, bouncing) and **agentness** as priors alongside this one — a widening
 of the 2019 four-prior list that is easy to miss because the two lists are published in

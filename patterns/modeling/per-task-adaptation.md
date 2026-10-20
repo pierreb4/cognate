@@ -33,3 +33,17 @@ fitting weights, searching a latent, or accumulating an in-context account.
 **Status: covered.** This is the best-served cell in the register — the 2024 and 2025
 leaderboards are largely a contest between ways of doing it. Marked `covered` for field
 maturity, which says nothing about whether any given system has adopted it.
+
+**The 2026 crossover.** On the cell's flagship measure, frontier general models now pass the
+human testers. ARC Prize verifies GPT-6 Astra (max effort) at 95.0% on the ARC-AGI-2
+semi-private set ([results page](https://arcprize.org/results/openai-gpt-6-astra), listed
+2026-09-02) and Claude Opus 5.5 (high effort) at 93.3%
+([results page](https://arcprize.org/results/anthropic-claude-opus-5-5), 2026-09-22). The
+testers who calibrated ARC-AGI-2 solved 66% of the test pairs they attempted
+([2505.11831](https://arxiv.org/abs/2505.11831)). Two limits go with it. The crossover is a
+frontier-scale result: ARC Prize 2025's compute-capped track topped out near 24% on the
+ARC-AGI-2 private set ([2601.10904](https://arxiv.org/abs/2601.10904)). And a matched score
+can come by a different route: on MTOB, long-context models reach a human learner's score
+for translating Kalamang from one grammar book, but "almost all improvements stem from the
+book's parallel examples rather than its grammatical explanations"
+([2409.19151](https://arxiv.org/abs/2409.19151)).

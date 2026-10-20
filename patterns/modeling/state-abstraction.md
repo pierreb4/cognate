@@ -68,3 +68,13 @@ tracking and video-instance-segmentation literatures individuate, but the identi
 training label. Each half is done well by a literature that does not do the other half.
 VideoSAUR is admitted here because it is one of the few places the two halves meet at all —
 not because it does either half decisively.
+
+**What the multimodal models show, against people.** Two 2026 measures bear on the
+across-frames half, the half this cell is about. REVEAL shows each video frame with about 19%
+of the scene, so an answer needs evidence integrated across frames: people keep 92-97% of
+their correct answers, and Gemini 2.5 Pro keeps 11% (74% falls to 8%)
+([2602.11244](https://arxiv.org/abs/2602.11244)). VET-Bench swaps identical objects, as in a
+three-cup shell game, and frontier vision-language models are at or near chance; the fix that
+works, SGCoT, exceeds 90% by consuming a trained tracker's trajectories, so it hands over the
+identity this cell grades and would be `incidental` here
+([2603.08436](https://arxiv.org/abs/2603.08436)).

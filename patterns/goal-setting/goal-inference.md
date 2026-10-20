@@ -56,6 +56,12 @@ name "goal inference" and this cell is only one of them.
 - **(B) forming one's OWN objective** in an environment with no instructions, no reward
   specification and, in the limit, no other agent to read.
 
+The measured (A) gap is large. On MMToM-QA's goal questions people score 88.5, o3-mini-high
+40.67, and AutoToM, which runs inverse planning over GPT-4o, 69.33; plain reasoning models
+infer a goal from observed action about 50 points worse than they infer a belief (o3-mini-high
+88.67 on belief) ([2401.08743](https://arxiv.org/abs/2401.08743);
+[2502.15676](https://arxiv.org/abs/2502.15676)).
+
 **This cell is (B).** The faculty is goal-*setting*; the Context describes a person shown a
 novel game screen with nobody to imitate; the Therefore asks for an objective that can be
 named, acted on and replaced; and both `completed_by` cells are about pursuing an objective
