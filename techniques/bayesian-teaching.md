@@ -4,13 +4,16 @@ kind: technique
 name: Bayesian Teaching
 addresses:
   - capability: modeling.belief-update
-    strength: partial
+    strength: incidental
     note: >-
       a language model fine-tuned on a normative Bayesian updater's predictions keeps revising
       its estimate across rounds of evidence, where off-the-shelf models plateau after the
-      first; `partial` because the updater it imitates is authored for the task family, and
-      what is revised is a preference estimate over a fixed space, not a rich account of an
-      environment
+      first; `incidental` because the update rule is the authored updater's, handed over as
+      the fine-tuning target: the capability is the training target, so the revisions are
+      imitated, not derived by the technique (the same reading as
+      technique.solver-trace-distillation). Outside the seven supplied/acquired cells a handed
+      update rule is not a cap to `partial`. What is revised is also a preference estimate
+      over a fixed space, not a rich account of an environment
 requires:
   - token: weight-gradients
     note: the language model is fine-tuned, so its weights must be open to training
