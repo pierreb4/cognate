@@ -169,6 +169,13 @@ puzzle-identifier embedding is load-bearing. Scale winning on average and a scal
 failing under ablation are both real, and the register should be able to hold them at once.
 
 **What would refute it, in this corpus.** A capability whose best coverage is knowledge-side
-and stays that way while compute grows around it. `exploration.experiment-design` is the
-live candidate: its only `direct` member is knowledge-side, and no computation-side technique
-in the register addresses it above `incidental`.
+and stays that way while compute grows around it. `exploration.experiment-design` was the
+live candidate until 2026-10-20, when its only `direct` member was knowledge-side. It now has
+a second, [`technique.bayesian-experimental-design`], which is `leverage: both`: a language
+model spends sampled compute on scoring questions, but over a hypothesis space the designer
+made enumerable. That weakens the candidate without turning it: no `computation` technique
+addresses the cell above `incidental`, and both `direct` members need the hypothesis space
+handed to them. The cleaner candidate is now `planning-execution.goal-decomposition`, whose
+only `direct` member, means-ends analysis, is knowledge-side, with nothing computation-side
+above `incidental`, while the long-task progress measured over the same years is in
+executing tasks, not in decomposing them.

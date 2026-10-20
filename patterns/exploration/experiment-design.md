@@ -8,7 +8,7 @@ human_source:
     url: https://oecs.mit.edu/
 part_of: [exploration]
 completed_by: []
-status: open
+status: partial
 provenance:
   entered: 2026-09-02
   commit: fb41fa3
@@ -46,8 +46,13 @@ binds the agent's designer too: a design change whose plausible effect is below 
 evaluation can detect is an experiment every live hypothesis predicts alike, and the same
 remedy applies — price the discrimination before the run, and refuse it when it fails.
 
-**Status: open.** Most published exploration machinery addresses coverage, but the
-discriminating-experiment framing now has a machine-side result measured against people. In
+**Status: partial (2026-10-20, was open).** Two members are `direct`:
+[`technique.oomdp-identification`], knowledge-side, and
+[`technique.bayesian-experimental-design`], which sits on both sides. Not `covered`, because
+both need the hypothesis space handed to them in a form they can enumerate, and the case this
+cell's Context describes, an environment whose rules are unknown, is unmet. Most published
+exploration machinery addresses coverage, but the discriminating-experiment framing now has a
+machine-side result measured against people. In
 Collaborative Battleship, Llama-4-Scout choosing its questions by Monte Carlo Bayesian
 experimental design wins 82% of games against human captains and 67% against GPT-5, at about
 1% of GPT-5's cost, and its questions reach 94.2% of the expected-information-gain noise
