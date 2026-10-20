@@ -175,6 +175,11 @@ Any distributional reading of this corpus — see `hypotheses/` — must state t
 before it states its own. A frame holding most of the corpus is the corpus's blind spot,
 and the register would rather print that than pretend to be a sample.
 
+A frame is declared by use: there is no list of frames, and every node a frame brings in
+carries the same `frame` and the same `note`, because `--provenance` prints one note per frame.
+When the instrument is a dated literature survey, the survey is kept in `surveys/` (never
+parsed) and the note names its file, so a reader can open what the instrument was reading.
+
 ### `leverage:` — which side of the bitter lesson a technique sits on
 
 - `knowledge` — performance is bounded by human-authored content; more compute alone does

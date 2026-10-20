@@ -60,6 +60,7 @@ data/         preconditions.yaml — the closed token vocabulary `requires:` cit
 profiles/     what one deployment can supply and what it needs — never its adoption
 scripts/      build_graph.py — parse, validate, emit; --profile screens a deployment
               grade_combination.py — grade a set of techniques before building it
+surveys/      dated literature surveys that supplied evidence; not parsed
 ```
 
 Markdown for humans, YAML frontmatter for machines, one generator. That is what makes
