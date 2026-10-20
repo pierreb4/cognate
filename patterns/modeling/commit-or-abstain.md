@@ -48,6 +48,12 @@ system knows is safe, or name the observation that would settle it, which hands 
 [`exploration.experiment-design`]. Grade the coupling between confidence and the choice,
 not the confidence alone: calibration without control is the Gemini row above.
 
+**Its retrospective half.** Monitoring runs twice: before acting (is the account good enough
+to commit to?) and after (was it?). A system that does not lower its confidence after its own
+failure commits again on the same account. That was proposed as a cell of its own
+(self-assessment update) and is folded here instead, because the confidence it revises is the
+input this cell's commit step reads. Cash et al., below, measure it against people.
+
 **Limits.** The hackathon numbers above are single hosted-API runs, scored by their authors,
 with no human baseline (the hackathon closed 2026-04-16 and published no judging scores).
 Three measures from outside it now bear on the cell:

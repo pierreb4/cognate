@@ -9,7 +9,7 @@ human_source:
   - title: "Gergely & Csibra, Teleological reasoning in infancy: the naive theory of rational action (TiCS, 2003)"
     url: https://www.cell.com/trends/cognitive-sciences/fulltext/S1364-6613(03)00128-1
 part_of: [priors]
-completed_by: [goal-setting.goal-inference]
+completed_by: [goal-setting.goal-attribution]
 status: open
 provenance:
   entered: 2026-09-02
@@ -42,8 +42,10 @@ declared agent channel, or an environment that labels which sprite is an actor, 
 prior handed over. `direct` requires agents to be individuated from behaviour.
 
 **Status: open.** Nothing in the register addresses this. It is also the prior on which
-[`goal-setting.goal-inference`] rests: inverse planning has nothing to invert until
-something has been identified as an agent.
+[`goal-setting.goal-attribution`] rests: inverse planning has nothing to invert until
+something has been identified as an agent. (Until 2026-10-20 this edge pointed at
+[`goal-setting.goal-inference`], which forms the system's own objective and has no other
+agent to read; reading another agent's goal moved to its own cell.)
 
 **The measurement is missing too.** BIB and AGENT, the infant-paradigm benchmarks that test
 agency by violation of expectation after familiarisation

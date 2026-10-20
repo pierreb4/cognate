@@ -7,7 +7,9 @@ human_source:
   - title: "Core knowledge (Spelke), via On the Measure of Intelligence §III.1.2"
     url: https://arxiv.org/abs/1911.01547
 part_of: [priors]
-completed_by: [modeling.state-abstraction]
+completed_by:
+  - modeling.state-abstraction
+  - priors.numbers-and-counting   # through individuation: only separated things can be counted
 status: partial
 provenance:
   entered: 2026-09-02
@@ -67,6 +69,13 @@ such as permanence improve less with scale than high-level ones
 state and continuity across occlusion in video, people score 89.3% and GPT-5.5 47.1%
 ([2605.09904](https://arxiv.org/abs/2605.09904)). Neither result is a technique, so neither
 moves the grade; they say the persistence commitment is the one current models lack.
+
+**Individuation, between this cell and counting.** Separating a scene into discrete items is
+the step [`priors.numbers-and-counting`] depends on: the exact number system counts only
+things already separated into things. It was proposed as a cell of its own (individuation)
+and is held instead as the `completed_by` edge from this cell to counting (2026-10-20). The
+evidence for keeping it there is on the counting side: multimodal models count what a prior
+expects rather than the items in the image.
 
 **Note on scope.** ARC-AGI-3's environment-design constraints add **basic physics**
 (gravity, momentum, bouncing) and **agentness** as priors alongside this one — a widening

@@ -82,5 +82,14 @@ against about 7% of humans' correct outputs ([2510.02125](https://arxiv.org/abs/
 v5, 2026-10-16). A right answer reached through the wrong account is common, and more common
 in the machine.
 
+**Recombination is part of this cell.** Composing known primitives into a rule never seen in
+that combination was proposed as a cell of its own (systematic recombination) and is folded
+here instead: forming an account from parts is what this cell grades, and the ConceptARC rule
+analysis above already measures whether the account formed is the intended one. On the task
+built to isolate it, a meta-learned network matches people (Lake & Baroni's MLC, 82.4%
+against 80.7%, 2023), so composing at human level has been shown for a mechanism trained for
+it, and the gap ConceptARC measures is in which rule gets formed
+([survey](../../surveys/2026-10-20-llm-human-gap.md)).
+
 **Related.** Completed by [`exploration.experiment-design`] and [`modeling.belief-update`].
 Its representation choice constrains which techniques can address the other two.

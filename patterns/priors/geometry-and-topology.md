@@ -53,4 +53,6 @@ concepts), vision-language models fall below unschooled adults: the best scores 
 65.34% for Munduruku adults and 85.10% for Western adults
 ([2505.13281](https://arxiv.org/abs/2505.13281); [2503.03840](https://arxiv.org/abs/2503.03840)).
 Metric relations are acquired by these models, which an authored DSL cannot claim, but no
-node grades multimodal pretraining here: nothing in it is separable from the model.
+node grades multimodal pretraining here: nothing in it is separable from the model. Rotation
+and perspective taking, the failing half, are held as their own cell,
+[`modeling.mental-transformation`].

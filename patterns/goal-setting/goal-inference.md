@@ -3,11 +3,7 @@ id: goal-setting.goal-inference
 kind: capability
 name: Goal Inference
 faculty: goal-setting
-human_source:
-  - title: "Baker, Saxe & Tenenbaum, Action Understanding as Inverse Planning (Cognition, 2009)"
-    url: https://www.sciencedirect.com/science/article/pii/S0010027709001607
-  - title: "Gergely & Csibra, Teleological reasoning in infancy: the naive theory of rational action (TiCS, 2003)"
-    url: https://www.cell.com/trends/cognitive-sciences/fulltext/S1364-6613(03)00128-1
+human_source: []    # the two (A) sources moved to goal-setting.goal-attribution, 2026-10-20
 part_of: [goal-setting]
 completed_by:
   - goal-setting.subgoal-recognition
@@ -56,7 +52,7 @@ name "goal inference" and this cell is only one of them.
 - **(B) forming one's OWN objective** in an environment with no instructions, no reward
   specification and, in the limit, no other agent to read.
 
-The measured (A) gap is large. On MMToM-QA's goal questions people score 88.5, o3-mini-high
+The measured (A) gap, now held in [`goal-setting.goal-attribution`], is large. On MMToM-QA's goal questions people score 88.5, o3-mini-high
 40.67, and AutoToM, which runs inverse planning over GPT-4o, 69.33; plain reasoning models
 infer a goal from observed action about 50 points worse than they infer a belief (o3-mini-high
 88.67 on belief) ([2401.08743](https://arxiv.org/abs/2401.08743);
@@ -66,17 +62,17 @@ infer a goal from observed action about 50 points worse than they infer a belief
 novel game screen with nobody to imitate; the Therefore asks for an objective that can be
 named, acted on and replaced; and both `completed_by` cells are about pursuing an objective
 one already holds. A system that reads another agent's goal does not address this cell
-however well it does it — that is a different capability, and it sits closer to
-[`priors.agentness`] than to this directory.
+however well it does it — that is a different capability, held since 2026-10-20 as its own
+cell, [`goal-setting.goal-attribution`], which rests on [`priors.agentness`].
 
-**A declared mismatch, not silently fixed.** Both `human_source` rows above are (A):
-Baker/Saxe/Tenenbaum infer an observed agent's utility from its trajectory, and Gergely &
+**A declared mismatch, resolved (2026-10-20).** Both of this cell's `human_source` rows were
+(A): Baker/Saxe/Tenenbaum infer an observed agent's utility from its trajectory, and Gergely &
 Csibra's teleological stance is about interpreting *others'* actions. Keeping them here
-asserts that the machinery infants use to read others is the machinery they use to set
-their own goals. That is a substantive developmental claim, it may well be true, and this
-register has neither made it explicitly nor tested it. Flagged rather than re-cited: which
-way to resolve it is a content decision, and the honest state is that the cell's problem
-statement and its citations point at two different literatures.
+asserted that the machinery infants use to read others is the machinery they use to set their
+own goals, a developmental claim this register had neither made explicitly nor tested. They
+now sit on [`goal-setting.goal-attribution`], the cell they describe. This cell keeps its (B)
+definition and cites no human source: none was found that characterises forming one's own
+objective in an uninstructed environment, and an empty list is the honest state until one is.
 
 **Status: partial (2026-09-05).** One technique reaches this cell:
 [`technique.test-time-digital-twin`] (Twin, arXiv 2608.14490v1) at `partial`. The objective
