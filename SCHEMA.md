@@ -20,7 +20,7 @@ name:  Frontier Seeking               # human-readable, title case
 A named cognitive requirement, stated so that a system either meets it or does not.
 
 ```yaml
-faculty: exploration            # exploration | modeling | goal-setting | planning-execution | prior
+faculty: exploration            # exploration | modeling | goal-setting | planning-execution | prior | learning
 human_source:                   # where the concept is characterized in cognitive science
   - title: Curiosity and Exploration
     url: https://oecs.mit.edu/pub/...
@@ -30,6 +30,16 @@ status: open | partial | covered    # FIELD-WIDE maturity, not any project's ado
 ```
 
 Capabilities never list techniques. That edge is derived.
+
+**The `learning` faculty (2026-10-20).** The other five faculties are inference-time: what a
+trained system does with a task in front of it. `learning` holds what a system's learning
+procedure produces across its lifetime — how much data it needed, what priors it acquired,
+what it kept from one exposure, what it carried from one episode to the next — and a technique
+addresses a `learning` cell through that procedure. It stays apart from
+`modeling.per-task-adaptation`, which is adaptation within one episode: the frontier closed
+per-task adaptation over 2024-26 while the data gap to human learners widened, and one faculty
+holding both would hide that. Compute and energy budgets are not cells; they are the `regime`
+of a `learning.sample-efficiency` row.
 
 ## `kind: technique`
 
@@ -147,7 +157,9 @@ Seven capabilities — the five `priors`, `modeling.state-abstraction` and
 `goal-setting.goal-inference` — name a thing a system must *have* before the rest of the
 register's machinery can run: objects, physics, agents, geometry, number, a stable
 identity across frames, an objective. For those cells the grading question is not whether
-the system HAS the thing. It is **where the thing came from.**
+the system HAS the thing. It is **where the thing came from.** Since 2026-10-20 that
+question is also a cell of its own, `learning.prior-acquisition`, which asks how much
+experience the acquiring took against a child's; the grading rule below is unchanged.
 
 - **`direct` / `partial`** — the system ACQUIRES it from what it observes.
 - **`incidental`** — the system is HANDED it, as an authored primitive, a hand-written

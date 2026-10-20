@@ -24,7 +24,11 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 FACULTY_ROOTS = {"exploration", "modeling", "goal-setting",
-                 "planning-execution", "priors", "prior"}
+                 "planning-execution", "priors", "prior", "learning"}
+# The `faculty:` enum on a capability. `learning` (2026-10-20) holds what a system's learning
+# procedure produces across its lifetime, apart from `modeling`'s within-episode adaptation.
+FACULTIES = {"exploration", "modeling", "goal-setting", "planning-execution", "prior",
+             "learning"}
 FM = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 # A date may be a year, a year-month, or a full day. Partial is honest where that is
 # all the source supports -- an arXiv identifier fixes the month of v1 and no more --
@@ -449,6 +453,9 @@ def validate(nodes, errors, tokens):
                     errors.append(f"{where}: bears_on unknown {ref!r}")
 
         if n.get("kind") == "capability":
+            if n.get("faculty") not in FACULTIES:
+                errors.append(f"{where}: faculty must be one of {sorted(FACULTIES)}, got "
+                              f"{n.get('faculty')!r}")
             arrival = n.get("arrival", "engineered")
             if arrival not in ("engineered", "emergent-claimed", "emergent-demonstrated",
                                "contested"):

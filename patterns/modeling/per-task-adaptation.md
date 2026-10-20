@@ -46,4 +46,7 @@ ARC-AGI-2 private set ([2601.10904](https://arxiv.org/abs/2601.10904)). And a ma
 can come by a different route: on MTOB, long-context models reach a human learner's score
 for translating Kalamang from one grammar book, but "almost all improvements stem from the
 book's parallel examples rather than its grammatical explanations"
-([2409.19151](https://arxiv.org/abs/2409.19151)).
+([2409.19151](https://arxiv.org/abs/2409.19151)). What the crossover leaves untouched is the
+lifetime learning underneath it, which is a different faculty: how much data the model needed
+([`learning.sample-efficiency`]) and what it keeps between episodes
+([`learning.cross-episode-improvement`]).
