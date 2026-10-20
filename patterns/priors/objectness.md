@@ -52,6 +52,14 @@ acquired-objectness candidates fail on opposite commitments, which is the more i
 fact: poking buys cohesion and contact but not permanence, and predicting buys cohesion but
 neither of the others.
 
+[`technique.latent-video-prediction`] (V-JEPA) was examined the same way on 2026-10-20 and
+refused. It is the first candidate for *acquired* persistence: its surprise at an object
+vanishing behind an occluder is learned from unlabelled video. But the signature holds on
+simple scenes and collapses on IntPhys 2, which tests permanence among its properties;
+contact is weak where it is tested (GRASP 66%, InfLevel-lab 62%); and the model emits a
+surprise score, not an index of persisting things, so identity across time is never an
+output. It serves [`priors.basic-physics`] at `partial` instead.
+
 **What the multimodal models show, against people.** On CoreCognition's object-permanence
 items people score 88.10 and the best model 74.14 (InternVL3-78B), and low-level concepts
 such as permanence improve less with scale than high-level ones

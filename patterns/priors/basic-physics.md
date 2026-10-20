@@ -40,7 +40,12 @@ did, and model the first as continuing state rather than as noise in the transit
 engine, or hand-coded gravity and bounce rules, is consumption. `direct` requires the
 dynamics to be inferred from observed motion.
 
-**Status: open.** No technique addresses this. Note also that the register's ARC-facing
+**Status: open (2026-10-20: EMPTY -> INDIRECT).** One technique reaches this cell,
+[`technique.latent-video-prediction`] (V-JEPA) at `partial`: it acquires a
+violation-of-expectation signature from unlabelled video with no physics engine, which is the
+`direct` criterion, but only in simple scenes, and it predicts passive video, so it never
+separates what the environment did from what an action did. The status stays `open` because
+its realistic-scene result is near chance (below). Note also that the register's ARC-facing
 techniques were built for the static benchmarks, where this prior is not exercised at all —
 their scores carry no information about it. ARC-AGI-3 exercises it, but only as part of a
 composite score.
