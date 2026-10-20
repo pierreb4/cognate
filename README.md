@@ -66,6 +66,9 @@ surveys/      dated literature surveys that supplied evidence; not parsed
 Markdown for humans, YAML frontmatter for machines, one generator. That is what makes
 an MCP server or a visualization possible later without rewriting the corpus.
 
+Surveys so far: [the gap between LLM-based systems and human capacities, by cell](surveys/2026-10-20-llm-human-gap.md)
+(2026-10-20), which added the `learning` faculty.
+
 ## Evidence discipline
 
 Claims about performance are the part most easily corrupted, so the schema forces
