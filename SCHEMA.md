@@ -434,7 +434,10 @@ margin. Coverage that turns on a number should be visible as such, not rounded t
     points; `contested` needs at least two bases, because one source is not a disagreement;
     every basis carries `source`, `covers_from`, `covers_to` and a `note`, and a deflating
     one holds at least two dated points. Every point cites a declared basis and carries
-    `as_of`, a positive `value` and a `source`.
+    `as_of`, a positive `value` and a `source`. Deflation never moves a `cost:` label:
+    rule 14 checks the label in the nominal dollars of each row's `date:`, and the band
+    `--as-of` implies is printed beside it, never written back (`refinement-harness` reads
+    `medium` at 2026-09 on ageing alone and stays labelled `high`).
 16. Profiles that name the same `competition:` carry identical `binding: competition`
     rows: the same tokens, each row equal field for field. Two lineages of one entry copy
     the competition's rules, and a re-read that edits one copy alone is an error.

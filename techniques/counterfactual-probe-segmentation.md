@@ -23,7 +23,7 @@ requires:
       training targets are optical-flow fields from SeaRAFT, a separately trained
       supervised flow network — the acquisition routes through a supplied instrument
 leverage: computation
-cost: extreme
+cost: low
 evidence:
   - claim: "unprompted automatic segmentation on SpelkeBench: AP 0.35 / AR 0.46 / mIoU 0.57 / F1 0.38, against self-supervised discovery baselines CutLER 0.41/0.32/0.42/0.34 and ProMerge 0.42/0.34/0.43/0.36"
     kind: claimed
@@ -34,6 +34,7 @@ evidence:
     stars: 2
 no_absolute_score: false
 caveats:
+  - "`cost: low` is an unpriced estimate, not a checked band: no evidence row prices a task in dollars, so SCHEMA rule 14 does not apply. The 64xH100-14d figure is the PRETRAIN, which `cost:` excludes and `requires:` carries (`trained-model`, `training-distribution`). A segmentation after that is a handful of sampled pokes through the frozen predictor, which reads well under $1 per image; the paper gives no per-image price. Relabelled 2026-10-23 from `extreme`, which had priced the pretrain."
   - "Grade this on the UNPROMPTED frame only. The paper's headline — SpelkeNet 0.5411 AR over supervised SAM2 0.4816 — is Table 1, where each prompt is 'generated using the centroid' of a ground-truth segment: the benchmark hands over how many objects there are and where each one is, and the system supplies only the extent. In Table 2, with no seed, the differential reverses (SpelkeNet AR 0.46 vs SAM2 0.62). A test asking whether the system produced the partition cannot be settled in a frame that supplies the count and the location (https://arxiv.org/html/2507.16038v1)."
   - "Does NOT address `modeling.state-abstraction`. SpelkeNet emits a single-image mask; there is no cross-frame index and no measurement of identity through occlusion or feature change anywhere in the paper. That cell's own text names this specimen as the failure it was written for — 'a per-frame segmenter produces a fresh, anonymous set of regions every step'."
   - "Persistence is the missing one of Chollet's three commitments. Cohesion (regions that move together under a poke) and influence-via-contact (motion propagating across contact) are both acquired here; persistence is not tested, which is exactly the omission `priors.objectness` was written to flag."
@@ -64,8 +65,9 @@ comes out of a prediction objective that never names an object, which is why it 
 `partial` where they do not.
 
 **Therefore.** Where you can afford a pretrained video predictor, objectness need not be
-authored. That is a claim about what is possible, not about what is cheap: the regime is
-64 H100s for roughly 14 days, and the register holds it at two stars.
+authored. That is a claim about what is possible, not about what is cheap to build: the pretrain is
+64 H100s for roughly 14 days, and the register holds it at two stars. Running it afterwards
+is cheap, which is all `cost:` measures (an unpriced estimate; see caveats).
 
 **The limit.** Two, and they are different in kind. The acquisition is not clean —
 training targets come from SeaRAFT, a supervised flow network, so correspondence is
