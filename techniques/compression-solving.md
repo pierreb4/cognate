@@ -108,6 +108,13 @@ interacts:
       one account per task in both; compression finds it by optimizing a description-length
       objective against the demonstrations at test time, distillation replays an authored solver's
       enumeration from weights and optimizes nothing at inference
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both commit to one account the evidence can refute; compression's is the shortest
+      description of the demonstrations, chosen by its objective, the seal's a game program
+      the agent writes only when it chooses to — `direct` against `partial`
 provenance:
   entered: 2026-09-02
   commit: 6f81060

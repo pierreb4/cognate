@@ -47,3 +47,9 @@ the experience coming from the system's own play. Within one episode the capabil
 **Status: open (entered 2026-10-20).** No technique in the register addresses it. The
 candidates are self-editing fine-tuning (SEAL) and the ARC-AGI-3 harnesses that carry state
 between steps; the harnesses publish no mechanism, so none can be graded.
+
+Task RL between deployments is not this cell either: the experience is a trainer's game
+pool, not the deployed system's own play. Its one controlled ARC-AGI-3 report (Tufa Labs,
+2026-11-09) transferred on a 27B model to held-out generated games and established no gain
+on Qwen3.8-Flash-Next; the figures are under [`learning.prior-acquisition`]
+([source](https://tufalabs.github.io/arc-writeups/supplementary/rl_training/rl_training.html)).

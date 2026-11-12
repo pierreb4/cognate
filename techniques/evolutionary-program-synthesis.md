@@ -107,6 +107,13 @@ interacts:
       a population revised by mutation against a fixed catalog walked in Hamming order; neither
       reads the other's account, and the trace's repair never learns from the failure the way a
       mutation operator is meant to
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold executable accounts refuted by observed evidence; evolution keeps a
+      population of them throughout, the seal at most one, kept only while the agent chooses
+      to — `direct` against `partial`
 provenance:
   entered: 2026-09-02
   commit: 6f81060

@@ -73,6 +73,13 @@ interacts:
       both hold an authored candidate space; the DSL is searched at inference by a program, the
       solver's enumeration is rendered into traces and replayed by a model that memorized the
       catalog — the same kind of authored space, with the search moved from inference to training
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold the account as a readable program; the DSL's is composed from authored
+      primitives and always held, the seal's is free Python written at the agent's option
+      and checked on every move — `direct` against `partial`
 provenance:
   entered: 2026-09-02
   commit: 6f81060

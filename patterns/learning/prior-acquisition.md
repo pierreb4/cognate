@@ -57,3 +57,17 @@ does not address this cell.
 [`technique.latent-video-prediction`] is the nearest candidate: its 128-hour row is within an
 order of magnitude of an infant's visual experience, on simple scenes only. It is completed by
 the seven cells it asks about, since each states which prior is to be acquired.
+
+Task-specific reinforcement learning on games is no candidate by this cell's rule, its
+experience being far above a child's, and one controlled report reads its limit as a priors
+problem. In Tufa Labs' ARC Prize 2026 work, PPO and DPPO, evaluated on the 25 public
+ARC-AGI-3 games with the training seeds, moved an expert-pruned Qwen3.8-Flash-Next from
+45.5% to between 44.2% and 45.9% (four updates, paired p 0.61 to 0.92), while a Qwen3.8-27B
+trained with PPO gained 12.7 points (9.4 to 22.1%, 95% interval [8.27, 17.5]) on 43
+generated games held out from its training and earlier used to validate a 9B model. The two
+arms differ in model family and setup as well as size. The authors "read Flash-Next's
+failure as coming less from a bad strategy than from not having the right priors or
+committing to the wrong hypothesis, which is hard to fix with task-specific post-training",
+and call the Flash-Next results "not proof that further RL cannot work"
+([source](https://tufalabs.github.io/arc-writeups/supplementary/rl_training/rl_training.html),
+2026-11-09).

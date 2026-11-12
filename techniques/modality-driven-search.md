@@ -49,6 +49,13 @@ interacts:
     note: >-
       several representations generated and judged against one representation replayed from
       weights; running both buys candidate diversity, not a second kind of account
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both leave the representation of the account to the system; modality-driven search
+      treats it as a search dimension over text, image and code, the seal as an option to
+      write code at all — both `partial`
 provenance:
   entered: 2026-09-02
   commit: 6f81060

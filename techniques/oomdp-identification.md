@@ -97,6 +97,13 @@ interacts:
     note: >-
       condition-effect rules identified from observed transitions against a catalog authored
       from a known generator; the commitment is acquired in one and installed in the other
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold a dynamics account one transition refutes under determinism; DOORMAX always
+      holds its condition-effect rules over a given object vocabulary, the seal holds Python
+      over raw cells only when the agent writes it — `direct` against `partial`
 provenance:
   entered: 2026-09-03
   commit: e384cbc

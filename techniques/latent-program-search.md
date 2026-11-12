@@ -64,6 +64,13 @@ interacts:
     note: >-
       a hypothesis reached by optimizing a continuous latent at test time against one replayed
       from weights with no test-time optimization; both are capped for what they were handed
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both commit to an account searched against the evidence; LPN's is a latent always held
+      and searched by gradient, the seal's a Python program the agent may write and the
+      harness searches over — `direct` against `partial`
 provenance:
   entered: 2026-09-02
   commit: fb41fa3

@@ -114,6 +114,13 @@ interacts:
       thousands of independent programs filtered by an executor against one scripted enumeration
       with in-trace checks; the sampled program is a fresh account each draw, the distilled trace
       re-emits an authored one
+  - technique: technique.optional-world-model-tooling
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both have a language model write a program the evidence can refute; sampling makes the
+      program the answer every time, the seal makes it an optional game model that checks
+      moves — `direct` against `partial`
 provenance:
   entered: 2026-09-02
   commit: 6f81060
