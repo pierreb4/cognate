@@ -56,7 +56,7 @@ input this cell's commit step reads. Cash et al., below, measure it against peop
 
 **Limits.** The hackathon numbers above are single hosted-API runs, scored by their authors,
 with no human baseline (the hackathon closed 2026-04-16 and published no judging scores).
-Three measures from outside it now bear on the cell:
+Four measures from outside it now bear on the cell:
 
 - **A human baseline on monitoring.** Cash et al. ([Memory & Cognition
   2025](https://doi.org/10.3758/s13421-025-01755-4)) compare language models with people on the
@@ -72,11 +72,20 @@ Three measures from outside it now bear on the cell:
   unanswerable, underspecified and false-premise questions) finds that reasoning fine-tuning
   cuts abstention by 24% on average, and that "scaling models is of little use"
   ([2506.09038](https://arxiv.org/abs/2506.09038)).
+- **A multi-step agent measure.** Agentic Abstention
+  ([2606.28733](https://arxiv.org/abs/2606.28733v3)) adapts WebShop, Terminal-Bench 2.0 and
+  AbstentionBench tasks so that stopping is the right outcome and scores when the agent stops: 6
+  of 8 web models "achieve at most 0.5 abstention recall after 10 turns", scale "mainly helps
+  models abstain eventually, but not any earlier", and on solvable tasks the opposite error
+  grows with interaction (Qwen3-235B-Instruct's over-abstention "rises to 34% by turn 10"). It
+  has no human baseline.
 
-The abstention literature (selective prediction, reject options) covers one answer to one
+The older abstention literature (selective prediction, reject options) covers one answer to one
 question; it says nothing about when an agent should stop gathering evidence and act, and
 under action-count scoring (ARC-AGI-3) both too early and too late cost score. The
 gather-more branch still has no human-baselined measure.
 
-**Status: open.** No technique in this register addresses it, and the machine-side work
-on the gather-or-commit half is thin.
+**Status: open (2026-11-09: EMPTY -> INDIRECT).** One technique reaches this cell,
+[`technique.trajectory-distilled-stopping-rules`], on its abstain branch alone: no stated
+confidence is its input, and its only evaluation set has no item where committing is right. The
+machine-side work on the gather-or-commit half is still thin.

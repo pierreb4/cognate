@@ -44,6 +44,8 @@ its own representation of the scene and answers from it. An answer read off scen
 transformation applied by an authored geometry engine to a scene description it was handed,
 is `incidental`.
 
-**Status: open (entered 2026-10-20).** No technique in the register addresses it. It operates
-on the relations [`priors.geometry-and-topology`] names; that cell asks which relations a
+**Status: open (2026-11-09: EMPTY -> INDIRECT).** One technique reaches this cell,
+[`technique.world-model-view-search`], for viewpoint changes only: a learned video model renders
+where a camera would go and a frozen model answers from those views. Nothing in the register
+turns an object. It operates on the relations [`priors.geometry-and-topology`] names; that cell asks which relations a
 representation makes available, this one whether the system can move through them.
