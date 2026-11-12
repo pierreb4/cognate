@@ -71,6 +71,7 @@ caveats:
   - "Unpriced estimate: Table 4 gives 16.27 to 161.48 seconds per question on one VLM-and-SWM setup, split not stated. `cost: low` assumes the GPU rental and the scoring calls of one question come to under a dollar; no row prices it, and SWM's training is excluded as the label requires. The arXiv record gives no venue; the authors' repository states NeurIPS 2025 acceptance (https://github.com/UMass-Embodied-AGI/MindJourney)."
 provenance:
   entered: 2026-11-09
+  commit: d0241e3
   frame: repo-watch-2026-11
   note: >-
     a maintainer's watch of new GitHub repositories and arXiv papers; two rows read by hand on

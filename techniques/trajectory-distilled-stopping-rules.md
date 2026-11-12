@@ -60,6 +60,7 @@ caveats:
   - "Unpriced estimate: 20 rollouts of up to 10 steps and at most 40 reflection/update rounds is the whole fitting cost, and at run time the playbook is prompt text. `cost: low` rests on that; no row prices it."
 provenance:
   entered: 2026-11-09
+  commit: d0241e3
   frame: repo-watch-2026-11
   note: >-
     a maintainer's watch of new GitHub repositories and arXiv papers; two rows read by hand on
