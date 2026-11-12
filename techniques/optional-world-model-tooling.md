@@ -86,7 +86,7 @@ interacts:
       why one is `direct` and the other `partial`
 provenance:
   entered: 2026-11-12
-  commit: pending
+  commit: e06a285
   frame: competition-release-watch-2026-11
   note: >-
     a maintainer's watch of repositories made public by ARC Prize 2026 teams; the second-placed
