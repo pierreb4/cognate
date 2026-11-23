@@ -80,6 +80,12 @@ interacts:
       both hold the account as a readable program; the DSL's is composed from authored
       primitives and always held, the seal's is free Python written at the agent's option
       and checked on every move — `direct` against `partial`
+  - technique: technique.library-learning
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      the same search over a readable language; authored and fixed in one, grown from the
+      system's own solutions in the other, which still starts from an authored base
 provenance:
   entered: 2026-09-02
   commit: 6f81060

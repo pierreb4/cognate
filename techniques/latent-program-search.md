@@ -71,6 +71,12 @@ interacts:
       both commit to an account searched against the evidence; LPN's is a latent always held
       and searched by gradient, the seal's a Python program the agent may write and the
       harness searches over — `direct` against `partial`
+  - technique: technique.library-learning
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both learn from a task distribution what makes later search shorter; one in a
+      continuous latent, the other as named functions a plain enumerator can use
 provenance:
   entered: 2026-09-02
   commit: fb41fa3

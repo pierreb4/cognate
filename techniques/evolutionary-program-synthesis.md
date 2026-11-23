@@ -114,6 +114,13 @@ interacts:
       both hold executable accounts refuted by observed evidence; evolution keeps a
       population of them throughout, the seal at most one, kept only while the agent chooses
       to — `direct` against `partial`
+  - technique: technique.library-learning
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both hold executable accounts refuted by examples; the Pang run already keeps solved
+      sub-programs, while library learning refactors shared structure out by compression,
+      and no source measures the two mechanisms together
 provenance:
   entered: 2026-09-02
   commit: 6f81060

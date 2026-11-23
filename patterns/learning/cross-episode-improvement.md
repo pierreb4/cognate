@@ -44,8 +44,10 @@ experience and keep the gain.
 the experience coming from the system's own play. Within one episode the capability is
 [`modeling.per-task-adaptation`], not this.
 
-**Status: open (entered 2026-10-20).** No technique in the register addresses it. The
-candidates are self-editing fine-tuning (SEAL) and the ARC-AGI-3 harnesses that carry state
+**Status: open (entered 2026-10-20).** One technique addresses it, at `incidental`:
+[`technique.library-learning`] carries a library abstracted from its own solutions from task
+to task, but every published run learns on a provided train split, the shape the task-RL
+paragraph below excludes (2026-11-23). The other candidates are self-editing fine-tuning (SEAL) and the ARC-AGI-3 harnesses that carry state
 between steps; the harnesses publish no mechanism, so none can be graded.
 
 Task RL between deployments is not this cell either: the experience is a trainer's game

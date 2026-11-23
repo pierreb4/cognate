@@ -115,6 +115,12 @@ interacts:
       both commit to one account the evidence can refute; compression's is the shortest
       description of the demonstrations, chosen by its objective, the seal's a game program
       the agent writes only when it chooses to — `direct` against `partial`
+  - technique: technique.library-learning
+    rel: overlaps
+    scope: modeling.hypothesis-formation
+    note: >-
+      both prefer the shorter description; compression fits one puzzle with no transfer,
+      the library compresses a corpus of solutions and carries the result to the next task
 provenance:
   entered: 2026-09-02
   commit: 6f81060
